@@ -4,8 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://hjqpxotrpq48" path="res://enemy/enemy.tscn" id="2_c651c"]
 [ext_resource type="PackedScene" uid="uid://c0idya5thtbji" path="res://player/player.tscn" id="3_3wy1v"]
 
-[node name="Main" type="Node2D" unique_id=1155606970]
-y_sort_enabled = true
+[node name="Main" type="Node" unique_id=1865256754]
 script = ExtResource("1_xwkvk")
 mob_scene = ExtResource("2_c651c")
 metadata/_edit_horizontal_guides_ = [-81.0]
@@ -17,7 +16,6 @@ position = Vector2(218, 170)
 position = Vector2(914, 398)
 
 [node name="player" parent="." unique_id=25541542 instance=ExtResource("3_3wy1v")]
-time_to_max_speed = 1
 
 [node name="enemy" parent="." unique_id=1512699608 instance=ExtResource("2_c651c")]
 position = Vector2(554, 334.5)

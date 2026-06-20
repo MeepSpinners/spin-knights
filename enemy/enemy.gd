@@ -53,10 +53,12 @@ func _on_pickuprange_area_exited(area: Area2D) -> void:
 	if area.has_method("remove_nearby"):
 		area.remove_nearby(self) 
 
-
+func take_damage(damage: float):
+	self.health -= damage
 func _on_enemy_hitbox_area_entered(area: Area2D) -> void:
-	self.health -= 5
-	area.health -= 5
+	take_damage(5)
+	if (area.has_method("take_damage")):
+		area.take_damage(5)
 	
 func explode():
 	pass
