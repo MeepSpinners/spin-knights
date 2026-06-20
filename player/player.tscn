@@ -802,7 +802,7 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_rkbax"]
-size = Vector2(128, 128)
+size = Vector2(42, 22)
 
 [node name="Player" type="Area2D" unique_id=436363547]
 y_sort_enabled = true
@@ -815,10 +815,10 @@ metadata/_edit_group_ = true
 position = Vector2(1.9073486e-06, -64)
 scale = Vector2(5.333333, 5.333333)
 sprite_frames = SubResource("SpriteFrames_1vivr")
-animation = &"idle_back_diag"
+animation = &"interact_back"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=246400266]
-position = Vector2(0, -64)
+position = Vector2(-1, -15)
 shape = SubResource("RectangleShape2D_rkbax")
 
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]

@@ -22,15 +22,12 @@ func add_nearby(enemy):
 	nearby_enemies.append(enemy)
 func remove_nearby(enemy):
 	nearby_enemies.erase(enemy)
-func take_damage(damage: float):
+func take_damage(damage: float, by_whom: Node2D):
 	self.health -= damage
 	
 func start(pos):
 	position = pos
 	show()
-
-func _on_area_entered(area: Area2D) -> void:
-	take_damage(5)
 
 # PRIVATE METHODS
 
@@ -109,14 +106,25 @@ func handle_move(delta: float) -> void:
 		var prefix = "walk" if is_moving else "idle"
 		$Anime.play(prefix + input_state.suffix)
 		$Anime.flip_h = input_state.flip_h
-		
+
+func get_nearest_enemy():
+	var min_dist_sq = INF
+	var closest_enemy = null
+	for enemy in nearby_enemies:
+		if (enemy is Node2D):
+			var dist = enemy.global_position.distance_squared_to(self.global_position)
+			if min_dist_sq > dist:
+				min_dist_sq = dist
+				closest_enemy = enemy
+	return closest_enemy
+
 func handle_pickup():
 	if not Input.is_action_just_pressed("interact"):
 		return
 	if not (held_enemies.size() < max_held && nearby_enemies.size() > 0):
 		return
 	
-	var enemy = nearby_enemies[0]
+	var enemy = get_nearest_enemy()
 	grab_enemy(enemy)
 	
 	var dir = global_position.direction_to(enemy.global_position)
@@ -178,7 +186,7 @@ func rotate_enemy_around_player(delta: float) -> void:
 	
 func grab_enemy(enemy):
 	held_enemies.append(enemy)
-	enemy.picked_up(self)
+	enemy.picked_up()
 	remove_nearby(enemy)
 func throw_enemy(enemy):
 	enemy.throw(self.global_position.direction_to(enemy.global_position).rotated(PI/2), throw_speed)
