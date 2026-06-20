@@ -8,7 +8,7 @@ var velocity = Vector2.ZERO
 var air_res = 5
 
 func _ready() -> void:
-	$enemy_hitbox.disabled = true
+	$enemy_hitbox/enemy_hitbox.disabled = true
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
@@ -22,7 +22,7 @@ func _process(delta: float) -> void:
 		if velocity == Vector2.ZERO:
 			is_flying = false
 			$pickuprange/pickupbox.disabled = false
-			$enemy_hitbox.disabled = true
+			$enemy_hitbox/enemy_hitbox.disabled = true
 			$hitbox.disabled = false
 	else:
 		pass # put ai here
@@ -37,7 +37,7 @@ func picked_up(player):
 	is_held = true
 	holder = player
 	$pickuprange/pickupbox.disabled = true
-	$enemy_hitbox.disabled = false
+	$enemy_hitbox/enemy_hitbox.disabled = false
 	$hitbox.disabled = true
 	
 func start(pos):
