@@ -1,0 +1,49 @@
+[gd_scene format=3 uid="uid://bbsl426ca0swf"]
+
+[ext_resource type="Texture2D" uid="uid://n45mwwt8xdcf" path="res://art/office.png" id="1_gvyhi"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6wvnb"]
+size = Vector2(72, 56)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5jv1k"]
+size = Vector2(32, 24)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gvyhi"]
+size = Vector2(16, 176)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_lfxy1"]
+size = Vector2(192, 16)
+
+[node name="Office" type="StaticBody2D" unique_id=703791642]
+collision_layer = 8
+collision_mask = 0
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1116219748]
+texture = ExtResource("1_gvyhi")
+
+[node name="Center" type="CollisionShape2D" parent="." unique_id=4242245]
+shape = SubResource("RectangleShape2D_6wvnb")
+
+[node name="Right Nook" type="CollisionShape2D" parent="." unique_id=267341170]
+position = Vector2(92, 0)
+shape = SubResource("RectangleShape2D_5jv1k")
+
+[node name="Left Nook" type="CollisionShape2D" parent="." unique_id=1578359007]
+position = Vector2(-92, 0)
+shape = SubResource("RectangleShape2D_5jv1k")
+
+[node name="Left Wall" type="CollisionShape2D" parent="." unique_id=1654501540]
+position = Vector2(-100, 0)
+shape = SubResource("RectangleShape2D_gvyhi")
+
+[node name="Right Wall" type="CollisionShape2D" parent="." unique_id=792193894]
+position = Vector2(100, 0)
+shape = SubResource("RectangleShape2D_gvyhi")
+
+[node name="Top Wall" type="CollisionShape2D" parent="." unique_id=427912040]
+position = Vector2(0, -92)
+shape = SubResource("RectangleShape2D_lfxy1")
+
+[node name="Bottom Wall" type="CollisionShape2D" parent="." unique_id=873283001]
+position = Vector2(0, 92)
+shape = SubResource("RectangleShape2D_lfxy1")

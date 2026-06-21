@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://cpxmwid88ngqo" path="res://main/main.gd" id="1_xwkvk"]
 [ext_resource type="PackedScene" uid="uid://hjqpxotrpq48" path="res://enemy/enemy.tscn" id="2_c651c"]
 [ext_resource type="PackedScene" uid="uid://c0idya5thtbji" path="res://player/player.tscn" id="3_3wy1v"]
-[ext_resource type="Texture2D" uid="uid://n45mwwt8xdcf" path="res://art/office.png" id="4_c651c"]
+[ext_resource type="PackedScene" uid="uid://bbsl426ca0swf" path="res://levels/office.tscn" id="3_c651c"]
 
 [node name="Main" type="Node2D" unique_id=1155606970]
 y_sort_enabled = true
@@ -12,25 +12,30 @@ script = ExtResource("1_xwkvk")
 mob_scene = ExtResource("2_c651c")
 metadata/_edit_horizontal_guides_ = [-81.0]
 
-[node name="Office" type="Sprite2D" parent="." unique_id=1564418215]
+[node name="Office" parent="." unique_id=703791642 instance=ExtResource("3_c651c")]
 z_index = -100
-texture = ExtResource("4_c651c")
+position = Vector2(0.2, 0)
+scale = Vector2(0.99999994, 0.99999994)
+collision_mask = 255
 
 [node name="Marker2D" type="Marker2D" parent="." unique_id=568138717]
 position = Vector2(-71.25445, -65.06657)
 
 [node name="Marker2D2" type="Marker2D" parent="." unique_id=1909905902]
-position = Vector2(56.816048, 61.87886)
+position = Vector2(-46.599983, -56.399986)
 
 [node name="player" parent="." unique_id=25541542 instance=ExtResource("3_3wy1v")]
 position = Vector2(-71.62947, -58.316143)
 speed = 50
 max_spinning_speed = 20
-orbit_radius = 40
 max_orbit_speed = 360
 
 [node name="enemy" parent="." unique_id=1512699608 instance=ExtResource("2_c651c")]
-position = Vector2(201, 56)
+position = Vector2(-54.600006, -32.800003)
+recoil_speed = 200
+
+[node name="enemy2" parent="." unique_id=1866996497 instance=ExtResource("2_c651c")]
+position = Vector2(-22.599998, -41)
 recoil_speed = 200
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=2062727341]

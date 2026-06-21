@@ -24,10 +24,16 @@ size = Vector2(127, 127)
 [sub_resource type="CircleShape2D" id="CircleShape2D_ofsxj"]
 radius = 171.01169
 
-[node name="enemy" type="Area2D" unique_id=1866996497]
+[sub_resource type="CircleShape2D" id="CircleShape2D_ppra6"]
+radius = 29.999996
+
+[node name="enemy" type="CharacterBody2D" unique_id=1720581004]
 y_sort_enabled = true
 material = SubResource("ShaderMaterial_y0y4j")
 scale = Vector2(0.1, 0.1)
+collision_layer = 2
+collision_mask = 8
+motion_mode = 1
 script = ExtResource("1_2mvqj")
 recoil_speed = 100
 metadata/_edit_group_ = true
@@ -44,7 +50,7 @@ offset_bottom = 23.0
 label_settings = SubResource("LabelSettings_ofsxj")
 horizontal_alignment = 1
 
-[node name="hitbox" type="CollisionShape2D" parent="." unique_id=1491436373]
+[node name="hurtbox" type="CollisionShape2D" parent="." unique_id=1491436373]
 position = Vector2(-0.5, -64.5)
 shape = SubResource("RectangleShape2D_8vrlf")
 
@@ -56,4 +62,10 @@ collision_mask = 2
 [node name="CollisionShape2D" type="CollisionShape2D" parent="explosion_hitbox" unique_id=560526618]
 shape = SubResource("CircleShape2D_ofsxj")
 
-[connection signal="area_entered" from="." to="." method="_on_enemy_hitbox_area_entered"]
+[node name="enemy_hitbox" type="Area2D" parent="." unique_id=167934462]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="enemy_hitbox" unique_id=1931377952]
+position = Vector2(0, -29.999996)
+shape = SubResource("CircleShape2D_ppra6")
+
+[connection signal="body_entered" from="enemy_hitbox" to="." method="_on_enemy_hitbox_body_entered"]

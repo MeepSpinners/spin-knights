@@ -1,30 +1,51 @@
 extends CharacterBody2D
 
+@export_group("Movement")
 @export var speed = 200
-@export var max_spinning_speed = 100
-var held_enemies = []
-var nearby_enemies = []
+@export var friction = 500
 
+@export_group("Entity")
+@export var health = 100
+
+@export_group("Combat")
 @export var max_held = 1
+@export var time_to_max_speed = 3
+@export var spinning_damage_delay = 1
+@export var max_spinning_speed = 100
 @export var throw_speed = 200
 @export var orbit_radius = 100
 @export var max_orbit_speed = 180
-@export var health = 100
-@export var time_to_max_speed = 3
-@export var spinning_damage_delay = 1
+
+var held_enemies = []
+var nearby_enemies = []
 
 var is_playing_animation = false
+var is_recoiling = false
 var last_dir = Vector2.DOWN
 var spinning_progress = 0.0
 
 # PUBLIC METHODS
 func add_nearby(enemy):
-	nearby_enemies.append(enemy)
+	if enemy is Enemy:
+		nearby_enemies.append(enemy)
+		enemy.register_death_listener(remove_nearby)
+
 func remove_nearby(enemy):
-	nearby_enemies.erase(enemy)
-func take_damage(damage: float, by_whom: Node2D):
+	if enemy is Enemy:
+		nearby_enemies.erase(enemy)
+		enemy.deregister_death_listener(remove_nearby)
+
+func take_damage(damage: float, recoil_source: Node2D, recoil_amount: float = 1.0):
 	self.health -= damage
 	
+	if (!recoil_source == null):
+		is_recoiling = true
+		var recoil_dir = -global_position.direction_to(recoil_source.global_position)
+		var recoil_speed = 100.0 * recoil_amount
+		velocity = recoil_dir * recoil_speed
+		await get_tree().create_timer(0.2, true, true, false).timeout
+		is_recoiling = false
+
 func start(pos):
 	position = pos
 	show()
@@ -81,9 +102,9 @@ func get_animation_state(dir: Vector2) -> AnimationState:
 		return AnimationState.new("_front_diag", true, 1, "front-left")
 func get_spinning_movement_speed(progress: float):
 	return progress * max_spinning_speed
-func handle_move(delta: float) -> void:
-	var velocity = Vector2.ZERO
-	
+
+func handle_controlled_move(delta: float) -> void:
+	velocity = Vector2.ZERO
 	# Derive the input direction and the animation state for walking
 	var input_dir = get_input_direction()
 	var is_moving = input_dir != Vector2.ZERO
@@ -107,6 +128,14 @@ func handle_move(delta: float) -> void:
 		$Anime.play(prefix + input_state.suffix)
 		$Anime.flip_h = input_state.flip_h
 
+func handle_sliding_move(delta: float) -> void:
+	velocity = velocity.move_toward(Vector2.ZERO, friction * delta)
+	var state = get_animation_state(-velocity.normalized())
+	$Anime.animation = "rotate"
+	$Anime.frame = state.index
+	$Anime.flip_h = false
+	
+		
 func get_nearest_enemy():
 	var min_dist_sq = INF
 	var closest_enemy = null
@@ -196,16 +225,16 @@ func get_spinning_damage_to_other(grabbed_enemy: Enemy):
 func get_spinning_damage_to_tool(grabbed_enemy: Enemy):
 	return 5.0
 
-func on_grabbed_enemy_contact_enemy(grabbed_enemy: Enemy, enemy: Node2D):
+func on_grabbed_enemy_contact_object(grabbed_enemy: Enemy, object: Node2D):
 	var time_spinning = spinning_progress * time_to_max_speed
 	if (time_spinning < spinning_damage_delay):
 		return
-	if (enemy.has_method("take_damage")):
-		enemy.take_damage(
+	if (object.has_method("take_damage")):
+		object.take_damage(
 			get_spinning_damage_to_other(grabbed_enemy), self, spinning_progress)
-		grabbed_enemy.take_damage(
-			get_spinning_damage_to_tool(grabbed_enemy), null)
-		apply_hitstop(0.05)	
+	grabbed_enemy.take_damage(
+		get_spinning_damage_to_tool(grabbed_enemy), null)
+	apply_hitstop(0.05)	
 
 func on_grabbed_enemy_die(grabbed_enemy: Enemy):
 	held_enemies.erase(grabbed_enemy)
@@ -216,23 +245,27 @@ func grab_enemy(enemy):
 	held_enemies.append(enemy)
 	enemy.picked_up()
 	remove_nearby(enemy)
-	enemy.register_contact_enemy_listener(on_grabbed_enemy_contact_enemy)
+	enemy.register_contact_object_listener(on_grabbed_enemy_contact_object)
 	enemy.register_death_listener(on_grabbed_enemy_die)
-	
+
 func get_throw_direction(enemy: Node2D):
 	return global_position.direction_to(enemy. global_position).rotated(PI/2)
 
 func throw_enemy(enemy):
 	enemy.throw(get_throw_direction(enemy), throw_speed)
 	held_enemies.erase(enemy)
-	enemy.deregister_contact_enemy_listener(on_grabbed_enemy_contact_enemy)
+	enemy.deregister_contact_object_listener(on_grabbed_enemy_contact_object)
 	enemy.deregister_death_listener(on_grabbed_enemy_die)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	update_debug_label()
 	if not is_playing_animation:
-		handle_move(delta)
+		if not is_recoiling:
+			handle_controlled_move(delta)
+		else:
+			handle_sliding_move(delta)
+		move_and_slide()
 		
 		rotate_enemy_around_player(delta)
 		update_throw_arrow()
@@ -267,13 +300,13 @@ func update_debug_label():
 	$DebugLabel.text = "Nearby: "
 	for enemy in nearby_enemies:
 		$DebugLabel.text += str(enemy) + ", "
-	$DebugLabel.text += "\n"
+	$DebugLabel.text += "\nHealth: " + str(health)
+	$DebugLabel.text += "\nIs Recoiling: " + str(is_recoiling)
+
+func _on_pickup_hitbox_body_entered(body: Node2D) -> void:
+	if body is Enemy and body.get_can_be_picked_up():
+		add_nearby(body)
 
 
-func _on_pickup_hitbox_area_entered(area: Area2D) -> void:
-	if area is Enemy and area.get_can_be_picked_up():
-		add_nearby(area)
-
-func _on_pickup_hitbox_area_exited(area: Area2D) -> void:
-	if area is Enemy and area.get_can_be_picked_up():
-		remove_nearby(area)
+func _on_pickup_hitbox_body_exited(body: Node2D) -> void:
+	remove_nearby(body)
