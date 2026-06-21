@@ -6,6 +6,7 @@ extends CharacterBody2D
 
 @export_group("Entity")
 @export var health = 100
+@export var max_health = 100
 
 @export_group("Combat")
 @export var max_held = 1
@@ -37,6 +38,7 @@ func remove_nearby(enemy):
 
 func take_damage(damage: float, recoil_source: Node2D, recoil_amount: float = 1.0):
 	self.health -= damage
+	$HealthBar.set_health(health, max_health)
 	
 	if (!recoil_source == null):
 		is_recoiling = true
@@ -73,7 +75,8 @@ class AnimationState:
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	pass
+	$HealthBar.hide_on_full = false
+	$HealthBar.set_health(health, max_health)
 
 func get_input_direction() -> Vector2:
 	var dir = Vector2.ZERO
