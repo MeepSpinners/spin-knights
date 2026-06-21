@@ -8,6 +8,11 @@ class_name Enemy
 @export var flying_damage = 5
 @export var recoil_speed = 400
 
+var can_be_picked_up = true
+
+func get_can_be_picked_up():
+	return can_be_picked_up
+
 signal contact_enemy(grabbed_enemy: Enemy, enemy: Node2D)
 signal die(enemy: Enemy)
 
@@ -64,7 +69,7 @@ enum Layers {
 }
 
 func toggle_enemy_can_be_picked_up(can_be_picked_up: bool):
-	$pickuprange/pickupbox.set_deferred("disabled", not can_be_picked_up)
+	self.can_be_picked_up = can_be_picked_up
 	
 func clear_timed_out_attackers():
 	timed_out_attackers.clear()
@@ -137,14 +142,6 @@ func picked_up():
 func start(pos):
 	position = pos
 	show()
-
-func _on_pickuprange_area_entered(area: Area2D) -> void:
-	if area.has_method("add_nearby"):
-		area.add_nearby(self)
-
-func _on_pickuprange_area_exited(area: Area2D) -> void:
-	if area.has_method("remove_nearby"):
-		area.remove_nearby(self)
 
 func take_damage(damage: float, recoil_source: Node2D, recoil_amount: float = 1.0):
 	if timed_out_attackers.has(recoil_source):

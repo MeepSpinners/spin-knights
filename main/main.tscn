@@ -3,46 +3,34 @@
 [ext_resource type="Script" uid="uid://cpxmwid88ngqo" path="res://main/main.gd" id="1_xwkvk"]
 [ext_resource type="PackedScene" uid="uid://hjqpxotrpq48" path="res://enemy/enemy.tscn" id="2_c651c"]
 [ext_resource type="PackedScene" uid="uid://c0idya5thtbji" path="res://player/player.tscn" id="3_3wy1v"]
+[ext_resource type="Texture2D" uid="uid://n45mwwt8xdcf" path="res://art/office.png" id="4_c651c"]
 
 [node name="Main" type="Node2D" unique_id=1155606970]
 y_sort_enabled = true
+scale = Vector2(5, 5)
 script = ExtResource("1_xwkvk")
 mob_scene = ExtResource("2_c651c")
 metadata/_edit_horizontal_guides_ = [-81.0]
 
+[node name="Office" type="Sprite2D" parent="." unique_id=1564418215]
+z_index = -100
+texture = ExtResource("4_c651c")
+
 [node name="Marker2D" type="Marker2D" parent="." unique_id=568138717]
-position = Vector2(218, 170)
+position = Vector2(-71.25445, -65.06657)
 
 [node name="Marker2D2" type="Marker2D" parent="." unique_id=1909905902]
-position = Vector2(464, 279)
+position = Vector2(56.816048, 61.87886)
 
 [node name="player" parent="." unique_id=25541542 instance=ExtResource("3_3wy1v")]
-throw_speed = 700
+position = Vector2(-71.62947, -58.316143)
+speed = 50
+max_spinning_speed = 20
 orbit_radius = 40
 max_orbit_speed = 360
 
 [node name="enemy" parent="." unique_id=1512699608 instance=ExtResource("2_c651c")]
 position = Vector2(201, 56)
-scale = Vector2(0.5, 0.5)
 recoil_speed = 200
 
-[node name="enemy2" parent="." unique_id=680018282 instance=ExtResource("2_c651c")]
-position = Vector2(332, 252)
-scale = Vector2(0.5, 0.5)
-recoil_speed = 150
-
-[node name="enemy3" parent="." unique_id=1866996497 instance=ExtResource("2_c651c")]
-position = Vector2(269, 406)
-scale = Vector2(0.5, 0.5)
-
-[node name="enemy4" parent="." unique_id=1443110127 instance=ExtResource("2_c651c")]
-position = Vector2(515, 260)
-scale = Vector2(0.5, 0.5)
-
-[node name="enemy5" parent="." unique_id=590724604 instance=ExtResource("2_c651c")]
-position = Vector2(387, 80)
-scale = Vector2(0.5, 0.5)
-
-[node name="enemy6" parent="." unique_id=1118508938 instance=ExtResource("2_c651c")]
-position = Vector2(129, 237)
-scale = Vector2(0.5, 0.5)
+[node name="Camera2D" type="Camera2D" parent="." unique_id=2062727341]

@@ -875,9 +875,8 @@ animations = [{
 size = Vector2(10.5, 4)
 
 [sub_resource type="LabelSettings" id="LabelSettings_g6k8r"]
+font_size = 32
 font_color = Color(0, 0, 0, 1)
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_h6qht"]
 
 [node name="Player" type="CharacterBody2D" unique_id=943675611]
 y_sort_enabled = true
@@ -906,14 +905,3 @@ offset_left = -40.0
 offset_right = 40.0
 offset_bottom = 23.0
 label_settings = SubResource("LabelSettings_g6k8r")
-
-[node name="pickup_hitbox" type="Area2D" parent="." unique_id=1316342961]
-collision_layer = 0
-collision_mask = 2
-
-[node name="pickup_hitbox" type="CollisionShape2D" parent="pickup_hitbox" unique_id=1127120629]
-scale = Vector2(2.13, 1.358)
-shape = SubResource("CircleShape2D_h6qht")
-
-[connection signal="area_entered" from="pickup_hitbox" to="." method="_on_pickup_hitbox_area_entered"]
-[connection signal="area_exited" from="pickup_hitbox" to="." method="_on_pickup_hitbox_area_exited"]

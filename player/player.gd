@@ -1,5 +1,4 @@
-extends Node2D
-
+extends CharacterBody2D
 
 @export var speed = 200
 @export var max_spinning_speed = 100
@@ -112,9 +111,9 @@ func get_nearest_enemy():
 	var min_dist_sq = INF
 	var closest_enemy = null
 	for enemy in nearby_enemies:
-		if (enemy is Node2D):
+		if (enemy is Enemy):
 			var dist = enemy.global_position.distance_squared_to(self.global_position)
-			if min_dist_sq > dist:
+			if min_dist_sq > dist and enemy.get_can_be_picked_up():
 				min_dist_sq = dist
 				closest_enemy = enemy
 	return closest_enemy
@@ -124,8 +123,12 @@ func handle_pickup():
 		return
 	if not (held_enemies.size() < max_held && nearby_enemies.size() > 0):
 		return
-	
+		
 	var enemy = get_nearest_enemy()
+	
+	if enemy == null:
+		return
+
 	grab_enemy(enemy)
 	
 	var dir = global_position.direction_to(enemy.global_position)
@@ -188,14 +191,20 @@ func apply_hitstop(duration: float):
 	Engine.time_scale = 0.0
 	await get_tree().create_timer(duration, true, false, true).timeout
 	Engine.time_scale = 1.0
-	
+func get_spinning_damage_to_other(grabbed_enemy: Enemy):
+	return 10.0 * spinning_progress + 5.0
+func get_spinning_damage_to_tool(grabbed_enemy: Enemy):
+	return 5.0
+
 func on_grabbed_enemy_contact_enemy(grabbed_enemy: Enemy, enemy: Node2D):
 	var time_spinning = spinning_progress * time_to_max_speed
 	if (time_spinning < spinning_damage_delay):
 		return
 	if (enemy.has_method("take_damage")):
-		enemy.take_damage(5, self)
-		grabbed_enemy.take_damage(5, null)
+		enemy.take_damage(
+			get_spinning_damage_to_other(grabbed_enemy), self, spinning_progress)
+		grabbed_enemy.take_damage(
+			get_spinning_damage_to_tool(grabbed_enemy), null)
 		apply_hitstop(0.05)	
 
 func on_grabbed_enemy_die(grabbed_enemy: Enemy):
@@ -211,7 +220,7 @@ func grab_enemy(enemy):
 	enemy.register_death_listener(on_grabbed_enemy_die)
 	
 func get_throw_direction(enemy: Node2D):
-	return global_position.direction_to(enemy.global_position).rotated(PI/2)
+	return global_position.direction_to(enemy. global_position).rotated(PI/2)
 
 func throw_enemy(enemy):
 	enemy.throw(get_throw_direction(enemy), throw_speed)
@@ -221,6 +230,7 @@ func throw_enemy(enemy):
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
+	update_debug_label()
 	if not is_playing_animation:
 		handle_move(delta)
 		
@@ -252,3 +262,18 @@ func update_throw_arrow():
 	for enemy in to_remove:
 		line_dict[enemy].queue_free()
 		line_dict.erase(enemy)
+
+func update_debug_label():
+	$DebugLabel.text = "Nearby: "
+	for enemy in nearby_enemies:
+		$DebugLabel.text += str(enemy) + ", "
+	$DebugLabel.text += "\n"
+
+
+func _on_pickup_hitbox_area_entered(area: Area2D) -> void:
+	if area is Enemy and area.get_can_be_picked_up():
+		add_nearby(area)
+
+func _on_pickup_hitbox_area_exited(area: Area2D) -> void:
+	if area is Enemy and area.get_can_be_picked_up():
+		remove_nearby(area)
