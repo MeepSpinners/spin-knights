@@ -7,6 +7,12 @@ class_name Enemy
 @export var contact_damage = 5
 @export var flying_damage = 5
 @export var recoil_speed = 400
+@export var ai_speed = 50
+@export var decision_speed = 1
+@export var flee_dist = 80
+@export var wander_proportion = 0.2
+@export var flee_modifier = 0.9
+var max_health = 100
 
 var can_be_picked_up = true
 
@@ -27,15 +33,59 @@ enum State {
 	DEAD
 }
 
+enum Behaviour {
+	WANDER,
+	CHASE,
+	FLEE
+}
+
 var state = State.AI
+var behaviour = Behaviour.WANDER
+var decision_timer = 0.0
 
 func _ready() -> void:
+	max_health = health
 	enter_state(State.AI)
+	await get_tree().physics_frame
+	choose_behaviour()
 
 func handle_friction_glide(delta: float, on_finish_glide: Callable):
 	velocity = velocity.move_toward(Vector2.ZERO, friction * delta)
 	if velocity == Vector2.ZERO:
 		on_finish_glide.call()
+
+func handle_ai(delta: float):
+	decision_timer += delta
+	if decision_timer >= decision_speed:
+		decision_timer = 0.0
+		choose_behaviour()
+	match behaviour:
+		Behaviour.WANDER:
+			pass
+		Behaviour.CHASE:
+			$NavigationAgent2D.target_position = get_parent().get_node("player").global_position
+		Behaviour.FLEE:
+			var dir = get_parent().get_node("player").global_position.direction_to(self.global_position)
+			$NavigationAgent2D.target_position = self.global_position + dir * flee_dist
+	if $NavigationAgent2D.is_navigation_finished():
+		velocity = Vector2.ZERO
+		return
+	var next = $NavigationAgent2D.get_next_path_position()
+	velocity = self.global_position.direction_to(next) * ai_speed
+
+func choose_behaviour():
+	var flee_chance = (self.max_health - self.health) / self.max_health * flee_modifier
+	var remaining = 1 - flee_chance
+	var wander_chance = flee_chance + remaining * wander_proportion
+	var action = randf()
+	if action <= flee_chance:
+		behaviour = Behaviour.FLEE
+	elif action <= wander_chance:
+		behaviour = Behaviour.WANDER
+		var map = $NavigationAgent2D.get_navigation_map()
+		$NavigationAgent2D.target_position = NavigationServer2D.map_get_random_point(map, 1, false)
+	else:
+		behaviour =Behaviour.CHASE
 
 func get_recoil_flash_modifier(time: float):
 	return max(0.0, 1.0 - time * 2.0)
@@ -62,8 +112,8 @@ func _process(delta: float) -> void:
 			handle_friction_glide(delta, func(): enter_state(State.AI))
 			move_and_slide()
 		State.AI:
+			handle_ai(delta)
 			move_and_slide()
-			pass
 
 enum Layers {
 	PLAYER = 0,
@@ -230,3 +280,5 @@ func update_debug_label():
 	
 	debug_label.text += "\nVelocity: " + str(velocity)
 	debug_label.text += "\nFlash mod: " + str($Sprite2D.material.get_shader_parameter("flash_modifier"))
+	if state == State.AI:
+		debug_label.text += "\nBehaviour: " + str(Behaviour.keys()[behaviour])

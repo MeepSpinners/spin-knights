@@ -68,4 +68,8 @@ shape = SubResource("CircleShape2D_ofsxj")
 position = Vector2(0, -29.999996)
 shape = SubResource("CircleShape2D_ppra6")
 
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="." unique_id=1484723381]
+path_desired_distance = 5.0
+target_desired_distance = 5.0
+
 [connection signal="body_entered" from="enemy_hitbox" to="." method="_on_enemy_hitbox_body_entered"]
