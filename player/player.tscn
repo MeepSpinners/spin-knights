@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://nkcry55rapbf" path="res://art/16x32 Office guy Rotate-Sheet.png" id="5_g6k8r"]
 [ext_resource type="Texture2D" uid="uid://bv6fwadgbt458" path="res://art/16x32 Office guy Run-Sheet.png" id="6_boad6"]
 [ext_resource type="PackedScene" uid="uid://4lem2mc4hcd6" path="res://ui/health_bar.tscn" id="7_boad6"]
+[ext_resource type="AudioStream" uid="uid://b4vr1xbslg732" path="res://audio/thwack.wav" id="7_boad6"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_x7c3f"]
 atlas = ExtResource("2_g6k8r")
@@ -927,6 +928,9 @@ scale = Vector2(2.13, 1.9979982)
 shape = SubResource("CircleShape2D_h6qht")
 
 [node name="HealthBar" parent="." unique_id=686804142 instance=ExtResource("7_boad6")]
+
+[node name="thwack_audio" type="AudioStreamPlayer" parent="." unique_id=96377347]
+stream = ExtResource("7_boad6")
 
 [connection signal="body_entered" from="pickup_hitbox" to="." method="_on_pickup_hitbox_body_entered"]
 [connection signal="body_exited" from="pickup_hitbox" to="." method="_on_pickup_hitbox_body_exited"]

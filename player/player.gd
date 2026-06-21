@@ -1,5 +1,7 @@
 extends CharacterBody2D
 
+class_name Player
+
 @export_group("Movement")
 @export var speed = 200
 @export var friction = 500
@@ -13,9 +15,10 @@ extends CharacterBody2D
 @export var time_to_max_speed = 3
 @export var spinning_damage_delay = 1
 @export var max_spinning_speed = 100
-@export var throw_speed = 200
+@export var throw_speed_scale = 2
 @export var orbit_radius = 100
 @export var max_orbit_speed = 180
+@export var enemy_knockback = 500.0
 
 var held_enemies = []
 var nearby_enemies = []
@@ -107,7 +110,6 @@ func get_spinning_movement_speed(progress: float):
 	return progress * max_spinning_speed
 
 func handle_controlled_move(delta: float) -> void:
-	velocity = Vector2.ZERO
 	# Derive the input direction and the animation state for walking
 	var input_dir = get_input_direction()
 	var is_moving = input_dir != Vector2.ZERO
@@ -118,11 +120,9 @@ func handle_controlled_move(delta: float) -> void:
 	var final_movement_speed = speed
 	if (held_enemies.size() != 0):
 		final_movement_speed = get_spinning_movement_speed(spinning_progress)
-	if (input_dir.length() > 0):
+	if (input_dir.length() >= 0):
 		velocity = input_dir.normalized() * final_movement_speed
 
-	position += velocity * delta
-	
 	for enemy in held_enemies:
 		enemy.global_position += velocity * delta
 	
@@ -180,7 +180,13 @@ func handle_throw():
 	var average_dir = 0.0
 	var count = 0
 	for enemy in held_enemies:
-		throw_enemy(enemy)
+		# Calculate the current velocity
+		var r = enemy.global_position - global_position
+		var w = get_current_orbit_speed(spinning_progress) / 180.0 * PI
+		var current_velocity = Vector2.ZERO
+		current_velocity.x = -w * r.y
+		current_velocity.y = w * r.x
+		throw_enemy(enemy, current_velocity)
 		var angle = get_throw_direction(enemy).angle()
 		average_dir += angle
 		count += 1
@@ -206,7 +212,7 @@ func rotate_enemy_around_player(delta: float) -> void:
 	var current_orbit_speed = get_current_orbit_speed(spinning_progress)
 	for enemy in held_enemies:
 		var dist = self.global_position.distance_to(enemy.global_position)
-		var new_dist = move_toward(dist, orbit_radius, current_orbit_speed * delta)
+		var new_dist = move_toward(dist, orbit_radius, 100.0 * delta)
 		var angle = self.global_position.angle_to_point(enemy.global_position)
 		var new_angle = angle + deg_to_rad(2 * current_orbit_speed * delta)
 		enemy.global_position = self.global_position + Vector2.from_angle(new_angle) * new_dist
@@ -228,16 +234,20 @@ func get_spinning_damage_to_other(grabbed_enemy: Enemy):
 func get_spinning_damage_to_tool(grabbed_enemy: Enemy):
 	return 5.0
 
-func on_grabbed_enemy_contact_object(grabbed_enemy: Enemy, object: Node2D):
+func on_grabbed_enemy_contact_object(grabbed_enemy: Enemy, object: Object):
 	var time_spinning = spinning_progress * time_to_max_speed
 	if (time_spinning < spinning_damage_delay):
 		return
-	if (object.has_method("take_damage")):
+	if (object is Enemy):
 		object.take_damage(
-			get_spinning_damage_to_other(grabbed_enemy), self, spinning_progress)
+			get_spinning_damage_to_other(grabbed_enemy), self)
+		object.launch_with_velocity(
+			global_position.direction_to(object.global_position) * enemy_knockback
+		)
 	grabbed_enemy.take_damage(
 		get_spinning_damage_to_tool(grabbed_enemy), null)
 	apply_hitstop(0.05)	
+	$thwack_audio.play()
 
 func on_grabbed_enemy_die(grabbed_enemy: Enemy):
 	held_enemies.erase(grabbed_enemy)
@@ -254,8 +264,8 @@ func grab_enemy(enemy):
 func get_throw_direction(enemy: Node2D):
 	return global_position.direction_to(enemy. global_position).rotated(PI/2)
 
-func throw_enemy(enemy):
-	enemy.throw(get_throw_direction(enemy), throw_speed)
+func throw_enemy(enemy, throw_speed):
+	enemy.throw(get_throw_direction(enemy), throw_speed * throw_speed_scale)
 	held_enemies.erase(enemy)
 	enemy.deregister_contact_object_listener(on_grabbed_enemy_contact_object)
 	enemy.deregister_death_listener(on_grabbed_enemy_die)
