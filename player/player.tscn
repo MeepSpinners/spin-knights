@@ -887,9 +887,9 @@ script = ExtResource("1_oul6g")
 metadata/_edit_group_ = true
 
 [node name="Anime" type="AnimatedSprite2D" parent="." unique_id=607451979]
-position = Vector2(0, -16)
 sprite_frames = SubResource("SpriteFrames_1vivr")
 animation = &"rotate"
+offset = Vector2(0, -16)
 
 [node name="hurtbox" type="CollisionShape2D" parent="." unique_id=246400266]
 position = Vector2(0, -5)
@@ -902,10 +902,20 @@ default_color = Color(1, 0, 0, 1)
 joint_mode = 2
 
 [node name="DebugLabel" type="Label" parent="." unique_id=1561304113]
-offset_left = -40.0
-offset_right = 40.0
-offset_bottom = 23.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -9.999999
+offset_right = 186.0
+offset_bottom = 49.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.1, 0.1)
 label_settings = SubResource("LabelSettings_g6k8r")
+horizontal_alignment = 1
+autowrap_mode = 1
 
 [node name="pickup_hitbox" type="Area2D" parent="." unique_id=1316342961]
 collision_layer = 0

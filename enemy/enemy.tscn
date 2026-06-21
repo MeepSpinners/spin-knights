@@ -40,8 +40,8 @@ metadata/_edit_group_ = true
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1691401767]
 material = SubResource("ShaderMaterial_ofsxj")
-position = Vector2(0, -64)
 texture = SubResource("CompressedTexture2D_2mvqj")
+offset = Vector2(0, -64)
 
 [node name="DebugLabel" type="Label" parent="." unique_id=582433003]
 offset_left = -200.0
