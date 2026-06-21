@@ -12,10 +12,11 @@ var nearby_enemies = []
 @export var max_orbit_speed = 180
 @export var health = 100
 @export var time_to_max_speed = 3
+@export var spinning_damage_delay = 1
 
 var is_playing_animation = false
 var last_dir = Vector2.DOWN
-@export var spinning_progress = 0.0
+var spinning_progress = 0.0
 
 # PUBLIC METHODS
 func add_nearby(enemy):
@@ -189,6 +190,9 @@ func apply_hitstop(duration: float):
 	Engine.time_scale = 1.0
 	
 func on_grabbed_enemy_contact_enemy(grabbed_enemy: Enemy, enemy: Node2D):
+	var time_spinning = spinning_progress * time_to_max_speed
+	if (time_spinning < spinning_damage_delay):
+		return
 	if (enemy.has_method("take_damage")):
 		enemy.take_damage(5, self)
 		grabbed_enemy.take_damage(5, null)

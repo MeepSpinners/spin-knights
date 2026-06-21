@@ -882,16 +882,17 @@ script = ExtResource("1_oul6g")
 metadata/_edit_group_ = true
 
 [node name="Anime" type="AnimatedSprite2D" parent="." unique_id=607451979]
-position = Vector2(1.9073486e-06, -64)
+position = Vector2(1.9073486e-06, -85.375)
 scale = Vector2(5.333333, 5.333333)
 sprite_frames = SubResource("SpriteFrames_1vivr")
 animation = &"rotate"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=246400266]
-position = Vector2(-1, -15)
+position = Vector2(0, -11)
 shape = SubResource("RectangleShape2D_rkbax")
 
 [node name="Line2D" type="Line2D" parent="." unique_id=1802530924]
+points = PackedVector2Array(406, -166)
 width = 2.0
 default_color = Color(1, 0, 0, 1)
 joint_mode = 2
