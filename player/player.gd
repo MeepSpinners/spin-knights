@@ -17,8 +17,8 @@ class_name Player
 @export var max_spinning_speed = 100
 @export var throw_speed_scale = 2
 @export var orbit_radius = 100
-@export var max_orbit_speed = 180
-@export var enemy_knockback = 500.0
+@export var max_orbit_speed = 360
+@export var enemy_knockback = 100.0
 
 var held_enemies = []
 var nearby_enemies = []
@@ -264,8 +264,8 @@ func grab_enemy(enemy):
 func get_throw_direction(enemy: Node2D):
 	return global_position.direction_to(enemy. global_position).rotated(PI/2)
 
-func throw_enemy(enemy, throw_speed):
-	enemy.throw(get_throw_direction(enemy), throw_speed * throw_speed_scale)
+func throw_enemy(enemy, throw_velocity):
+	enemy.throw(throw_velocity, throw_speed_scale)
 	held_enemies.erase(enemy)
 	enemy.deregister_contact_object_listener(on_grabbed_enemy_contact_object)
 	enemy.deregister_death_listener(on_grabbed_enemy_die)

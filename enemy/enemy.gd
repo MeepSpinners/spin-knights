@@ -73,10 +73,8 @@ func handle_friction_glide(delta: float, on_finish_glide: Callable):
 	if collision_info:
 		var collider = collision_info.get_collider()
 		var normal = collision_info.get_normal()
-		print("Collider: ", collider)
 		if collider is Enemy:
 			var outcome = inelastic_collision(velocity, normal)
-			print("Collision btw ", self, " and ", collider, ": ", outcome)
 			launch_with_velocity(outcome.v1)
 			collider.launch_with_velocity(outcome.v2)
 			hit_object(collider)
@@ -208,7 +206,6 @@ func enter_state(new_state: State):
 			toggle_enemy_can_be_picked_up(false)
 		_:
 			print("Unknown state probably gonna crash")
-	print(self, "Changed from ", state, " to ", new_state)
 	state = new_state
 
 func register_contact_object_listener(listener: Callable) -> void:
