@@ -45,6 +45,7 @@ var decision_timer = 0.0
 
 func _ready() -> void:
 	max_health = health
+	$HealthBar.set_health(health, max_health)
 	enter_state(State.AI)
 	await get_tree().physics_frame
 	choose_behaviour()
@@ -204,6 +205,7 @@ func take_damage(damage: float, recoil_source: Node2D, recoil_amount: float = 1.
 		return
 
 	self.health -= damage
+	$HealthBar.set_health(health, max_health)
 
 	trigger_flash()
 	if (recoil_source != null):

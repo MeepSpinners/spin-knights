@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://i5mq4d13bhk0" path="res://enemy/enemy.gd" id="1_2mvqj"]
 [ext_resource type="Shader" uid="uid://n4qktoxhj4th" path="res://shaders/flashing.gdshader" id="1_ofsxj"]
+[ext_resource type="PackedScene" uid="uid://4lem2mc4hcd6" path="res://ui/health_bar.tscn" id="3_ppra6"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_y0y4j"]
 shader = ExtResource("1_ofsxj")
@@ -71,5 +72,7 @@ shape = SubResource("CircleShape2D_ppra6")
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="." unique_id=1484723381]
 path_desired_distance = 5.0
 target_desired_distance = 5.0
+
+[node name="HealthBar" parent="." unique_id=686804142 instance=ExtResource("3_ppra6")]
 
 [connection signal="body_entered" from="enemy_hitbox" to="." method="_on_enemy_hitbox_body_entered"]
