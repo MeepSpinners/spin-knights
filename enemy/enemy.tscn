@@ -1,6 +1,15 @@
 [gd_scene format=3 uid="uid://hjqpxotrpq48"]
 
 [ext_resource type="Script" uid="uid://i5mq4d13bhk0" path="res://enemy/enemy.gd" id="1_2mvqj"]
+[ext_resource type="Shader" uid="uid://n4qktoxhj4th" path="res://shaders/flashing.gdshader" id="1_ofsxj"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_y0y4j"]
+shader = ExtResource("1_ofsxj")
+shader_parameter/flash_color = Color(1, 0, 0, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ofsxj"]
+shader = ExtResource("1_ofsxj")
+shader_parameter/flash_color = Color(1, 0, 0, 1)
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_2mvqj"]
 load_path = "res://.godot/imported/icon.svg-218a8f2b3041327d8a5756f3a245f83b.ctex"
@@ -11,12 +20,18 @@ radius = 173.00288
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8vrlf"]
 size = Vector2(127, 127)
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_ofsxj"]
+radius = 171.01169
+
 [node name="enemy" type="Area2D" unique_id=1866996497]
 y_sort_enabled = true
+material = SubResource("ShaderMaterial_y0y4j")
 script = ExtResource("1_2mvqj")
+recoil_speed = 100
 metadata/_edit_group_ = true
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1691401767]
+material = SubResource("ShaderMaterial_ofsxj")
 position = Vector2(0, -64)
 texture = SubResource("CompressedTexture2D_2mvqj")
 
@@ -34,6 +49,14 @@ offset_bottom = 23.0
 [node name="hitbox" type="CollisionShape2D" parent="." unique_id=1491436373]
 position = Vector2(-0.5, -64.5)
 shape = SubResource("RectangleShape2D_8vrlf")
+
+[node name="explosion_hitbox" type="Area2D" parent="." unique_id=1230192514]
+position = Vector2(0, -64)
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="explosion_hitbox" unique_id=560526618]
+shape = SubResource("CircleShape2D_ofsxj")
 
 [connection signal="area_entered" from="." to="." method="_on_enemy_hitbox_area_entered"]
 [connection signal="area_entered" from="pickuprange" to="." method="_on_pickuprange_area_entered"]

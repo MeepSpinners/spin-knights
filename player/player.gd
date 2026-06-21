@@ -49,7 +49,7 @@ class AnimationState:
 		
 	func _to_string() -> String:
 		return self.display
-		
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	pass
@@ -133,6 +133,7 @@ func handle_pickup():
 	$Anime.play(prefix + state.suffix)
 	$Anime.flip_h = state.flip_h
 	await $Anime.animation_finished
+
 # Resets the spinning progress
 func handle_throw():
 	if not Input.is_action_just_pressed("throw"):
@@ -144,20 +145,18 @@ func handle_throw():
 	var count = 0
 	for enemy in held_enemies:
 		throw_enemy(enemy)
-		var angle = global_position.angle_to_point(enemy.global_position)
+		var angle = get_throw_direction(enemy).angle()
 		average_dir += angle
 		count += 1
 	average_dir /= count
-	print("Average dir: ", average_dir)
 	spinning_progress = 0.0
 	
 	var state = get_animation_state(Vector2.from_angle(average_dir))
-	print("state: ", state)
 	$Anime.play("attack" + state.suffix)
 	$Anime.flip_h = state.flip_h
 	await $Anime.animation_finished
 	last_dir = Vector2.from_angle(average_dir)
-	
+
 const STEEPNESS = 2.0
 func get_current_orbit_speed(progress: float):
 	return max_orbit_speed * (exp(STEEPNESS * progress) - 1.0) / (exp(STEEPNESS) - 1.0)
@@ -183,14 +182,38 @@ func rotate_enemy_around_player(delta: float) -> void:
 	$Anime.animation = "rotate"
 	$Anime.frame = state.index
 	$Anime.flip_h = false
+
+func apply_hitstop(duration: float):
+	Engine.time_scale = 0.0
+	await get_tree().create_timer(duration, true, false, true).timeout
+	Engine.time_scale = 1.0
 	
+func on_grabbed_enemy_contact_enemy(grabbed_enemy: Enemy, enemy: Node2D):
+	if (enemy.has_method("take_damage")):
+		enemy.take_damage(5, self)
+		grabbed_enemy.take_damage(5, null)
+		apply_hitstop(0.05)	
+
+func on_grabbed_enemy_die(grabbed_enemy: Enemy):
+	held_enemies.erase(grabbed_enemy)
+	spinning_progress = 0.0
+	grabbed_enemy.deregister_death_listener(on_grabbed_enemy_die)
+
 func grab_enemy(enemy):
 	held_enemies.append(enemy)
 	enemy.picked_up()
 	remove_nearby(enemy)
+	enemy.register_contact_enemy_listener(on_grabbed_enemy_contact_enemy)
+	enemy.register_death_listener(on_grabbed_enemy_die)
+	
+func get_throw_direction(enemy: Node2D):
+	return global_position.direction_to(enemy.global_position).rotated(PI/2)
+
 func throw_enemy(enemy):
-	enemy.throw(self.global_position.direction_to(enemy.global_position).rotated(PI/2), throw_speed)
+	enemy.throw(get_throw_direction(enemy), throw_speed)
 	held_enemies.erase(enemy)
+	enemy.deregister_contact_enemy_listener(on_grabbed_enemy_contact_enemy)
+	enemy.deregister_death_listener(on_grabbed_enemy_die)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -198,9 +221,30 @@ func _process(delta):
 		handle_move(delta)
 		
 		rotate_enemy_around_player(delta)
-		
+		update_throw_arrow()
 		# This chunk locks so that we wait for the animation to play
 		is_playing_animation = true
 		await handle_pickup()
 		await handle_throw()
 		is_playing_animation = false
+
+var line_dict = {}
+func update_throw_arrow():
+	for enemy in held_enemies:
+		var line: Line2D = null
+		if (not line_dict.has(enemy)):
+			line = $Line2D.duplicate()
+			line_dict[enemy] = line
+			line.top_level = true
+			add_child(line)
+		line = line_dict[enemy]
+		line.clear_points()
+		line.add_point(enemy.global_position)
+		line.add_point(get_throw_direction(enemy) * 50.0 + enemy.global_position)
+	var to_remove = []
+	for entry in line_dict:
+		if not held_enemies.has(entry):
+			to_remove.append(entry)
+	for enemy in to_remove:
+		line_dict[enemy].queue_free()
+		line_dict.erase(enemy)

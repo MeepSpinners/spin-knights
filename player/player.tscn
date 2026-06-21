@@ -821,4 +821,9 @@ animation = &"interact_back"
 position = Vector2(-1, -15)
 shape = SubResource("RectangleShape2D_rkbax")
 
+[node name="Line2D" type="Line2D" parent="." unique_id=1802530924]
+width = 2.0
+default_color = Color(1, 0, 0, 1)
+joint_mode = 2
+
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]

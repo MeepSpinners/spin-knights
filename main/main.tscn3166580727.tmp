@@ -24,25 +24,6 @@ max_orbit_speed = 360
 [node name="enemy" parent="." unique_id=1512699608 instance=ExtResource("2_c651c")]
 position = Vector2(201, 56)
 scale = Vector2(0.5, 0.5)
-recoil_speed = 200
 
 [node name="enemy2" parent="." unique_id=680018282 instance=ExtResource("2_c651c")]
-position = Vector2(332, 252)
-scale = Vector2(0.5, 0.5)
-recoil_speed = 150
-
-[node name="enemy3" parent="." unique_id=1866996497 instance=ExtResource("2_c651c")]
-position = Vector2(269, 406)
-scale = Vector2(0.5, 0.5)
-
-[node name="enemy4" parent="." unique_id=1443110127 instance=ExtResource("2_c651c")]
-position = Vector2(515, 260)
-scale = Vector2(0.5, 0.5)
-
-[node name="enemy5" parent="." unique_id=590724604 instance=ExtResource("2_c651c")]
-position = Vector2(387, 80)
-scale = Vector2(0.5, 0.5)
-
-[node name="enemy6" parent="." unique_id=1118508938 instance=ExtResource("2_c651c")]
-position = Vector2(129, 237)
-scale = Vector2(0.5, 0.5)
+position = Vector2(328, 254)
