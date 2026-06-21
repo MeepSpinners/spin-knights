@@ -25,10 +25,7 @@ position = Vector2(-71.25445, -65.06657)
 position = Vector2(-46.599983, -56.399986)
 
 [node name="player" parent="." unique_id=25541542 instance=ExtResource("3_3wy1v")]
-position = Vector2(-71.62947, -58.316143)
-speed = 50
-max_spinning_speed = 20
-max_orbit_speed = 360
+position = Vector2(-71.600006, -58.399998)
 
 [node name="enemy" parent="." unique_id=1512699608 instance=ExtResource("2_c651c")]
 position = Vector2(-54.600006, -32.800003)

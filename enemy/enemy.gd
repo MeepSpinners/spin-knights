@@ -19,7 +19,7 @@ var can_be_picked_up = true
 func get_can_be_picked_up():
 	return can_be_picked_up
 
-signal contact_object(grabbed_enemy: Enemy, object: Node2D)
+signal contact_object(grabbed_enemy: Enemy, object: Object)
 signal die(enemy: Enemy)
 
 var timed_out_attackers = []
@@ -50,9 +50,41 @@ func _ready() -> void:
 	await get_tree().physics_frame
 	choose_behaviour()
 
+class CollisionOutcome:
+	var v1: Vector2
+	var v2: Vector2
+	
+	func _init(v1, v2):
+		self.v1 = v1
+		self.v2 = v2
+	func _to_string() -> String:
+		return "v1: " + str(v1) + ", v2: " + str(v2)
+
+func inelastic_collision(velocity: Vector2, normal: Vector2) -> CollisionOutcome:
+	return CollisionOutcome.new(
+		velocity.slide(normal) * 0.6,
+		-normal * velocity.length() * 0.4)
+
 func handle_friction_glide(delta: float, on_finish_glide: Callable):
 	velocity = velocity.move_toward(Vector2.ZERO, friction * delta)
-	if velocity == Vector2.ZERO:
+	var collision_info = move_and_collide(velocity * delta)
+	
+	# ONLY FOR STATIC COLLISIONS
+	if collision_info:
+		var collider = collision_info.get_collider()
+		var normal = collision_info.get_normal()
+		print("Collider: ", collider)
+		if collider is Enemy:
+			var outcome = inelastic_collision(velocity, normal)
+			print("Collision btw ", self, " and ", collider, ": ", outcome)
+			launch_with_velocity(outcome.v1)
+			collider.launch_with_velocity(outcome.v2)
+			hit_object(collider)
+		else:
+			velocity = velocity.bounce(normal) * 0.4
+			launch_with_velocity(velocity)
+
+	if velocity.is_zero_approx():
 		on_finish_glide.call()
 
 func handle_ai(delta: float):
@@ -94,7 +126,7 @@ func get_recoil_flash_modifier(time: float):
 var time_since_entered_recoil = 10.0
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
+func _physics_process(delta: float) -> void:
 	update_debug_label()
 	
 	set_flash_modifier(
@@ -104,17 +136,19 @@ func _process(delta: float) -> void:
 	match state:
 		State.DEAD:
 			handle_friction_glide(delta, func(): pass)
-			move_and_slide()
 		State.FLYING:
 			handle_friction_glide(delta, func(): enter_state(State.AI))
-			move_and_slide()
 		State.RECOILING:
-			# This has to be at the end to reset the flash modifier
 			handle_friction_glide(delta, func(): enter_state(State.AI))
-			move_and_slide()
 		State.AI:
 			handle_ai(delta)
 			move_and_slide()
+			for i in get_slide_collision_count():
+				var collision_info = get_slide_collision(i)
+				var collider = collision_info.get_collider()
+				hit_object(collider)
+			pass
+		
 
 enum Layers {
 	PLAYER = 0,
@@ -138,39 +172,43 @@ func trigger_flash():
 func enter_state(new_state: State):
 	match new_state:
 		State.AI:
+			if (not state in [State.ATTACKING, State.RECOILING, State.FLYING]):
+				return
 			velocity = Vector2.ZERO
 			# Become ENEMY layer, and only damage PLAYER layer
 			collision_layer = 1 << Layers.ENEMY
-			$enemy_hitbox.collision_mask = 1 << Layers.PLAYER | 1 << Layers.STATIC_OBJECT
+			collision_mask = 0
+			$enemy_hitbox.collision_mask = 1 << Layers.PLAYER
 			toggle_enemy_can_be_picked_up(true)
 			clear_timed_out_attackers()
-			# Clear the flashing display
-			set_flash_modifier(0.0)
 		State.ATTACKING:
 			pass # Not sure if there is a point in this existing actually
 		State.RECOILING:
+			if (not state in [State.AI, State.ATTACKING]):
+				return
 			# This state is just so the AI is not controlling it
 			collision_layer = 1 << Layers.ENEMY
-			$enemy_hitbox.collision_mask = 1 << Layers.PLAYER | 1 << Layers.STATIC_OBJECT
+			collision_mask = 1 << Layers.STATIC_OBJECT
+			$enemy_hitbox.collision_mask = 1 << Layers.PLAYER
 			toggle_enemy_can_be_picked_up(false)
-			set_flash_modifier(0.0)
 		State.FLYING:
+			if (not state in [State.HELD]):
+				return
 			collision_layer = 0 # No one can touch me
-			$enemy_hitbox.collision_mask = 1 << Layers.ENEMY | 1 << Layers.STATIC_OBJECT # I can only hit enemies (will need to add walls)
+			collision_mask = 1 << Layers.ENEMY | 1 << Layers.STATIC_OBJECT
+			$enemy_hitbox.collision_mask = 0
 			toggle_enemy_can_be_picked_up(false)
-			set_flash_modifier(0.0)
 		State.HELD:
 			collision_layer = 1 << Layers.HELD_ENEMY
-			$enemy_hitbox.collision_mask = 1 << Layers.ENEMY | 1 << Layers.STATIC_OBJECT # I can only hit enemies (will need to add walls)
+			$enemy_hitbox.collision_mask = 1 << Layers.ENEMY | 1 << Layers.STATIC_OBJECT
 			toggle_enemy_can_be_picked_up(false)
-			set_flash_modifier(0.0)
 		State.DEAD:
 			collision_layer = 0 # No one can touch me
 			$enemy_hitbox.collision_mask = 0 # I can't hit anyone
 			toggle_enemy_can_be_picked_up(false)
-			set_flash_modifier(0.0)
 		_:
 			print("Unknown state probably gonna crash")
+	print(self, "Changed from ", state, " to ", new_state)
 	state = new_state
 
 func register_contact_object_listener(listener: Callable) -> void:
@@ -200,40 +238,51 @@ func start(pos):
 	position = pos
 	show()
 
-func take_damage(damage: float, recoil_source: Node2D, recoil_amount: float = 1.0):
-	if timed_out_attackers.has(recoil_source):
+func launch_in_direction(direction: Vector2, amount: float):
+	launch_with_velocity(direction * amount)
+
+func launch_with_velocity(velocity: Vector2):
+	enter_state(State.RECOILING)
+	self.velocity = velocity
+
+func take_damage(damage: float, by_whom: Object):
+	if timed_out_attackers.has(by_whom):
 		return
 
 	self.health -= damage
 	$HealthBar.set_health(health, max_health)
 
 	trigger_flash()
-	if (recoil_source != null):
+	if (by_whom != null):
 		enter_state(State.RECOILING)
-		velocity = Vector2.from_angle(recoil_source.get_angle_to(global_position)) * recoil_speed * recoil_amount
-		timed_out_attackers.append(recoil_source)
+		timed_out_attackers.append(by_whom)
 
 	if self.health <= 0:
+		enter_state(State.DEAD)
 		die.emit(self)
 		if (state == State.FLYING || state == State.HELD):
 			self.explode()
-		enter_state(State.DEAD)
 		await get_tree().create_timer(2.0, true, false, false).timeout
 		queue_free()
 
+# FOR HITTING OTHER ENEMIES AS A HELD ENEMY
 func _on_enemy_hitbox_body_entered(body: Node2D) -> void:
-
 	match state:
-		State.FLYING:
-			take_damage(flying_damage, null)
-			if (body.has_method("take_damage")):
-				body.take_damage(flying_damage, self)
 		State.HELD:
 			contact_object.emit(self, body)
 		State.AI:
-			if (body.has_method("take_damage")):
-				body.take_damage(contact_damage, self, 2)
-
+			if body is Player:
+				body.take_damage(contact_damage, self, 5.0)
+func hit_object(obj: Object) -> void:
+	match state:
+		State.FLYING:
+			take_damage(flying_damage, null)
+			if (obj.has_method("take_damage")):
+				obj.take_damage(flying_damage, self)
+		State.AI:
+			if (obj.has_method("take_damage")):
+				obj.take_damage(contact_damage, self, 2)
+	
 func explode():
 	var enemies = $explosion_hitbox.get_overlapping_areas()
 	for enemy in enemies:
@@ -269,7 +318,7 @@ func update_debug_label():
 	if current_layer_bitmask & (1 << Layers.HELD_ENEMY): active_layers.append("Held Enemy")
 	
 	var active_masks = []
-	var current_mask_bitmask = collision_mask
+	var current_mask_bitmask = $enemy_hitbox.collision_mask
 	
 	if current_mask_bitmask & (1 << Layers.PLAYER): active_masks.append("Player")
 	if current_mask_bitmask & (1 << Layers.ENEMY): active_masks.append("Enemy")
