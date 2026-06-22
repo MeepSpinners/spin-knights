@@ -5,7 +5,7 @@ class_name Enemy
 @export var health = 100
 @export var friction = 600
 @export var contact_damage = 5
-@export var flying_damage = 5
+@export var flying_damage = 50
 @export var recoil_speed = 400
 @export var ai_speed = 50
 @export var decision_speed = 1
@@ -255,10 +255,10 @@ func take_damage(damage: float, by_whom: Object):
 		timed_out_attackers.append(by_whom)
 
 	if self.health <= 0:
-		enter_state(State.DEAD)
-		die.emit(self)
 		if (state == State.FLYING || state == State.HELD):
 			self.explode()
+		enter_state(State.DEAD)
+		die.emit(self)
 		await get_tree().create_timer(2.0, true, false, false).timeout
 		queue_free()
 
@@ -270,6 +270,7 @@ func _on_enemy_hitbox_body_entered(body: Node2D) -> void:
 		State.AI:
 			if body is Player:
 				body.take_damage(contact_damage, self, 5.0)
+
 func hit_object(obj: Object) -> void:
 	match state:
 		State.FLYING:
@@ -279,12 +280,14 @@ func hit_object(obj: Object) -> void:
 		State.AI:
 			if (obj.has_method("take_damage")):
 				obj.take_damage(contact_damage, self, 2)
-	
+
 func explode():
-	var enemies = $explosion_hitbox.get_overlapping_areas()
+	var enemies = $explosion_hitbox.get_overlapping_bodies()
 	for enemy in enemies:
 		if (enemy is Enemy):
-			enemy.take_damage(100, self, 5.0)
+			enemy.take_damage(100, self)
+			enemy.launch_in_direction(
+				global_position.direction_to(enemy.global_position), 1000.0)
 
 @onready var debug_label = $DebugLabel
 

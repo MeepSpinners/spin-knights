@@ -27,12 +27,4 @@ position = Vector2(-46.599983, -56.399986)
 [node name="player" parent="." unique_id=25541542 instance=ExtResource("3_3wy1v")]
 position = Vector2(-71.600006, -58.399998)
 
-[node name="enemy" parent="." unique_id=1512699608 instance=ExtResource("2_c651c")]
-position = Vector2(-54.600006, -32.800003)
-recoil_speed = 200
-
-[node name="enemy2" parent="." unique_id=1866996497 instance=ExtResource("2_c651c")]
-position = Vector2(-22.599998, -41)
-recoil_speed = 200
-
 [node name="Camera2D" type="Camera2D" parent="." unique_id=2062727341]

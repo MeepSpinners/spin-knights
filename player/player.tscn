@@ -2,12 +2,17 @@
 
 [ext_resource type="Script" uid="uid://dokmibp6c1h06" path="res://player/player.gd" id="1_oul6g"]
 [ext_resource type="Texture2D" uid="uid://tg7jj417qguh" path="res://art/16x16 Attack-Sheet.png" id="2_g6k8r"]
+[ext_resource type="Shader" uid="uid://n4qktoxhj4th" path="res://shaders/flashing.gdshader" id="2_hg6s5"]
 [ext_resource type="Texture2D" uid="uid://d2dfvi12w8uqg" path="res://art/16x32 Office guy Idle-Sheet.png" id="3_rgyib"]
 [ext_resource type="Texture2D" uid="uid://c2l2qf1l3ya76" path="res://art/16x32 Office guy Interact-Sheet.png" id="4_boad6"]
 [ext_resource type="Texture2D" uid="uid://nkcry55rapbf" path="res://art/16x32 Office guy Rotate-Sheet.png" id="5_g6k8r"]
 [ext_resource type="Texture2D" uid="uid://bv6fwadgbt458" path="res://art/16x32 Office guy Run-Sheet.png" id="6_boad6"]
 [ext_resource type="PackedScene" uid="uid://4lem2mc4hcd6" path="res://ui/health_bar.tscn" id="7_boad6"]
 [ext_resource type="AudioStream" uid="uid://b4vr1xbslg732" path="res://audio/thwack.wav" id="8_boad6"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_8t03j"]
+shader = ExtResource("2_hg6s5")
+shader_parameter/flash_color = Color(1, 0, 0, 1)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_x7c3f"]
 atlas = ExtResource("2_g6k8r")
@@ -889,8 +894,9 @@ script = ExtResource("1_oul6g")
 metadata/_edit_group_ = true
 
 [node name="Anime" type="AnimatedSprite2D" parent="." unique_id=607451979]
+material = SubResource("ShaderMaterial_8t03j")
 sprite_frames = SubResource("SpriteFrames_1vivr")
-animation = &"rotate"
+animation = &"interact_front_diag"
 offset = Vector2(0, -16)
 
 [node name="hurtbox" type="CollisionShape2D" parent="." unique_id=246400266]

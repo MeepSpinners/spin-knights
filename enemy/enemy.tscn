@@ -23,7 +23,7 @@ font_size = 32
 font_color = Color(0, 0, 0, 1)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ofsxj"]
-radius = 171.01169
+radius = 475.99997
 
 [node name="enemy" type="CharacterBody2D" unique_id=1720581004]
 y_sort_enabled = true

@@ -18,7 +18,7 @@ class_name Player
 @export var throw_speed_scale = 2
 @export var orbit_radius = 100
 @export var max_orbit_speed = 360
-@export var enemy_knockback = 100.0
+@export var enemy_knockback = 200.0
 
 var held_enemies = []
 var nearby_enemies = []
@@ -39,10 +39,22 @@ func remove_nearby(enemy):
 		nearby_enemies.erase(enemy)
 		enemy.deregister_death_listener(remove_nearby)
 
+func get_recoil_flash_modifier(time: float):
+	return max(0.0, 1.0 - time * 2.0)
+
+func set_flash_modifier(progress: float):
+	$Anime.set_instance_shader_parameter("flash_modifier", progress)
+
+var time_since_entered_recoil = 10.0
+
+func _process(delta: float):
+	time_since_entered_recoil += delta
+	set_flash_modifier(get_recoil_flash_modifier(time_since_entered_recoil))
+
 func take_damage(damage: float, recoil_source: Node2D, recoil_amount: float = 1.0):
 	self.health -= damage
 	$HealthBar.set_health(health, max_health)
-	
+	time_since_entered_recoil = 0.0
 	if (!recoil_source == null):
 		is_recoiling = true
 		var recoil_dir = -global_position.direction_to(recoil_source.global_position)
@@ -271,7 +283,7 @@ func throw_enemy(enemy, throw_velocity):
 	enemy.deregister_death_listener(on_grabbed_enemy_die)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _physics_process(delta: float) -> void:
 	update_debug_label()
 	if not is_playing_animation:
 		if not is_recoiling:
