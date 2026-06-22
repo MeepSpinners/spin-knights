@@ -663,7 +663,7 @@ animations = [{
 }],
 "loop": 0,
 "name": &"interact_back",
-"speed": 7.0
+"speed": 10.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -680,7 +680,7 @@ animations = [{
 }],
 "loop": 0,
 "name": &"interact_back_diag",
-"speed": 7.0
+"speed": 10.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -697,7 +697,7 @@ animations = [{
 }],
 "loop": 0,
 "name": &"interact_front",
-"speed": 7.0
+"speed": 10.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -714,7 +714,7 @@ animations = [{
 }],
 "loop": 0,
 "name": &"interact_front_diag",
-"speed": 7.0
+"speed": 10.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -731,7 +731,7 @@ animations = [{
 }],
 "loop": 0,
 "name": &"interact_right",
-"speed": 7.0
+"speed": 10.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -896,7 +896,7 @@ metadata/_edit_group_ = true
 [node name="Anime" type="AnimatedSprite2D" parent="." unique_id=607451979]
 material = SubResource("ShaderMaterial_8t03j")
 sprite_frames = SubResource("SpriteFrames_1vivr")
-animation = &"interact_front_diag"
+animation = &"interact_right"
 offset = Vector2(0, -16)
 
 [node name="hurtbox" type="CollisionShape2D" parent="." unique_id=246400266]

@@ -3,8 +3,8 @@ extends CharacterBody2D
 class_name Player
 
 @export_group("Movement")
-@export var speed = 200
-@export var friction = 500
+@export var speed = 20
+@export var friction = 50
 
 @export_group("Entity")
 @export var health = 100
@@ -14,11 +14,11 @@ class_name Player
 @export var max_held = 1
 @export var time_to_max_speed = 3
 @export var spinning_damage_delay = 1
-@export var max_spinning_speed = 100
+@export var max_spinning_speed = 10
 @export var throw_speed_scale = 2
-@export var orbit_radius = 100
+@export var orbit_radius = 15
 @export var max_orbit_speed = 360
-@export var enemy_knockback = 200.0
+@export var enemy_knockback = 20.0
 
 @export_group("Power-ups")
 @export var damage_per_powerup = 0.2
@@ -63,7 +63,7 @@ func take_damage(damage: float, recoil_source: Node2D, recoil_amount: float = 1.
 	if (!recoil_source == null):
 		is_recoiling = true
 		var recoil_dir = -global_position.direction_to(recoil_source.global_position)
-		var recoil_speed = 100.0 * recoil_amount
+		var recoil_speed = 10.0 * recoil_amount
 		velocity = recoil_dir * recoil_speed
 		await get_tree().create_timer(0.2, true, true, false).timeout
 		is_recoiling = false
@@ -246,7 +246,7 @@ func apply_hitstop(duration: float):
 	Engine.time_scale = 0.0
 	await get_tree().create_timer(duration, true, false, true).timeout
 	Engine.time_scale = 1.0
-func get_spinning_damage_to_other(grabbed_enemy: Enemy):
+func get_spinning_damage_to_other(_grabbed_enemy: Enemy):
 	return (10.0 * spinning_progress + 5.0) * damage_multiplier
 func get_spinning_damage_to_tool(grabbed_enemy: Enemy):
 	return 5.0
@@ -271,7 +271,7 @@ func on_grabbed_enemy_contact_object(grabbed_enemy: Enemy, object: Object):
 		)
 	grabbed_enemy.take_damage(
 		get_spinning_damage_to_tool(grabbed_enemy), null)
-	apply_hitstop(0.05)	
+	apply_hitstop(0.0)	
 	$thwack_audio.play()
 
 func on_grabbed_enemy_die(grabbed_enemy: Enemy):

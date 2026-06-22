@@ -3,15 +3,16 @@ extends CharacterBody2D
 class_name Enemy
 
 @export var health = 100
-@export var friction = 600
+@export var friction = 60
 @export var contact_damage = 5
 @export var flying_damage = 50
-@export var recoil_speed = 400
-@export var ai_speed = 50
+@export var recoil_speed = 40
+@export var ai_speed = 5
 @export var decision_speed = 1
-@export var flee_dist = 80
+@export var flee_dist = 8
 @export var wander_proportion = 0.2
 @export var flee_modifier = 0.9
+@export var explosion_knockback = 100.0
 var max_health = 100
 
 var can_be_picked_up = true
@@ -42,6 +43,7 @@ enum Behaviour {
 var state = State.AI
 var behaviour = Behaviour.WANDER
 var decision_timer = 0.0
+var bounce_count = 0
 
 func _ready() -> void:
 	max_health = health
@@ -54,19 +56,20 @@ class CollisionOutcome:
 	var v1: Vector2
 	var v2: Vector2
 	
-	func _init(v1, v2):
-		self.v1 = v1
-		self.v2 = v2
+	func _init(p_v1, p_v2):
+		self.v1 = p_v1
+		self.v2 = p_v2
 	func _to_string() -> String:
 		return "v1: " + str(v1) + ", v2: " + str(v2)
 
-func inelastic_collision(velocity: Vector2, normal: Vector2) -> CollisionOutcome:
+func inelastic_collision(p_velocity: Vector2, normal: Vector2) -> CollisionOutcome:
 	return CollisionOutcome.new(
-		velocity.slide(normal) * 0.6,
-		-normal * velocity.length() * 0.4)
+		p_velocity.slide(normal) * 0.6,
+		-normal * p_velocity.length() * 0.4)
 
 func handle_friction_glide(delta: float, on_finish_glide: Callable):
 	velocity = velocity.move_toward(Vector2.ZERO, friction * delta)
+	$Anime.speed_scale = velocity.length() / 10.0
 	var collision_info = move_and_collide(velocity * delta)
 	
 	# ONLY FOR STATIC COLLISIONS
@@ -77,14 +80,54 @@ func handle_friction_glide(delta: float, on_finish_glide: Callable):
 			var outcome = inelastic_collision(velocity, normal)
 			launch_with_velocity(outcome.v1)
 			collider.launch_with_velocity(outcome.v2)
-			hit_object(collider)
 		else:
 			velocity = velocity.bounce(normal) * 0.4
 			launch_with_velocity(velocity)
+		if bounce_count < 1:
+			hit_object(collider)
+		bounce_count += 1
 
 	if velocity.is_zero_approx():
 		on_finish_glide.call()
 
+class AnimationState:
+	var suffix: String
+	var flip_h: bool
+	var index: int
+	var display: String
+	
+	func _init(
+		p_suffix: String = "", 
+		p_flip_h: bool = false, 
+		p_index: int = 0, 
+		p_display: String = "Default"):
+		self.suffix = p_suffix
+		self.flip_h = p_flip_h
+		self.index = p_index
+		self.display = p_display
+		
+	func _to_string() -> String:
+		return self.display
+
+func get_animation_state(dir: Vector2):
+	var angle = dir.normalized().angle()
+	if angle < -7 * PI / 8 or angle >= 7 * PI / 8:
+		return AnimationState.new("_right", true, 2, "left")
+	elif angle < -5 * PI / 8:
+		return AnimationState.new("_right", true, 3, "back-left")
+	elif angle < -3 * PI / 8:
+		return AnimationState.new("", false, 4, "back")
+	elif angle < -PI / 8:
+		return AnimationState.new("_right", false, 5, "back-right")
+	elif angle < PI / 8:
+		return AnimationState.new("_right", false, 6, "right")
+	elif angle < 3 * PI / 8:
+		return AnimationState.new("_right", false, 7, "front-right")
+	elif angle < 5 * PI / 8:
+		return AnimationState.new("", false, 0, "front")
+	else:
+		return AnimationState.new("_right", true, 1, "front-left")
+	
 func handle_ai(delta: float):
 	decision_timer += delta
 	if decision_timer >= decision_speed:
@@ -103,6 +146,20 @@ func handle_ai(delta: float):
 		return
 	var next = $NavigationAgent2D.get_next_path_position()
 	velocity = self.global_position.direction_to(next) * ai_speed
+	
+	$Anime.speed_scale = 1.0
+	var state = get_animation_state(velocity)
+	if (velocity.is_zero_approx()):
+		$Anime.play("idle")
+	else:
+		$Anime.play("walking_down" + state.suffix)
+		$Anime.flip_h = state.flip_h
+	
+	move_and_slide()
+	for i in get_slide_collision_count():
+		var collision_info = get_slide_collision(i)
+		var collider = collision_info.get_collider()
+		hit_object(collider)
 
 func choose_behaviour():
 	var flee_chance = (self.max_health - self.health) / self.max_health * flee_modifier
@@ -132,7 +189,7 @@ func _physics_process(delta: float) -> void:
 	time_since_entered_recoil += delta
 	
 	match state:
-		State.DEAD:
+		State.DEAD:	
 			handle_friction_glide(delta, func(): pass)
 		State.FLYING:
 			handle_friction_glide(delta, func(): enter_state(State.AI))
@@ -140,12 +197,6 @@ func _physics_process(delta: float) -> void:
 			handle_friction_glide(delta, func(): enter_state(State.AI))
 		State.AI:
 			handle_ai(delta)
-			move_and_slide()
-			for i in get_slide_collision_count():
-				var collision_info = get_slide_collision(i)
-				var collider = collision_info.get_collider()
-				hit_object(collider)
-			pass
 		
 
 enum Layers {
@@ -162,7 +213,7 @@ func clear_timed_out_attackers():
 	timed_out_attackers.clear()
 
 func set_flash_modifier(progress: float):
-	$Sprite2D.set_instance_shader_parameter("flash_modifier", progress)
+	$Anime.set_instance_shader_parameter("flash_modifier", progress)
 
 func trigger_flash():
 	time_since_entered_recoil = 0.0
@@ -192,6 +243,7 @@ func enter_state(new_state: State):
 		State.FLYING:
 			if (not state in [State.HELD]):
 				return
+			bounce_count = 0
 			collision_layer = 0 # No one can touch me
 			collision_mask = 1 << Layers.ENEMY | 1 << Layers.STATIC_OBJECT
 			$enemy_hitbox.collision_mask = 0
@@ -230,6 +282,8 @@ func throw(direction, throw_velocity):
 
 func picked_up():
 	enter_state(State.HELD)
+	$Anime.speed_scale = 2.0
+	$Anime.play("flailing_down")
 	
 func start(pos):
 	position = pos
@@ -241,6 +295,9 @@ func launch_in_direction(direction: Vector2, amount: float):
 func launch_with_velocity(velocity: Vector2):
 	enter_state(State.RECOILING)
 	self.velocity = velocity
+	var state = get_animation_state(-velocity)
+	$Anime.play("flailing_down" + state.suffix)
+	$Anime.flip_h = state.flip_h
 
 func take_damage(damage: float, by_whom: Object):
 	if timed_out_attackers.has(by_whom):
@@ -287,7 +344,7 @@ func explode():
 		if (enemy is Enemy):
 			enemy.take_damage(100, self)
 			enemy.launch_in_direction(
-				global_position.direction_to(enemy.global_position), 1000.0)
+				global_position.direction_to(enemy.global_position), explosion_knockback)
 
 @onready var debug_label = $DebugLabel
 
@@ -330,6 +387,6 @@ func update_debug_label():
 	debug_label.text = debug_text
 	
 	debug_label.text += "\nVelocity: " + str(velocity)
-	debug_label.text += "\nFlash mod: " + str($Sprite2D.material.get_shader_parameter("flash_modifier"))
+	debug_label.text += "\nFlash mod: " + str($Anime.material.get_shader_parameter("flash_modifier"))
 	if state == State.AI:
 		debug_label.text += "\nBehaviour: " + str(Behaviour.keys()[behaviour])
