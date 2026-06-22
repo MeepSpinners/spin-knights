@@ -20,6 +20,10 @@ class_name Player
 @export var max_orbit_speed = 360
 @export var enemy_knockback = 200.0
 
+@export_group("Power-ups")
+@export var damage_per_powerup = 0.2
+@export var health_per_powerup = 20
+
 var held_enemies = []
 var nearby_enemies = []
 
@@ -27,6 +31,7 @@ var is_playing_animation = false
 var is_recoiling = false
 var last_dir = Vector2.DOWN
 var spinning_progress = 0.0
+var damage_multiplier = 1
 
 # PUBLIC METHODS
 func add_nearby(enemy):
@@ -242,9 +247,17 @@ func apply_hitstop(duration: float):
 	await get_tree().create_timer(duration, true, false, true).timeout
 	Engine.time_scale = 1.0
 func get_spinning_damage_to_other(grabbed_enemy: Enemy):
-	return 10.0 * spinning_progress + 5.0
+	return (10.0 * spinning_progress + 5.0) * damage_multiplier
 func get_spinning_damage_to_tool(grabbed_enemy: Enemy):
 	return 5.0
+
+func add_damage_powerup():
+	damage_multiplier += damage_per_powerup
+
+func add_health_powerup():
+	max_health += health_per_powerup
+	health += health_per_powerup
+	$HealthBar.set_health(health, max_health)
 
 func on_grabbed_enemy_contact_object(grabbed_enemy: Enemy, object: Object):
 	var time_spinning = spinning_progress * time_to_max_speed
