@@ -4,12 +4,14 @@
 [ext_resource type="PackedScene" uid="uid://hjqpxotrpq48" path="res://enemy/enemy.tscn" id="2_c651c"]
 [ext_resource type="PackedScene" uid="uid://c0idya5thtbji" path="res://player/player.tscn" id="3_3wy1v"]
 [ext_resource type="PackedScene" uid="uid://bbsl426ca0swf" path="res://levels/office.tscn" id="3_c651c"]
+[ext_resource type="PackedScene" uid="uid://biqv1ae8gef1u" path="res://powerup/power-up.tscn" id="5_3wy1v"]
 
 [node name="Main" type="Node2D" unique_id=1155606970]
 y_sort_enabled = true
 scale = Vector2(5, 5)
 script = ExtResource("1_xwkvk")
 mob_scene = ExtResource("2_c651c")
+powerup_scene = ExtResource("5_3wy1v")
 metadata/_edit_horizontal_guides_ = [-81.0]
 
 [node name="Office" parent="." unique_id=703791642 instance=ExtResource("3_c651c")]
