@@ -8,7 +8,6 @@
 
 [node name="Main" type="Node2D" unique_id=1155606970]
 y_sort_enabled = true
-scale = Vector2(5, 5)
 script = ExtResource("1_xwkvk")
 mob_scene = ExtResource("2_c651c")
 powerup_scene = ExtResource("5_3wy1v")
@@ -24,9 +23,15 @@ collision_mask = 255
 position = Vector2(-71.25445, -65.06657)
 
 [node name="Marker2D2" type="Marker2D" parent="." unique_id=1909905902]
-position = Vector2(-46.599983, -56.399986)
+position = Vector2(0, 57)
 
 [node name="player" parent="." unique_id=25541542 instance=ExtResource("3_3wy1v")]
 position = Vector2(-71.600006, -58.399998)
+speed = 40
+friction = 50
+max_spinning_speed = 10
+orbit_radius = 10
+enemy_knockback = 20.0
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=2062727341]
+zoom = Vector2(5, 5)
