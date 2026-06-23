@@ -270,7 +270,7 @@ func apply_hitstop(duration: float):
 	Engine.time_scale = 1.0
 func get_spinning_damage_to_other(_grabbed_enemy: Enemy):
 	return (10.0 * spinning_progress + 5.0) * damage_multiplier
-func get_spinning_damage_to_tool(grabbed_enemy: Enemy):
+func get_spinning_damage_to_tool(_grabbed_enemy: Enemy):
 	return 5.0
 
 func add_damage_powerup():

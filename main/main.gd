@@ -12,6 +12,7 @@ var score
 func _ready() -> void:
 	$player.start($Marker2D.position)
 	
+	await NavigationServer2D.map_changed
 	for i in num_mobs:
 		var enemy = mob_types.pick_random().instantiate()
 		add_child(enemy)

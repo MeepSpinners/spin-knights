@@ -157,12 +157,12 @@ func handle_ai(delta: float):
 	velocity = self.global_position.direction_to(next) * ai_speed
 	
 	animated_sprite.speed_scale = 1.0
-	var state = get_animation_state(velocity)
+	var animation_state = get_animation_state(velocity)
 	if (velocity.is_zero_approx()):
 		animated_sprite.play("idle")
 	else:
-		animated_sprite.play("walking_down" + state.suffix)
-		animated_sprite.flip_h = state.flip_h
+		animated_sprite.play("walking_down" + animation_state.suffix)
+		animated_sprite.flip_h = animation_state.flip_h
 	
 	move_and_slide()
 	for i in get_slide_collision_count():
@@ -171,7 +171,7 @@ func handle_ai(delta: float):
 		hit_object(collider)
 
 func choose_behaviour():
-	var flee_chance = (self.max_health - self.health) / self.max_health * flee_modifier
+	var flee_chance = float(self.max_health - self.health) / self.max_health * flee_modifier
 	var remaining = 1 - flee_chance
 	var wander_chance = flee_chance + remaining * wander_proportion
 	var action = randf()
@@ -215,8 +215,8 @@ enum Layers {
 	STATIC_OBJECT = 3
 }
 
-func toggle_enemy_can_be_picked_up(can_be_picked_up: bool):
-	self.can_be_picked_up = can_be_picked_up
+func toggle_enemy_can_be_picked_up(p_can_be_picked_up: bool):
+	self.can_be_picked_up = p_can_be_picked_up
 	
 func clear_timed_out_attackers():
 	timed_out_attackers.clear()
@@ -306,9 +306,9 @@ func start(pos):
 func launch_in_direction(direction: Vector2, amount: float):
 	launch_with_velocity(direction * amount)
 
-func launch_with_velocity(velocity: Vector2):
+func launch_with_velocity(p_velocity: Vector2):
 	enter_state(State.RECOILING)
-	self.velocity = velocity
+	self.velocity = p_velocity
 	var animation_state = get_animation_state(-velocity)
 	
 	if (state != State.DEAD):
