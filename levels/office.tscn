@@ -9,10 +9,10 @@ size = Vector2(72, 56)
 size = Vector2(32, 24)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gvyhi"]
-size = Vector2(16, 176)
+size = Vector2(73, 176)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lfxy1"]
-size = Vector2(192, 16)
+size = Vector2(192, 48)
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_gvyhi"]
 vertices = PackedVector2Array(41, 33, 71, 17, 87, 17, 87, 79, 41, -33, 71, -17, -87, 79, -41, 33, -87, 17, -71, 17, -41, -33, -71, -17, 87, -79, 87, -17, -87, -79, -87, -17)
@@ -39,19 +39,19 @@ position = Vector2(-92, 0)
 shape = SubResource("RectangleShape2D_5jv1k")
 
 [node name="Left Wall" type="CollisionShape2D" parent="." unique_id=1654501540]
-position = Vector2(-100, 0)
+position = Vector2(-129, 0)
 shape = SubResource("RectangleShape2D_gvyhi")
 
 [node name="Right Wall" type="CollisionShape2D" parent="." unique_id=792193894]
-position = Vector2(100, 0)
+position = Vector2(129, 0)
 shape = SubResource("RectangleShape2D_gvyhi")
 
 [node name="Top Wall" type="CollisionShape2D" parent="." unique_id=427912040]
-position = Vector2(0, -92)
+position = Vector2(0, -108)
 shape = SubResource("RectangleShape2D_lfxy1")
 
 [node name="Bottom Wall" type="CollisionShape2D" parent="." unique_id=873283001]
-position = Vector2(0, 92)
+position = Vector2(0, 108)
 shape = SubResource("RectangleShape2D_lfxy1")
 
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="." unique_id=1632457717]
