@@ -34,7 +34,7 @@ var last_dir = Vector2.DOWN
 var spinning_progress = 0.0
 var damage_multiplier = 1
 
-@onready var animted_sprite = $Anime
+@onready var animated_sprite = $Anime
 @onready var thwack_audio = $whack_audio
 @onready var whack_audio = $whack_audio
 @onready var grab_audio = $grab_audio
@@ -55,7 +55,7 @@ func get_recoil_flash_modifier(time: float):
 	return max(0.0, 1.0 - time * 2.0)
 
 func set_flash_modifier(progress: float):
-	animted_sprite.set_instance_shader_parameter("flash_modifier", progress)
+	animated_sprite.set_instance_shader_parameter("flash_modifier", progress)
 
 var time_since_entered_recoil = 10.0
 
@@ -154,15 +154,15 @@ func handle_controlled_move(delta: float) -> void:
 	
 	if held_enemies.size() == 0:
 		var prefix = "walk" if is_moving else "idle"
-		animted_sprite.play(prefix + input_state.suffix)
-		animted_sprite.flip_h = input_state.flip_h
+		animated_sprite.play(prefix + input_state.suffix)
+		animated_sprite.flip_h = input_state.flip_h
 
 func handle_sliding_move(delta: float) -> void:
 	velocity = velocity.move_toward(Vector2.ZERO, friction * delta)
 	var state = get_animation_state(-velocity.normalized())
-	animted_sprite.animation = "rotate"
-	animted_sprite.frame = state.index
-	animted_sprite.flip_h = false
+	animated_sprite.animation = "rotate"
+	animated_sprite.frame = state.index
+	animated_sprite.flip_h = false
 	
 		
 func get_nearest_enemy():
@@ -195,9 +195,9 @@ func handle_pickup():
 	var dir = global_position.direction_to(enemy.global_position)
 	var state = get_animation_state(dir)
 	var prefix = "interact"
-	animted_sprite.play(prefix + state.suffix)
-	animted_sprite.flip_h = state.flip_h
-	await animted_sprite.animation_finished
+	animated_sprite.play(prefix + state.suffix)
+	animated_sprite.flip_h = state.flip_h
+	await animated_sprite.animation_finished
 
 # Resets the spinning progress
 func handle_throw():
@@ -224,9 +224,9 @@ func handle_throw():
 	
 	woosh_audio.play()
 	var state = get_animation_state(Vector2.from_angle(average_dir))
-	animted_sprite.play("attack" + state.suffix)
-	animted_sprite.flip_h = state.flip_h
-	await animted_sprite.animation_finished
+	animated_sprite.play("attack" + state.suffix)
+	animated_sprite.flip_h = state.flip_h
+	await animated_sprite.animation_finished
 	last_dir = Vector2.from_angle(average_dir)
 
 const STEEPNESS = 2.0
@@ -260,9 +260,9 @@ func rotate_enemy_around_player(delta: float) -> void:
 	
 	average_dir /= held_enemies.size()
 	var state = get_animation_state(Vector2.from_angle(average_dir))
-	animted_sprite.animation = "rotate"
-	animted_sprite.frame = state.index
-	animted_sprite.flip_h = false
+	animated_sprite.animation = "rotate"
+	animated_sprite.frame = state.index
+	animated_sprite.flip_h = false
 
 func apply_hitstop(duration: float):
 	Engine.time_scale = 0.0

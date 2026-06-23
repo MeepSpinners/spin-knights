@@ -1,15 +1,18 @@
 [gd_scene format=3 uid="uid://brm6xc8aytw3l"]
 
 [ext_resource type="Script" uid="uid://cpxmwid88ngqo" path="res://main/main.gd" id="1_xwkvk"]
+[ext_resource type="PackedScene" uid="uid://gcjwryrp5gyp" path="res://enemy/rotobaga.tscn" id="2_3wy1v"]
 [ext_resource type="PackedScene" uid="uid://hjqpxotrpq48" path="res://enemy/enemy.tscn" id="2_c651c"]
 [ext_resource type="PackedScene" uid="uid://c0idya5thtbji" path="res://player/player.tscn" id="3_3wy1v"]
 [ext_resource type="PackedScene" uid="uid://bbsl426ca0swf" path="res://levels/office.tscn" id="3_c651c"]
+[ext_resource type="PackedScene" uid="uid://fjuqtmvfiemb" path="res://enemy/trashcan.tscn" id="4_4dugh"]
 [ext_resource type="PackedScene" uid="uid://biqv1ae8gef1u" path="res://powerup/power-up.tscn" id="5_3wy1v"]
+[ext_resource type="PackedScene" uid="uid://cthlnl3utq18j" path="res://enemy/watah.tscn" id="5_67ri8"]
 
 [node name="Main" type="Node2D" unique_id=1155606970]
 y_sort_enabled = true
 script = ExtResource("1_xwkvk")
-mob_scene = ExtResource("2_c651c")
+mob_types = Array[PackedScene]([ExtResource("2_3wy1v"), ExtResource("2_c651c"), ExtResource("4_4dugh"), ExtResource("5_67ri8")])
 powerup_scene = ExtResource("5_3wy1v")
 metadata/_edit_horizontal_guides_ = [-81.0]
 
