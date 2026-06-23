@@ -9,6 +9,9 @@
 [ext_resource type="Texture2D" uid="uid://bv6fwadgbt458" path="res://art/16x32 Office guy Run-Sheet.png" id="6_boad6"]
 [ext_resource type="PackedScene" uid="uid://4lem2mc4hcd6" path="res://ui/health_bar.tscn" id="7_boad6"]
 [ext_resource type="AudioStream" uid="uid://b4vr1xbslg732" path="res://audio/thwack.wav" id="8_boad6"]
+[ext_resource type="AudioStream" uid="uid://dkq4imwgtdxrv" path="res://audio/whack.wav" id="10_8t03j"]
+[ext_resource type="AudioStream" uid="uid://bgod4xxjorrbv" path="res://audio/grab.wav" id="11_2ieo8"]
+[ext_resource type="AudioStream" uid="uid://coba5eqv2x6a3" path="res://audio/woosh.wav" id="12_ebec5"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_8t03j"]
 shader = ExtResource("2_hg6s5")
@@ -935,8 +938,17 @@ shape = SubResource("CircleShape2D_h6qht")
 
 [node name="HealthBar" parent="." unique_id=686804142 instance=ExtResource("7_boad6")]
 
-[node name="thwack_audio" type="AudioStreamPlayer" parent="." unique_id=96377347]
+[node name="thwack_audio" type="AudioStreamPlayer" parent="." unique_id=1067893888]
 stream = ExtResource("8_boad6")
+
+[node name="whack_audio" type="AudioStreamPlayer" parent="." unique_id=640340790]
+stream = ExtResource("10_8t03j")
+
+[node name="grab_audio" type="AudioStreamPlayer" parent="." unique_id=1406148295]
+stream = ExtResource("11_2ieo8")
+
+[node name="woosh_audio" type="AudioStreamPlayer" parent="." unique_id=377508397]
+stream = ExtResource("12_ebec5")
 
 [connection signal="body_entered" from="pickup_hitbox" to="." method="_on_pickup_hitbox_body_entered"]
 [connection signal="body_exited" from="pickup_hitbox" to="." method="_on_pickup_hitbox_body_exited"]

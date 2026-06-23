@@ -4,6 +4,9 @@
 [ext_resource type="Shader" uid="uid://n4qktoxhj4th" path="res://shaders/flashing.gdshader" id="1_ofsxj"]
 [ext_resource type="PackedScene" uid="uid://4lem2mc4hcd6" path="res://ui/health_bar.tscn" id="3_ppra6"]
 [ext_resource type="Texture2D" uid="uid://l06mmi61o0ip" path="res://art/rotobaga.png" id="4_p200p"]
+[ext_resource type="AudioStream" uid="uid://dkq4imwgtdxrv" path="res://audio/whack.wav" id="5_pmsee"]
+[ext_resource type="AudioStream" uid="uid://dd1favxyoxy0h" path="res://audio/explode.wav" id="6_1wwld"]
+[ext_resource type="AudioStream" uid="uid://b4vr1xbslg732" path="res://audio/thwack.wav" id="7_y5vj3"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_y0y4j"]
 shader = ExtResource("1_ofsxj")
@@ -235,5 +238,15 @@ sprite_frames = SubResource("SpriteFrames_h6qht")
 animation = &"flailing_down_right"
 frame_progress = 0.49187815
 offset = Vector2(0, -12)
+
+[node name="whack_audio" type="AudioStreamPlayer" parent="." unique_id=1705046370]
+stream = ExtResource("5_pmsee")
+
+[node name="explode_audio" type="AudioStreamPlayer" parent="." unique_id=823814874]
+stream = ExtResource("6_1wwld")
+
+[node name="thwack_audio" type="AudioStreamPlayer" parent="." unique_id=1182467520]
+stream = ExtResource("7_y5vj3")
+volume_db = -10.0
 
 [connection signal="body_entered" from="enemy_hitbox" to="." method="_on_enemy_hitbox_body_entered"]

@@ -45,6 +45,10 @@ var behaviour = Behaviour.WANDER
 var decision_timer = 0.0
 var bounce_count = 0
 
+@onready var animted_sprite = $Anime
+@onready var thwack_audio = $thwack_audio
+@onready var explode_audio = $explode_audio
+
 func _ready() -> void:
 	max_health = health
 	$HealthBar.set_health(health, max_health)
@@ -69,7 +73,7 @@ func inelastic_collision(p_velocity: Vector2, normal: Vector2) -> CollisionOutco
 
 func handle_friction_glide(delta: float, on_finish_glide: Callable):
 	velocity = velocity.move_toward(Vector2.ZERO, friction * delta)
-	$Anime.speed_scale = velocity.length() / 10.0
+	animted_sprite.speed_scale = velocity.length() / 10.0
 	var collision_info = move_and_collide(velocity * delta)
 	
 	# ONLY FOR STATIC COLLISIONS
@@ -83,6 +87,9 @@ func handle_friction_glide(delta: float, on_finish_glide: Callable):
 		else:
 			velocity = velocity.bounce(normal) * 0.4
 			launch_with_velocity(velocity)
+		
+		thwack_audio.play()
+		
 		if bounce_count < 1:
 			hit_object(collider)
 		bounce_count += 1
@@ -147,13 +154,13 @@ func handle_ai(delta: float):
 	var next = $NavigationAgent2D.get_next_path_position()
 	velocity = self.global_position.direction_to(next) * ai_speed
 	
-	$Anime.speed_scale = 1.0
+	animted_sprite.speed_scale = 1.0
 	var state = get_animation_state(velocity)
 	if (velocity.is_zero_approx()):
-		$Anime.play("idle")
+		animted_sprite.play("idle")
 	else:
-		$Anime.play("walking_down" + state.suffix)
-		$Anime.flip_h = state.flip_h
+		animted_sprite.play("walking_down" + state.suffix)
+		animted_sprite.flip_h = state.flip_h
 	
 	move_and_slide()
 	for i in get_slide_collision_count():
@@ -213,7 +220,7 @@ func clear_timed_out_attackers():
 	timed_out_attackers.clear()
 
 func set_flash_modifier(progress: float):
-	$Anime.set_instance_shader_parameter("flash_modifier", progress)
+	animted_sprite.set_instance_shader_parameter("flash_modifier", progress)
 
 func trigger_flash():
 	time_since_entered_recoil = 0.0
@@ -282,8 +289,8 @@ func throw(direction, throw_velocity):
 
 func picked_up():
 	enter_state(State.HELD)
-	$Anime.speed_scale = 2.0
-	$Anime.play("flailing_down")
+	animted_sprite.speed_scale = 2.0
+	animted_sprite.play("flailing_down")
 	
 func start(pos):
 	position = pos
@@ -296,13 +303,13 @@ func launch_with_velocity(velocity: Vector2):
 	enter_state(State.RECOILING)
 	self.velocity = velocity
 	var state = get_animation_state(-velocity)
-	$Anime.play("flailing_down" + state.suffix)
-	$Anime.flip_h = state.flip_h
+	animted_sprite.play("flailing_down" + state.suffix)
+	animted_sprite.flip_h = state.flip_h
 
 func take_damage(damage: float, by_whom: Object):
 	if timed_out_attackers.has(by_whom):
 		return
-
+	
 	self.health -= damage
 	$HealthBar.set_health(health, max_health)
 
@@ -339,6 +346,7 @@ func hit_object(obj: Object) -> void:
 				obj.take_damage(contact_damage, self, 2)
 
 func explode():
+	explode_audio.play()
 	var enemies = $explosion_hitbox.get_overlapping_bodies()
 	for enemy in enemies:
 		if (enemy is Enemy):
@@ -387,6 +395,6 @@ func update_debug_label():
 	debug_label.text = debug_text
 	
 	debug_label.text += "\nVelocity: " + str(velocity)
-	debug_label.text += "\nFlash mod: " + str($Anime.material.get_shader_parameter("flash_modifier"))
+	debug_label.text += "\nFlash mod: " + str(animted_sprite.material.get_shader_parameter("flash_modifier"))
 	if state == State.AI:
 		debug_label.text += "\nBehaviour: " + str(Behaviour.keys()[behaviour])
