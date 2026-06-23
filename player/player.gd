@@ -3,7 +3,7 @@ extends CharacterBody2D
 class_name Player
 
 @export_group("Movement")
-@export var speed = 20
+@export var speed = 40
 @export var friction = 50
 
 @export_group("Entity")
@@ -16,7 +16,8 @@ class_name Player
 @export var spinning_damage_delay = 1
 @export var max_spinning_speed = 10
 @export var throw_speed_scale = 2
-@export var orbit_radius = 15
+@export var orbit_radius = 25
+@export var enter_orbit_speed = 100.0
 @export var max_orbit_speed = 360
 @export var enemy_knockback = 20.0
 
@@ -229,7 +230,7 @@ func rotate_enemy_around_player(delta: float) -> void:
 	var current_orbit_speed = get_current_orbit_speed(spinning_progress)
 	for enemy in held_enemies:
 		var dist = self.global_position.distance_to(enemy.global_position)
-		var new_dist = move_toward(dist, orbit_radius, 100.0 * delta)
+		var new_dist = move_toward(dist, orbit_radius, enter_orbit_speed * delta)
 		var angle = self.global_position.angle_to_point(enemy.global_position)
 		var new_angle = angle + deg_to_rad(2 * current_orbit_speed * delta)
 		enemy.global_position = self.global_position + Vector2.from_angle(new_angle) * new_dist
