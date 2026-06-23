@@ -1,0 +1,165 @@
+[gd_scene format=3 uid="uid://cthlnl3utq18j"]
+
+[ext_resource type="PackedScene" uid="uid://hjqpxotrpq48" path="res://enemy/enemy.tscn" id="1_yr8b2"]
+[ext_resource type="Texture2D" uid="uid://bgblsw6qiw45u" path="res://art/watah.png" id="2_at0wf"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yca30"]
+atlas = ExtResource("2_at0wf")
+region = Rect2(216, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q240l"]
+atlas = ExtResource("2_at0wf")
+region = Rect2(240, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pe0bd"]
+atlas = ExtResource("2_at0wf")
+region = Rect2(264, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o81gm"]
+atlas = ExtResource("2_at0wf")
+region = Rect2(288, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_am3ee"]
+atlas = ExtResource("2_at0wf")
+region = Rect2(312, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_03x44"]
+atlas = ExtResource("2_at0wf")
+region = Rect2(336, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3wh5l"]
+atlas = ExtResource("2_at0wf")
+region = Rect2(192, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c52mc"]
+atlas = ExtResource("2_at0wf")
+region = Rect2(168, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wyglp"]
+atlas = ExtResource("2_at0wf")
+region = Rect2(0, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xopp2"]
+atlas = ExtResource("2_at0wf")
+region = Rect2(24, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7vhpp"]
+atlas = ExtResource("2_at0wf")
+region = Rect2(48, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0wm2c"]
+atlas = ExtResource("2_at0wf")
+region = Rect2(72, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_liidb"]
+atlas = ExtResource("2_at0wf")
+region = Rect2(96, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_evnle"]
+atlas = ExtResource("2_at0wf")
+region = Rect2(120, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5ijfc"]
+atlas = ExtResource("2_at0wf")
+region = Rect2(144, 0, 24, 24)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_yca30"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yca30")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_q240l")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pe0bd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_o81gm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_am3ee")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_03x44")
+}],
+"loop": 0,
+"name": &"death",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3wh5l")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c52mc")
+}],
+"loop": 1,
+"name": &"flailing_down",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3wh5l")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c52mc")
+}],
+"loop": 1,
+"name": &"flailing_down_right",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wyglp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xopp2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7vhpp")
+}],
+"loop": 1,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0wm2c")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_liidb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_evnle")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5ijfc")
+}],
+"loop": 1,
+"name": &"walking_down",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0wm2c")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_liidb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_evnle")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5ijfc")
+}],
+"loop": 1,
+"name": &"walking_down_right",
+"speed": 5.0
+}]
+
+[node name="enemy" unique_id=1720581004 instance=ExtResource("1_yr8b2")]
+
+[node name="Anime" parent="." index="6" unique_id=1889553250]
+sprite_frames = SubResource("SpriteFrames_yca30")

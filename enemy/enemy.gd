@@ -45,6 +45,11 @@ var behaviour = Behaviour.WANDER
 var decision_timer = 0.0
 var bounce_count = 0
 
+@onready var animated_sprite = $Anime
+@onready var thwack_audio = $thwack_audio
+@onready var explode_audio = $explode_audio
+@onready var nav_agent = $NavigationAgent2D
+
 func _ready() -> void:
 	max_health = health
 	$HealthBar.set_health(health, max_health)
@@ -69,7 +74,8 @@ func inelastic_collision(p_velocity: Vector2, normal: Vector2) -> CollisionOutco
 
 func handle_friction_glide(delta: float, on_finish_glide: Callable):
 	velocity = velocity.move_toward(Vector2.ZERO, friction * delta)
-	$Anime.speed_scale = velocity.length() / 10.0
+	if (state != State.DEAD):
+		animated_sprite.speed_scale = velocity.length() / 10.0
 	var collision_info = move_and_collide(velocity * delta)
 	
 	# ONLY FOR STATIC COLLISIONS
@@ -83,6 +89,9 @@ func handle_friction_glide(delta: float, on_finish_glide: Callable):
 		else:
 			velocity = velocity.bounce(normal) * 0.4
 			launch_with_velocity(velocity)
+		
+		thwack_audio.play()
+		
 		if bounce_count < 1:
 			hit_object(collider)
 		bounce_count += 1
@@ -137,23 +146,23 @@ func handle_ai(delta: float):
 		Behaviour.WANDER:
 			pass
 		Behaviour.CHASE:
-			$NavigationAgent2D.target_position = get_parent().get_node("player").global_position
+			nav_agent.target_position = get_parent().get_node("player").global_position
 		Behaviour.FLEE:
 			var dir = get_parent().get_node("player").global_position.direction_to(self.global_position)
-			$NavigationAgent2D.target_position = self.global_position + dir * flee_dist
-	if $NavigationAgent2D.is_navigation_finished():
+			nav_agent.target_position = self.global_position + dir * flee_dist
+	if nav_agent.is_navigation_finished():
 		velocity = Vector2.ZERO
 		return
-	var next = $NavigationAgent2D.get_next_path_position()
+	var next = nav_agent.get_next_path_position()
 	velocity = self.global_position.direction_to(next) * ai_speed
 	
-	$Anime.speed_scale = 1.0
-	var state = get_animation_state(velocity)
+	animated_sprite.speed_scale = 1.0
+	var animation_state = get_animation_state(velocity)
 	if (velocity.is_zero_approx()):
-		$Anime.play("idle")
+		animated_sprite.play("idle")
 	else:
-		$Anime.play("walking_down" + state.suffix)
-		$Anime.flip_h = state.flip_h
+		animated_sprite.play("walking_down" + animation_state.suffix)
+		animated_sprite.flip_h = animation_state.flip_h
 	
 	move_and_slide()
 	for i in get_slide_collision_count():
@@ -162,7 +171,7 @@ func handle_ai(delta: float):
 		hit_object(collider)
 
 func choose_behaviour():
-	var flee_chance = (self.max_health - self.health) / self.max_health * flee_modifier
+	var flee_chance = float(self.max_health - self.health) / self.max_health * flee_modifier
 	var remaining = 1 - flee_chance
 	var wander_chance = flee_chance + remaining * wander_proportion
 	var action = randf()
@@ -170,8 +179,8 @@ func choose_behaviour():
 		behaviour = Behaviour.FLEE
 	elif action <= wander_chance:
 		behaviour = Behaviour.WANDER
-		var map = $NavigationAgent2D.get_navigation_map()
-		$NavigationAgent2D.target_position = NavigationServer2D.map_get_random_point(map, 1, false)
+		var map = nav_agent.get_navigation_map()
+		nav_agent.target_position = NavigationServer2D.map_get_random_point(map, 1, false)
 	else:
 		behaviour =Behaviour.CHASE
 
@@ -206,14 +215,14 @@ enum Layers {
 	STATIC_OBJECT = 3
 }
 
-func toggle_enemy_can_be_picked_up(can_be_picked_up: bool):
-	self.can_be_picked_up = can_be_picked_up
+func toggle_enemy_can_be_picked_up(p_can_be_picked_up: bool):
+	self.can_be_picked_up = p_can_be_picked_up
 	
 func clear_timed_out_attackers():
 	timed_out_attackers.clear()
 
 func set_flash_modifier(progress: float):
-	$Anime.set_instance_shader_parameter("flash_modifier", progress)
+	animated_sprite.set_instance_shader_parameter("flash_modifier", progress)
 
 func trigger_flash():
 	time_since_entered_recoil = 0.0
@@ -228,6 +237,7 @@ func enter_state(new_state: State):
 			collision_layer = 1 << Layers.ENEMY
 			collision_mask = 0
 			$enemy_hitbox.collision_mask = 1 << Layers.PLAYER
+			animated_sprite.speed_scale = 1.0
 			toggle_enemy_can_be_picked_up(true)
 			clear_timed_out_attackers()
 		State.ATTACKING:
@@ -239,6 +249,7 @@ func enter_state(new_state: State):
 			collision_layer = 1 << Layers.ENEMY
 			collision_mask = 1 << Layers.STATIC_OBJECT
 			$enemy_hitbox.collision_mask = 1 << Layers.PLAYER
+			animated_sprite.speed_scale = 1.0
 			toggle_enemy_can_be_picked_up(false)
 		State.FLYING:
 			if (not state in [State.HELD]):
@@ -247,15 +258,20 @@ func enter_state(new_state: State):
 			collision_layer = 0 # No one can touch me
 			collision_mask = 1 << Layers.ENEMY | 1 << Layers.STATIC_OBJECT
 			$enemy_hitbox.collision_mask = 0
+			animated_sprite.speed_scale = 1.0
 			toggle_enemy_can_be_picked_up(false)
 		State.HELD:
 			collision_layer = 1 << Layers.HELD_ENEMY
 			$enemy_hitbox.collision_mask = 1 << Layers.ENEMY | 1 << Layers.STATIC_OBJECT
 			toggle_enemy_can_be_picked_up(false)
+			animated_sprite.speed_scale = 2.0
+			animated_sprite.play("flailing_down")
 		State.DEAD:
 			collision_layer = 0 # No one can touch me
 			$enemy_hitbox.collision_mask = 0 # I can't hit anyone
 			toggle_enemy_can_be_picked_up(false)
+			animated_sprite.speed_scale = 1.0
+			animated_sprite.play("death")
 		_:
 			print("Unknown state probably gonna crash")
 	state = new_state
@@ -282,8 +298,6 @@ func throw(direction, throw_velocity):
 
 func picked_up():
 	enter_state(State.HELD)
-	$Anime.speed_scale = 2.0
-	$Anime.play("flailing_down")
 	
 func start(pos):
 	position = pos
@@ -292,17 +306,19 @@ func start(pos):
 func launch_in_direction(direction: Vector2, amount: float):
 	launch_with_velocity(direction * amount)
 
-func launch_with_velocity(velocity: Vector2):
+func launch_with_velocity(p_velocity: Vector2):
 	enter_state(State.RECOILING)
-	self.velocity = velocity
-	var state = get_animation_state(-velocity)
-	$Anime.play("flailing_down" + state.suffix)
-	$Anime.flip_h = state.flip_h
+	self.velocity = p_velocity
+	var animation_state = get_animation_state(-velocity)
+	
+	if (state != State.DEAD):
+		animated_sprite.play("flailing_down" + animation_state.suffix)
+		animated_sprite.flip_h = animation_state.flip_h
 
 func take_damage(damage: float, by_whom: Object):
 	if timed_out_attackers.has(by_whom):
 		return
-
+	
 	self.health -= damage
 	$HealthBar.set_health(health, max_health)
 
@@ -339,6 +355,7 @@ func hit_object(obj: Object) -> void:
 				obj.take_damage(contact_damage, self, 2)
 
 func explode():
+	explode_audio.play()
 	var enemies = $explosion_hitbox.get_overlapping_bodies()
 	for enemy in enemies:
 		if (enemy is Enemy):
@@ -387,6 +404,6 @@ func update_debug_label():
 	debug_label.text = debug_text
 	
 	debug_label.text += "\nVelocity: " + str(velocity)
-	debug_label.text += "\nFlash mod: " + str($Anime.material.get_shader_parameter("flash_modifier"))
+	debug_label.text += "\nFlash mod: " + str(animated_sprite.material.get_shader_parameter("flash_modifier"))
 	if state == State.AI:
 		debug_label.text += "\nBehaviour: " + str(Behaviour.keys()[behaviour])

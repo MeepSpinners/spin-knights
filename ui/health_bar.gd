@@ -11,12 +11,12 @@ func _ready() -> void:
 	top_level = true
 	z_index = 100
 
-func set_health(current: float, max: float):
-	ratio = clampf(current / max, 0.0, 1.0)
+func set_health(p_current: float, p_max: float):
+	ratio = clampf(p_current / p_max, 0.0, 1.0)
 	visible = not (hide_on_full and ratio >= 1.0)
 	queue_redraw()
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if is_instance_valid(get_parent()):
 		global_position = get_parent().global_position + offset
 

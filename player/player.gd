@@ -34,6 +34,12 @@ var last_dir = Vector2.DOWN
 var spinning_progress = 0.0
 var damage_multiplier = 1
 
+@onready var animated_sprite = $Anime
+@onready var thwack_audio = $whack_audio
+@onready var whack_audio = $whack_audio
+@onready var grab_audio = $grab_audio
+@onready var woosh_audio = $woosh_audio
+
 # PUBLIC METHODS
 func add_nearby(enemy):
 	if enemy is Enemy:
@@ -49,7 +55,7 @@ func get_recoil_flash_modifier(time: float):
 	return max(0.0, 1.0 - time * 2.0)
 
 func set_flash_modifier(progress: float):
-	$Anime.set_instance_shader_parameter("flash_modifier", progress)
+	animated_sprite.set_instance_shader_parameter("flash_modifier", progress)
 
 var time_since_entered_recoil = 10.0
 
@@ -58,6 +64,8 @@ func _process(delta: float):
 	set_flash_modifier(get_recoil_flash_modifier(time_since_entered_recoil))
 
 func take_damage(damage: float, recoil_source: Node2D, recoil_amount: float = 1.0):
+	whack_audio.play()
+	
 	self.health -= damage
 	$HealthBar.set_health(health, max_health)
 	time_since_entered_recoil = 0.0
@@ -146,15 +154,15 @@ func handle_controlled_move(delta: float) -> void:
 	
 	if held_enemies.size() == 0:
 		var prefix = "walk" if is_moving else "idle"
-		$Anime.play(prefix + input_state.suffix)
-		$Anime.flip_h = input_state.flip_h
+		animated_sprite.play(prefix + input_state.suffix)
+		animated_sprite.flip_h = input_state.flip_h
 
 func handle_sliding_move(delta: float) -> void:
 	velocity = velocity.move_toward(Vector2.ZERO, friction * delta)
 	var state = get_animation_state(-velocity.normalized())
-	$Anime.animation = "rotate"
-	$Anime.frame = state.index
-	$Anime.flip_h = false
+	animated_sprite.animation = "rotate"
+	animated_sprite.frame = state.index
+	animated_sprite.flip_h = false
 	
 		
 func get_nearest_enemy():
@@ -179,14 +187,17 @@ func handle_pickup():
 	if enemy == null:
 		return
 
+	revolution_progress = 0.0
+
 	grab_enemy(enemy)
+	grab_audio.play()
 	
 	var dir = global_position.direction_to(enemy.global_position)
 	var state = get_animation_state(dir)
 	var prefix = "interact"
-	$Anime.play(prefix + state.suffix)
-	$Anime.flip_h = state.flip_h
-	await $Anime.animation_finished
+	animated_sprite.play(prefix + state.suffix)
+	animated_sprite.flip_h = state.flip_h
+	await animated_sprite.animation_finished
 
 # Resets the spinning progress
 func handle_throw():
@@ -211,37 +222,47 @@ func handle_throw():
 	average_dir /= count
 	spinning_progress = 0.0
 	
+	woosh_audio.play()
 	var state = get_animation_state(Vector2.from_angle(average_dir))
-	$Anime.play("attack" + state.suffix)
-	$Anime.flip_h = state.flip_h
-	await $Anime.animation_finished
+	animated_sprite.play("attack" + state.suffix)
+	animated_sprite.flip_h = state.flip_h
+	await animated_sprite.animation_finished
 	last_dir = Vector2.from_angle(average_dir)
 
 const STEEPNESS = 2.0
 func get_current_orbit_speed(progress: float):
 	return max_orbit_speed * (exp(STEEPNESS * progress) - 1.0) / (exp(STEEPNESS) - 1.0)
+
+var revolution_progress = 0.0
+
 # Advances the spinning progress
 func rotate_enemy_around_player(delta: float) -> void:
 	if (held_enemies.size() == 0):
 		return
-		
+	
 	spinning_progress = min(1.0, spinning_progress + delta / time_to_max_speed)
 	var average_dir = 0.0
 	var current_orbit_speed = get_current_orbit_speed(spinning_progress)
+	
+	
 	for enemy in held_enemies:
 		var dist = self.global_position.distance_to(enemy.global_position)
 		var new_dist = move_toward(dist, orbit_radius, enter_orbit_speed * delta)
 		var angle = self.global_position.angle_to_point(enemy.global_position)
 		var new_angle = angle + deg_to_rad(2 * current_orbit_speed * delta)
 		enemy.global_position = self.global_position + Vector2.from_angle(new_angle) * new_dist
-		
+		revolution_progress += (new_angle - angle) / 2 / PI
+		if (revolution_progress > 1.0):
+			woosh_audio.pitch_scale = spinning_progress * 2 + 1.0
+			woosh_audio.play()
+			revolution_progress -= 1.0
 		average_dir += new_angle
 	
 	average_dir /= held_enemies.size()
 	var state = get_animation_state(Vector2.from_angle(average_dir))
-	$Anime.animation = "rotate"
-	$Anime.frame = state.index
-	$Anime.flip_h = false
+	animated_sprite.animation = "rotate"
+	animated_sprite.frame = state.index
+	animated_sprite.flip_h = false
 
 func apply_hitstop(duration: float):
 	Engine.time_scale = 0.0
@@ -249,7 +270,7 @@ func apply_hitstop(duration: float):
 	Engine.time_scale = 1.0
 func get_spinning_damage_to_other(_grabbed_enemy: Enemy):
 	return (10.0 * spinning_progress + 5.0) * damage_multiplier
-func get_spinning_damage_to_tool(grabbed_enemy: Enemy):
+func get_spinning_damage_to_tool(_grabbed_enemy: Enemy):
 	return 5.0
 
 func add_damage_powerup():
@@ -273,8 +294,8 @@ func on_grabbed_enemy_contact_object(grabbed_enemy: Enemy, object: Object):
 	grabbed_enemy.take_damage(
 		get_spinning_damage_to_tool(grabbed_enemy), null)
 	apply_hitstop(0.0)	
-	$thwack_audio.play()
-
+	thwack_audio.play()
+	
 func on_grabbed_enemy_die(grabbed_enemy: Enemy):
 	held_enemies.erase(grabbed_enemy)
 	spinning_progress = 0.0

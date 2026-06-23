@@ -1,21 +1,32 @@
 extends Node
-@export var mob_scene: PackedScene
+@export var mob_types: Array[PackedScene] = []
 @export var num_mobs = 20
 @export var powerup_scene: PackedScene
 @export var powerup_drop_chance = 1
+
+@export var spawn_radius = 100
+
 var score
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	$player.start($Marker2D.position)
 	
+	await NavigationServer2D.map_changed
 	for i in num_mobs:
-		var enemy = mob_scene.instantiate()
+		var enemy = mob_types.pick_random().instantiate()
 		add_child(enemy)
-		enemy.start($Marker2D2.position)
+		enemy.start(get_random_point_in_map())
 		enemy.register_death_listener(on_enemy_die)
-		await get_tree().create_timer(1.0, true, false, false).timeout
-		
+		await get_tree().create_timer(0.0, true, false, false).timeout
+
+func get_random_point_in_map():
+	var angle = randf() * 2 * PI
+	var radius = randf() * spawn_radius
+	var point = Vector2.from_angle(angle) * radius
+	var map_rid: RID = $Office.get_world_2d().navigation_map
+	return NavigationServer2D.map_get_closest_point(map_rid, point)
+	
 func on_enemy_die(enemy):
 	spawn_powerup.call_deferred(enemy.global_position)
 
