@@ -1,0 +1,74 @@
+[gd_scene format=3 uid="uid://ddcn0v5voy1jf"]
+
+[ext_resource type="Texture2D" uid="uid://dpsbvhhm6evqu" path="res://art/explosion-Sheet.png" id="1_echoh"]
+[ext_resource type="Script" uid="uid://cfq6rxeumd2tq" path="res://explosion/explosion.gd" id="2_pim3w"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pim3w"]
+atlas = ExtResource("1_echoh")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mp546"]
+atlas = ExtResource("1_echoh")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tic5l"]
+atlas = ExtResource("1_echoh")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ran55"]
+atlas = ExtResource("1_echoh")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4jg8r"]
+atlas = ExtResource("1_echoh")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6c071"]
+atlas = ExtResource("1_echoh")
+region = Rect2(160, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d0cwp"]
+atlas = ExtResource("1_echoh")
+region = Rect2(192, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2utuo"]
+atlas = ExtResource("1_echoh")
+region = Rect2(224, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_h6qht"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pim3w")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mp546")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tic5l")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ran55")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4jg8r")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6c071")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d0cwp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2utuo")
+}],
+"loop": 0,
+"name": &"default",
+"speed": 25.0
+}]
+
+[node name="explosion" type="AnimatedSprite2D" unique_id=2123725111]
+visible = false
+z_index = 1
+sprite_frames = SubResource("SpriteFrames_h6qht")
+script = ExtResource("2_pim3w")

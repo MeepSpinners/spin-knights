@@ -395,8 +395,19 @@ func hit_object(obj: Object) -> void:
 func apply_explosion_effect(enemy: Enemy):
 	pass
 
+func get_explosion_scene() -> PackedScene:
+	return preload("res://explosion/explosion.tscn")
+
+@onready var explosion_hitbox = $explosion_hitbox
+
 func explode():
 	explode_audio.play()
+	var explosion_scene = get_explosion_scene()
+	if explosion_scene:
+		var instance: Explosion = explosion_scene.instantiate()
+		instance.start(explosion_hitbox.global_position, explosion_hitbox.scale.x)
+		get_parent().add_child(instance)
+	
 	var enemies = $explosion_hitbox.get_overlapping_bodies()
 	for enemy in enemies:
 		if (enemy is Enemy):
