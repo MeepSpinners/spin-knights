@@ -1,0 +1,7 @@
+[gd_resource type="AtlasTexture" format=3 uid="uid://fcoujobdyd7j"]
+
+[ext_resource type="Texture2D" uid="uid://nkcry55rapbf" path="res://art/16x32 Office guy Rotate-Sheet.png" id="1_s303t"]
+
+[resource]
+atlas = ExtResource("1_s303t")
+region = Rect2(41, 5, 15, 17)

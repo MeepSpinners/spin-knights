@@ -1,0 +1,156 @@
+[gd_scene format=3 uid="uid://cc1mpco80q4np"]
+
+[ext_resource type="FontFile" uid="uid://megis34sauj7" path="res://fonts/Salmon Typewriter fonts/Salmon Typewriter 9 Regular.ttf" id="1_xl33q"]
+[ext_resource type="Script" uid="uid://cen487wddxedf" path="res://ui/dialogue/dialogue.gd" id="1_xyniw"]
+[ext_resource type="Texture2D" uid="uid://fcoujobdyd7j" path="res://speakers/protagonist_avatar.tres" id="3_m4qfh"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_xyniw"]
+
+[sub_resource type="Theme" id="Theme_h6qht"]
+default_font = ExtResource("1_xl33q")
+default_font_size = 36
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_uo1k0"]
+
+[node name="DialogueUI" type="Control" unique_id=1623013452]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1600.0
+offset_bottom = 900.0
+script = ExtResource("1_xyniw")
+metadata/_edit_horizontal_guides_ = [144.0]
+
+[node name="bottom_container" type="PanelContainer" parent="." unique_id=1834685527]
+custom_minimum_size = Vector2(0, 300)
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxEmpty_xyniw")
+metadata/_edit_use_anchors_ = true
+
+[node name="ColorRect" type="ColorRect" parent="bottom_container" unique_id=1299898573]
+layout_mode = 2
+color = Color(0, 0, 0, 0.7058824)
+
+[node name="text_container" type="MarginContainer" parent="bottom_container" unique_id=2108199157]
+layout_mode = 2
+theme_override_constants/margin_left = 28
+theme_override_constants/margin_top = 28
+theme_override_constants/margin_right = 28
+theme_override_constants/margin_bottom = 28
+
+[node name="text" type="RichTextLabel" parent="bottom_container/text_container" unique_id=195991467]
+process_mode = 3
+layout_mode = 2
+theme = SubResource("Theme_h6qht")
+theme_override_colors/default_color = Color(1, 1, 1, 1)
+bbcode_enabled = true
+scroll_active = false
+visible_characters = 238
+visible_characters_behavior = 1
+
+[node name="speaker_sprite" type="TextureRect" parent="." unique_id=486371911]
+custom_minimum_size = Vector2(400, 400)
+propagate_maximum_size = true
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_right = 200.0
+offset_bottom = -300.0
+grow_vertical = 0
+mouse_filter = 0
+texture = ExtResource("3_m4qfh")
+
+[node name="speaker_container" type="PanelContainer" parent="." unique_id=1685104775]
+custom_minimum_size = Vector2(200, 100)
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -400.0
+offset_right = 200.0
+offset_bottom = -300.0
+grow_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxEmpty_uo1k0")
+
+[node name="ColorRect2" type="ColorRect" parent="speaker_container" unique_id=2029189175]
+layout_mode = 2
+color = Color(0, 0, 0, 0.7058824)
+
+[node name="text_container" type="MarginContainer" parent="speaker_container" unique_id=1890184016]
+layout_mode = 2
+theme_override_constants/margin_left = 28
+theme_override_constants/margin_top = 28
+theme_override_constants/margin_right = 28
+theme_override_constants/margin_bottom = 28
+
+[node name="text" type="RichTextLabel" parent="speaker_container/text_container" unique_id=1825656826]
+layout_mode = 2
+theme = SubResource("Theme_h6qht")
+theme_override_colors/default_color = Color(1, 1, 1, 1)
+bbcode_enabled = true
+text = "BOBBY"
+scroll_active = false
+horizontal_alignment = 1
+visible_characters = 238
+visible_characters_behavior = 1
+visible_ratio = 47.6
+
+[node name="speaker_sprite2" type="TextureRect" parent="." unique_id=384963336]
+custom_minimum_size = Vector2(400, 400)
+propagate_maximum_size = true
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -200.0
+offset_bottom = -300.0
+grow_horizontal = 0
+grow_vertical = 0
+mouse_filter = 0
+texture = ExtResource("3_m4qfh")
+flip_h = true
+
+[node name="speaker_container2" type="PanelContainer" parent="." unique_id=791174569]
+custom_minimum_size = Vector2(200, 100)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -200.0
+offset_top = -400.0
+offset_bottom = -300.0
+grow_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxEmpty_uo1k0")
+
+[node name="ColorRect2" type="ColorRect" parent="speaker_container2" unique_id=526459215]
+layout_mode = 2
+color = Color(0, 0, 0, 0.7058824)
+
+[node name="text_container" type="MarginContainer" parent="speaker_container2" unique_id=1431322578]
+layout_mode = 2
+theme_override_constants/margin_left = 28
+theme_override_constants/margin_top = 28
+theme_override_constants/margin_right = 28
+theme_override_constants/margin_bottom = 28
+
+[node name="text" type="RichTextLabel" parent="speaker_container2/text_container" unique_id=1904784918]
+layout_mode = 2
+theme = SubResource("Theme_h6qht")
+theme_override_colors/default_color = Color(1, 1, 1, 1)
+bbcode_enabled = true
+text = "BOBBY"
+scroll_active = false
+horizontal_alignment = 1
+visible_characters = 238
+visible_characters_behavior = 1
+visible_ratio = 47.6

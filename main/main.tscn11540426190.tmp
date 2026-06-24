@@ -1,0 +1,49 @@
+[gd_scene format=3 uid="uid://brm6xc8aytw3l"]
+
+[ext_resource type="Script" uid="uid://cpxmwid88ngqo" path="res://main/main.gd" id="1_xwkvk"]
+[ext_resource type="PackedScene" uid="uid://gcjwryrp5gyp" path="res://enemy/rotobaga.tscn" id="2_3wy1v"]
+[ext_resource type="PackedScene" uid="uid://c0idya5thtbji" path="res://player/player.tscn" id="3_3wy1v"]
+[ext_resource type="PackedScene" uid="uid://bbsl426ca0swf" path="res://levels/office.tscn" id="3_c651c"]
+[ext_resource type="PackedScene" uid="uid://fjuqtmvfiemb" path="res://enemy/trashcan.tscn" id="4_4dugh"]
+[ext_resource type="PackedScene" uid="uid://biqv1ae8gef1u" path="res://powerup/power-up.tscn" id="5_3wy1v"]
+[ext_resource type="PackedScene" uid="uid://cthlnl3utq18j" path="res://enemy/watah.tscn" id="5_67ri8"]
+[ext_resource type="PackedScene" uid="uid://cc1mpco80q4np" path="res://ui/dialogue.tscn" id="8_67ri8"]
+
+[node name="Main" type="Node2D" unique_id=1155606970]
+y_sort_enabled = true
+script = ExtResource("1_xwkvk")
+mob_types = Array[PackedScene]([ExtResource("2_3wy1v"), ExtResource("4_4dugh"), ExtResource("5_67ri8")])
+num_mobs = 5
+powerup_scene = ExtResource("5_3wy1v")
+powerup_drop_chance = null
+spawn_radius = null
+metadata/_edit_horizontal_guides_ = [-81.0]
+
+[node name="Office" parent="." unique_id=703791642 instance=ExtResource("3_c651c")]
+z_index = -100
+position = Vector2(0.2, 0)
+scale = Vector2(0.99999994, 0.99999994)
+collision_mask = 255
+
+[node name="Marker2D" type="Marker2D" parent="." unique_id=568138717]
+position = Vector2(-71.25445, -65.06657)
+
+[node name="Marker2D2" type="Marker2D" parent="." unique_id=1909905902]
+position = Vector2(0, 57)
+
+[node name="player" parent="." unique_id=25541542 instance=ExtResource("3_3wy1v")]
+position = Vector2(-71.600006, -58.399998)
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=2062727341]
+zoom = Vector2(5, 5)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1916646723]
+
+[node name="DialogueUI" parent="CanvasLayer" unique_id=1623013452 instance=ExtResource("8_67ri8")]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 0.0
+offset_bottom = 0.0
+grow_horizontal = 2
+grow_vertical = 2
