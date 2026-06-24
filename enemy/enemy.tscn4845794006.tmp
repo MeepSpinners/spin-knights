@@ -21,7 +21,7 @@ font_size = 32
 font_color = Color(0, 0, 0, 1)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ofsxj"]
-radius = 1.0
+radius = 27.166155
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_p200p"]
 shader = ExtResource("1_ofsxj")
@@ -252,7 +252,7 @@ decision_speed = 2
 metadata/_edit_group_ = true
 
 [node name="hurtbox" type="CollisionShape2D" parent="." unique_id=1219211556]
-position = Vector2(0, -1)
+position = Vector2(0, -1.3549995)
 scale = Vector2(1, 0.605)
 shape = SubResource("CircleShape2D_ppra6")
 
@@ -266,18 +266,19 @@ label_settings = SubResource("LabelSettings_ofsxj")
 horizontal_alignment = 1
 
 [node name="explosion_hitbox" type="Area2D" parent="." unique_id=1230192514]
-position = Vector2(0, -1)
-scale = Vector2(27, 27)
+position = Vector2(0, -12)
 collision_layer = 0
 collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="explosion_hitbox" unique_id=560526618]
+position = Vector2(0, 10)
 shape = SubResource("CircleShape2D_ofsxj")
 
 [node name="enemy_hitbox" type="Area2D" parent="." unique_id=167934462]
-position = Vector2(0, -1)
+position = Vector2(0, 52)
 
 [node name="hitbox" type="CollisionShape2D" parent="enemy_hitbox" unique_id=492290166]
+position = Vector2(0, -53.355)
 scale = Vector2(1, 0.605)
 shape = SubResource("CircleShape2D_ppra6")
 
@@ -306,7 +307,6 @@ stream = ExtResource("7_y5vj3")
 volume_db = -10.0
 
 [node name="status_sprite" type="Sprite2D" parent="." unique_id=616404171]
-modulate = Color(1, 1, 1, 0)
 texture = SubResource("AtlasTexture_wjonb")
 offset = Vector2(0, -26.65)
 

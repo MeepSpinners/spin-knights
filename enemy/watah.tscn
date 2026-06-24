@@ -2,6 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://hjqpxotrpq48" path="res://enemy/enemy.tscn" id="1_yr8b2"]
 [ext_resource type="Texture2D" uid="uid://bgblsw6qiw45u" path="res://art/watah.png" id="2_at0wf"]
+[ext_resource type="Script" uid="uid://bpo4vw6psourt" path="res://enemy/watah.gd" id="2_yca30"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_yca30"]
 atlas = ExtResource("2_at0wf")
@@ -160,6 +161,7 @@ animations = [{
 }]
 
 [node name="enemy" unique_id=1720581004 instance=ExtResource("1_yr8b2")]
+script = ExtResource("2_yca30")
 
 [node name="Anime" parent="." index="6" unique_id=1889553250]
 sprite_frames = SubResource("SpriteFrames_yca30")

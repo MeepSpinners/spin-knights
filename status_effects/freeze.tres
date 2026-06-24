@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="StatusEffectData" format=3 uid="uid://cfydpudxcpun6"]
+
+[ext_resource type="Script" uid="uid://car1ncsmsfsfx" path="res://status_effects/status_effect_data.gd" id="1_6pw1i"]
+[ext_resource type="Texture2D" uid="uid://blpbfonarafh8" path="res://art/Status Icons-Sheet.png" id="1_6yqrx"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6yqrx"]
+atlas = ExtResource("1_6yqrx")
+region = Rect2(32, 0, 15, 15)
+
+[resource]
+script = ExtResource("1_6pw1i")
+id = "freeze"
+icon = SubResource("AtlasTexture_6yqrx")
+metadata/_custom_type_script = "uid://car1ncsmsfsfx"

@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://fjuqtmvfiemb"]
 
 [ext_resource type="PackedScene" uid="uid://hjqpxotrpq48" path="res://enemy/enemy.tscn" id="1_651nj"]
+[ext_resource type="Script" uid="uid://byh6nw4dn1ihw" path="res://enemy/trashcan.gd" id="2_pnup3"]
 [ext_resource type="Texture2D" uid="uid://dfl85sup8c2jg" path="res://art/trashcan.png" id="2_sukmv"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_sukmv"]
@@ -206,15 +207,7 @@ animations = [{
 }]
 
 [node name="enemy" unique_id=1720581004 instance=ExtResource("1_651nj")]
-health = 100
-friction = 60
-contact_damage = 5
-flying_damage = 50
-ai_speed = 5
-flee_dist = 8
-wander_proportion = 0.2
-flee_modifier = 0.9
-explosion_knockback = 100.0
+script = ExtResource("2_pnup3")
 
 [node name="Anime" parent="." index="6" unique_id=1889553250]
 sprite_frames = SubResource("SpriteFrames_pnup3")

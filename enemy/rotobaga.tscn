@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://gcjwryrp5gyp"]
 
 [ext_resource type="PackedScene" uid="uid://hjqpxotrpq48" path="res://enemy/enemy.tscn" id="1_ous5y"]
+[ext_resource type="Script" uid="uid://dl2eqoc2bkt4u" path="res://enemy/rotobaga.gd" id="2_5eo4p"]
 [ext_resource type="Texture2D" uid="uid://l06mmi61o0ip" path="res://art/rotobaga.png" id="2_k18tj"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_pmsee"]
@@ -178,6 +179,7 @@ animations = [{
 }]
 
 [node name="enemy" unique_id=1720581004 instance=ExtResource("1_ous5y")]
+script = ExtResource("2_5eo4p")
 
 [node name="Anime" parent="." index="6" unique_id=1889553250]
 sprite_frames = SubResource("SpriteFrames_5eo4p")

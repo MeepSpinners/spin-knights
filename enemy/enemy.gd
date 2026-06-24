@@ -2,10 +2,17 @@ extends CharacterBody2D
 
 class_name Enemy
 
+@onready var animated_sprite: AnimatedSprite2D = $Anime
+@onready var thwack_audio = $thwack_audio
+@onready var explode_audio = $explode_audio
+@onready var nav_agent = $NavigationAgent2D
+@onready var status_sprite: Sprite2D = $status_sprite
+
 @export var health = 100
 @export var friction = 60
 @export var contact_damage = 5
 @export var flying_damage = 50
+@export var explosion_damage = 50.0
 @export var recoil_speed = 40
 @export var ai_speed = 5
 @export var decision_speed = 1
@@ -14,6 +21,10 @@ class_name Enemy
 @export var flee_modifier = 0.9
 @export var explosion_knockback = 100.0
 var max_health = 100
+
+var base_animation_speed = 1.0
+
+var active_tags = []
 
 var can_be_picked_up = true
 
@@ -24,6 +35,17 @@ signal contact_object(grabbed_enemy: Enemy, object: Object)
 signal die(enemy: Enemy)
 
 var timed_out_attackers = []
+
+var status_effects: Dictionary[String, StatusEffect] = {}
+
+func apply_status_effect(status: StatusEffect):
+	if (status_effects.has(status.data.id)):
+		status_effects[status.data.id].override(status, self)
+		return
+	status_effects[status.data.id] = status
+	status.apply(self)
+	status_sprite.texture = status.data.icon
+	status_sprite.modulate.a = 1.0
 
 enum State {
 	AI,
@@ -44,11 +66,6 @@ var state = State.AI
 var behaviour = Behaviour.WANDER
 var decision_timer = 0.0
 var bounce_count = 0
-
-@onready var animated_sprite = $Anime
-@onready var thwack_audio = $thwack_audio
-@onready var explode_audio = $explode_audio
-@onready var nav_agent = $NavigationAgent2D
 
 func _ready() -> void:
 	max_health = health
@@ -75,7 +92,7 @@ func inelastic_collision(p_velocity: Vector2, normal: Vector2) -> CollisionOutco
 func handle_friction_glide(delta: float, on_finish_glide: Callable):
 	velocity = velocity.move_toward(Vector2.ZERO, friction * delta)
 	if (state != State.DEAD):
-		animated_sprite.speed_scale = velocity.length() / 10.0
+		animated_sprite.speed_scale = base_animation_speed * velocity.length() / 10.0
 	var collision_info = move_and_collide(velocity * delta)
 	
 	# ONLY FOR STATIC COLLISIONS
@@ -142,6 +159,8 @@ func handle_ai(delta: float):
 	if decision_timer >= decision_speed:
 		decision_timer = 0.0
 		choose_behaviour()
+	if (active_tags.has("always_flee")):
+		behaviour = Behaviour.FLEE
 	match behaviour:
 		Behaviour.WANDER:
 			pass
@@ -156,7 +175,7 @@ func handle_ai(delta: float):
 	var next = nav_agent.get_next_path_position()
 	velocity = self.global_position.direction_to(next) * ai_speed
 	
-	animated_sprite.speed_scale = 1.0
+	animated_sprite.speed_scale = base_animation_speed * 1.0
 	var animation_state = get_animation_state(velocity)
 	if (velocity.is_zero_approx()):
 		animated_sprite.play("idle")
@@ -206,8 +225,26 @@ func _physics_process(delta: float) -> void:
 			handle_friction_glide(delta, func(): enter_state(State.AI))
 		State.AI:
 			handle_ai(delta)
-		
-
+	
+func _process(delta: float) -> void:
+	var to_be_destroyed: Array[String] = []
+	
+	var longest_status_duration: float = 0.0
+	var longest_status: StatusEffect = null
+	for id in status_effects:
+		var status = status_effects[id]
+		status.tick(self, delta)
+		var duration_left = status.duration - status.total_time_passed
+		if (duration_left > longest_status_duration):
+			longest_status = status
+			longest_status_duration = duration_left
+		if (status.has_ended()):
+			to_be_destroyed.append(id)
+	for id in to_be_destroyed:
+		status_effects[id].clear(self)
+		status_effects.erase(id)
+	if (longest_status != null):
+		status_sprite.modulate.a = 1.0 - longest_status.total_time_passed / longest_status.duration
 enum Layers {
 	PLAYER = 0,
 	ENEMY = 1,
@@ -237,7 +274,7 @@ func enter_state(new_state: State):
 			collision_layer = 1 << Layers.ENEMY
 			collision_mask = 0
 			$enemy_hitbox.collision_mask = 1 << Layers.PLAYER
-			animated_sprite.speed_scale = 1.0
+			animated_sprite.speed_scale = base_animation_speed * 1.0
 			toggle_enemy_can_be_picked_up(true)
 			clear_timed_out_attackers()
 		State.ATTACKING:
@@ -249,7 +286,7 @@ func enter_state(new_state: State):
 			collision_layer = 1 << Layers.ENEMY
 			collision_mask = 1 << Layers.STATIC_OBJECT
 			$enemy_hitbox.collision_mask = 1 << Layers.PLAYER
-			animated_sprite.speed_scale = 1.0
+			animated_sprite.speed_scale = base_animation_speed * 1.0
 			toggle_enemy_can_be_picked_up(false)
 		State.FLYING:
 			if (not state in [State.HELD]):
@@ -258,20 +295,21 @@ func enter_state(new_state: State):
 			collision_layer = 0 # No one can touch me
 			collision_mask = 1 << Layers.ENEMY | 1 << Layers.STATIC_OBJECT
 			$enemy_hitbox.collision_mask = 0
-			animated_sprite.speed_scale = 1.0
+			animated_sprite.speed_scale = base_animation_speed * 1.0
 			toggle_enemy_can_be_picked_up(false)
 		State.HELD:
 			collision_layer = 1 << Layers.HELD_ENEMY
 			$enemy_hitbox.collision_mask = 1 << Layers.ENEMY | 1 << Layers.STATIC_OBJECT
 			toggle_enemy_can_be_picked_up(false)
-			animated_sprite.speed_scale = 2.0
+			animated_sprite.speed_scale = base_animation_speed * 2.0
 			animated_sprite.play("flailing_down")
 		State.DEAD:
 			collision_layer = 0 # No one can touch me
 			$enemy_hitbox.collision_mask = 0 # I can't hit anyone
 			toggle_enemy_can_be_picked_up(false)
-			animated_sprite.speed_scale = 1.0
+			animated_sprite.speed_scale = base_animation_speed * 1.0
 			animated_sprite.play("death")
+			status_sprite.visible = false
 		_:
 			print("Unknown state probably gonna crash")
 	state = new_state
@@ -354,12 +392,27 @@ func hit_object(obj: Object) -> void:
 			if (obj.has_method("take_damage")):
 				obj.take_damage(contact_damage, self, 2)
 
+func apply_explosion_effect(enemy: Enemy):
+	pass
+
+func get_explosion_scene() -> PackedScene:
+	return preload("res://explosion/explosion.tscn")
+
+@onready var explosion_hitbox = $explosion_hitbox
+
 func explode():
 	explode_audio.play()
+	var explosion_scene = get_explosion_scene()
+	if explosion_scene:
+		var instance: Explosion = explosion_scene.instantiate()
+		instance.start(explosion_hitbox.global_position, explosion_hitbox.scale.x)
+		get_parent().add_child(instance)
+	
 	var enemies = $explosion_hitbox.get_overlapping_bodies()
 	for enemy in enemies:
 		if (enemy is Enemy):
-			enemy.take_damage(100, self)
+			enemy.take_damage(explosion_damage, self)
+			apply_explosion_effect(enemy)
 			enemy.launch_in_direction(
 				global_position.direction_to(enemy.global_position), explosion_knockback)
 
