@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://cghxbt0vx3lvh"]
+
+[ext_resource type="PackedScene" uid="uid://hjqpxotrpq48" path="res://enemy/enemy.tscn" id="1_uapah"]
+[ext_resource type="Script" uid="uid://std48nc43u32" path="res://enemy/ranged_enemy.gd" id="2_0lpun"]
+[ext_resource type="PackedScene" uid="uid://74ejm1ym0fla" path="res://projectile/projectile.tscn" id="3_0lpun"]
+
+[node name="enemy" unique_id=1720581004 instance=ExtResource("1_uapah")]
+script = ExtResource("2_0lpun")
+projectile_scene = ExtResource("3_0lpun")
+engage_range = 85.0
+kite_range = 65.0
+kite_buffer = 8.0
+fire_cd = 1.4
+proj_speed = 100
+proj_damage = 10.0
+proj_recoil = 3.0
+lead_shots = true
+max_extra_range = 100.0
+
+[node name="muzzle" type="Marker2D" parent="." index="10" unique_id=1344789356]
+position = Vector2(0, -10)
