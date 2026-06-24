@@ -4,48 +4,17 @@
 [ext_resource type="PackedScene" uid="uid://gcjwryrp5gyp" path="res://enemy/rotobaga.tscn" id="2_3wy1v"]
 [ext_resource type="PackedScene" uid="uid://c0idya5thtbji" path="res://player/player.tscn" id="3_3wy1v"]
 [ext_resource type="PackedScene" uid="uid://bbsl426ca0swf" path="res://levels/office.tscn" id="3_c651c"]
+[ext_resource type="PackedScene" uid="uid://fjuqtmvfiemb" path="res://enemy/trashcan.tscn" id="4_4dugh"]
 [ext_resource type="PackedScene" uid="uid://biqv1ae8gef1u" path="res://powerup/power-up.tscn" id="5_3wy1v"]
 [ext_resource type="PackedScene" uid="uid://cthlnl3utq18j" path="res://enemy/watah.tscn" id="5_67ri8"]
-[ext_resource type="PackedScene" uid="uid://cghxbt0vx3lvh" path="res://enemy/ranged_enemy.tscn" id="5_grrlh"]
-[ext_resource type="Script" uid="uid://dxc3ltvbb58ih" path="res://ui/dialogue/dialogue_data.gd" id="6_0i4oc"]
-[ext_resource type="Script" uid="uid://3c8845e3gp7u" path="res://ui/dialogue/dialogue_chain_data.gd" id="7_bsumw"]
-[ext_resource type="Script" uid="uid://dfyxr77mabvy8" path="res://ui/dialogue/speaker_data.gd" id="7_fwcvl"]
 [ext_resource type="PackedScene" uid="uid://cc1mpco80q4np" path="res://ui/dialogue/dialogue.tscn" id="8_67ri8"]
-[ext_resource type="Texture2D" uid="uid://fcoujobdyd7j" path="res://speakers/protagonist_avatar.tres" id="8_na0o7"]
-
-[sub_resource type="Resource" id="Resource_0i4oc"]
-script = ExtResource("7_fwcvl")
-sprite = ExtResource("8_na0o7")
-metadata/_custom_type_script = "uid://dfyxr77mabvy8"
-
-[sub_resource type="Resource" id="Resource_grrlh"]
-script = ExtResource("6_0i4oc")
-text = "I will not stand idly by as you do such a horrible thing"
-speaker1 = SubResource("Resource_0i4oc")
-speaker2 = SubResource("Resource_0i4oc")
-metadata/_custom_type_script = "uid://dxc3ltvbb58ih"
-
-[sub_resource type="Resource" id="Resource_na0o7"]
-script = ExtResource("6_0i4oc")
-text = "I will have your head!"
-speaker1 = SubResource("Resource_0i4oc")
-speaker2 = SubResource("Resource_0i4oc")
-speaker_turn = 2
-metadata/_custom_type_script = "uid://dxc3ltvbb58ih"
-
-[sub_resource type="Resource" id="Resource_67ri8"]
-script = ExtResource("7_bsumw")
-dialogues = Array[ExtResource("6_0i4oc")]([SubResource("Resource_grrlh"), SubResource("Resource_na0o7")])
-metadata/_custom_type_script = "uid://3c8845e3gp7u"
 
 [node name="Main" type="Node2D" unique_id=1155606970]
 y_sort_enabled = true
 script = ExtResource("1_xwkvk")
-mob_types = Array[PackedScene]([ExtResource("2_3wy1v"), ExtResource("5_grrlh"), ExtResource("5_67ri8")])
+mob_types = Array[PackedScene]([ExtResource("2_3wy1v"), ExtResource("4_4dugh"), ExtResource("5_67ri8")])
 num_mobs = 5
 powerup_scene = ExtResource("5_3wy1v")
-spawn_radius = 400
-dialogue_chain = SubResource("Resource_67ri8")
 metadata/_edit_horizontal_guides_ = [-81.0]
 
 [node name="Office" parent="." unique_id=703791642 instance=ExtResource("3_c651c")]
