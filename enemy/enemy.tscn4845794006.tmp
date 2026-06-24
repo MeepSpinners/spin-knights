@@ -307,7 +307,6 @@ stream = ExtResource("7_y5vj3")
 volume_db = -10.0
 
 [node name="status_sprite" type="Sprite2D" parent="." unique_id=616404171]
-modulate = Color(1, 1, 1, 0)
 texture = SubResource("AtlasTexture_wjonb")
 offset = Vector2(0, -26.65)
 
