@@ -1,0 +1,22 @@
+[gd_scene format=3 uid="uid://74ejm1ym0fla"]
+
+[ext_resource type="Script" uid="uid://cgp3mw8ofc2q5" path="res://projectile/projectile.gd" id="1_6aa83"]
+[ext_resource type="Texture2D" uid="uid://17uxn6cs81cs" path="res://art/Water Puddle-sheet.png" id="2_makwg"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_1vivr"]
+radius = 1.0
+
+[node name="Projectile" type="Area2D" unique_id=406514057]
+collision_layer = 0
+collision_mask = 9
+script = ExtResource("1_6aa83")
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2030977887]
+shape = SubResource("CircleShape2D_1vivr")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=412067860]
+scale = Vector2(0.14583337, 0.14583337)
+texture = ExtResource("2_makwg")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
