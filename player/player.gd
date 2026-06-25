@@ -59,10 +59,46 @@ func set_flash_modifier(progress: float):
 
 var time_since_entered_recoil = 10.0
 
+@onready var room_hitbox = $room_hitbox
+@onready var camera = $Camera2D
+
+@export var camera_zoom_speed = 5.0
+@export var original_camera_zoom = 5.0
+
+func handle_camera(delta: float):
+	var overlapping = room_hitbox.get_overlapping_areas()
+	var room = null if overlapping.size() == 0 else overlapping[0]
+	if room is Room:
+		var screen_size = get_viewport().get_visible_rect().size
+		var shorter_side = min(screen_size.x, screen_size.y)
+		var zoom = shorter_side / room.room_size
+		var pos = room.global_position
+		camera.zoom = camera.zoom.move_toward(Vector2(zoom, zoom), camera_zoom_speed * delta)
+		
+		var diff = abs(zoom - camera.zoom.x)
+		if diff < 0.001:
+			camera.offset = pos
+		else:
+			var time = diff / camera_zoom_speed
+			var distance = pos - camera.offset
+			var speed = distance / time
+			camera.offset += speed * delta
+	else:
+		camera.zoom = camera.zoom.move_toward(
+			Vector2(original_camera_zoom, original_camera_zoom), camera_zoom_speed * delta)
+		var diff = abs(original_camera_zoom - camera.zoom.x)
+		if diff < 0.001:
+			camera.offset = global_position
+		else:
+			var time = diff / camera_zoom_speed
+			var distance = global_position - camera.offset
+			var speed = distance / time
+			camera.offset += speed * delta
+		
 func _process(delta: float):
 	time_since_entered_recoil += delta
 	set_flash_modifier(get_recoil_flash_modifier(time_since_entered_recoil))
-
+	handle_camera(delta)
 func take_damage(damage: float, recoil_source: Node2D, recoil_amount: float = 1.0):
 	whack_audio.play()
 	
@@ -103,6 +139,7 @@ class AnimationState:
 		return self.display
 
 # Called when the node enters the scene tree for the first time.
+
 func _ready() -> void:
 	$HealthBar.hide_on_full = false
 	$HealthBar.set_health(health, max_health)

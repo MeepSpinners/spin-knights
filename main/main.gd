@@ -38,7 +38,7 @@ func _ready() -> void:
 
 func start_dialogue(dc: DialogueChainData):
 	dialogue_ui.visible = true
-	dialogue_ui.display_dialogue_chain(dialogue_chain)
+	dialogue_ui.display_dialogue_chain(dc)
 	get_tree().paused = true
 	await dialogue_ui.on_dialogue_chain_end
 	get_tree().paused = false
