@@ -1,0 +1,48 @@
+[gd_scene format=3 uid="uid://cw6gr27godofs"]
+
+[ext_resource type="Script" uid="uid://dhbevr3skt68o" path="res://ui/player_gui/player_gui.gd" id="1_e6tj4"]
+[ext_resource type="Texture2D" uid="uid://blpbfonarafh8" path="res://art/Status Icons-Sheet.png" id="1_xw1ed"]
+[ext_resource type="PackedScene" uid="uid://dnt2v6u5cr814" path="res://ui/player_gui/Heart.tscn" id="2_n2fq2"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h6qht"]
+atlas = ExtResource("1_xw1ed")
+region = Rect2(0, 0, 16, 16)
+
+[node name="PlayerGui" type="Control" unique_id=228519736 groups=["PlayerGUI"]]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_e6tj4")
+
+[node name="heart_container" type="HBoxContainer" parent="." unique_id=1308059184]
+custom_minimum_size = Vector2(900, 90)
+layout_mode = 1
+anchors_preset = -1
+offset_left = 48.0
+offset_top = 48.0
+
+[node name="Heart" parent="heart_container" unique_id=19803888 instance=ExtResource("2_n2fq2")]
+layout_mode = 2
+
+[node name="TextureRect2" type="TextureRect" parent="heart_container" unique_id=1326214951]
+layout_mode = 2
+texture = SubResource("AtlasTexture_h6qht")
+expand_mode = 3
+
+[node name="TextureRect3" type="TextureRect" parent="heart_container" unique_id=856104163]
+layout_mode = 2
+texture = SubResource("AtlasTexture_h6qht")
+expand_mode = 3
+
+[node name="TextureRect4" type="TextureRect" parent="heart_container" unique_id=1095312568]
+layout_mode = 2
+texture = SubResource("AtlasTexture_h6qht")
+expand_mode = 3
+
+[node name="TextureRect5" type="TextureRect" parent="heart_container" unique_id=1930643078]
+layout_mode = 2
+texture = SubResource("AtlasTexture_h6qht")
+expand_mode = 3

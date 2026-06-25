@@ -94,16 +94,27 @@ func handle_camera(delta: float):
 			var distance = global_position - camera.offset
 			var speed = distance / time
 			camera.offset += speed * delta
-		
+
 func _process(delta: float):
 	time_since_entered_recoil += delta
 	set_flash_modifier(get_recoil_flash_modifier(time_since_entered_recoil))
 	handle_camera(delta)
+
+func get_player_gui() -> PlayerGUI:
+	var player_gui = get_tree().get_first_node_in_group("PlayerGUI")
+	if player_gui is PlayerGUI:
+		return player_gui
+	else:
+		return null
+
 func take_damage(damage: float, recoil_source: Node2D, recoil_amount: float = 1.0):
 	whack_audio.play()
 	
 	self.health -= damage
 	$HealthBar.set_health(health, max_health)
+
+	get_player_gui().update_health(health / max_health * 5)
+
 	time_since_entered_recoil = 0.0
 	if (!recoil_source == null):
 		is_recoiling = true
@@ -214,9 +225,12 @@ func get_nearest_enemy():
 	return closest_enemy
 
 func handle_pickup():
-	if not Input.is_action_just_pressed("interact"):
-		return
 	if not (held_enemies.size() < max_held && nearby_enemies.size() > 0):
+		hide_e()
+		return
+	
+	show_e()
+	if not Input.is_action_just_pressed("interact"):
 		return
 		
 	var enemy = get_nearest_enemy()
@@ -225,7 +239,7 @@ func handle_pickup():
 		return
 
 	revolution_progress = 0.0
-
+	
 	grab_enemy(enemy)
 	grab_audio.play()
 	
@@ -236,12 +250,26 @@ func handle_pickup():
 	animated_sprite.flip_h = state.flip_h
 	await animated_sprite.animation_finished
 
+@onready var e_btn = $e_display_button
+@onready var q_btn = $q_display_button
+
+func show_e():
+	e_btn.show()
+func show_q():
+	q_btn.show()
+func hide_e():
+	e_btn.hide()
+func hide_q():
+	q_btn.hide()
+
 # Resets the spinning progress
 func handle_throw():
 	if not Input.is_action_just_pressed("throw"):
 		return
 	if not held_enemies.size() > 0:
 		return
+	
+	hide_q()
 	
 	var average_dir = 0.0
 	var count = 0
@@ -281,7 +309,9 @@ func rotate_enemy_around_player(delta: float) -> void:
 	var average_dir = 0.0
 	var current_orbit_speed = get_current_orbit_speed(spinning_progress)
 	
-	
+	if spinning_progress > 0.9:
+		show_q()
+
 	for enemy in held_enemies:
 		var dist = self.global_position.distance_to(enemy.global_position)
 		var new_dist = move_toward(dist, orbit_radius, enter_orbit_speed * delta)
@@ -372,26 +402,30 @@ func _physics_process(delta: float) -> void:
 		await handle_throw()
 		is_playing_animation = false
 
-var line_dict = {}
+var arrow_dict = {}
+
+@onready var arrow_scene = preload("res://player/arrow.tscn")
 func update_throw_arrow():
 	for enemy in held_enemies:
-		var line: Line2D = null
-		if (not line_dict.has(enemy)):
-			line = $Line2D.duplicate()
-			line_dict[enemy] = line
-			line.top_level = true
-			add_child(line)
-		line = line_dict[enemy]
-		line.clear_points()
-		line.add_point(enemy.global_position)
-		line.add_point(get_throw_direction(enemy) * 50.0 + enemy.global_position)
+		var arrow: Sprite2D = null
+
+		if not arrow_dict.has(enemy):
+			arrow = arrow_scene.instantiate()
+			arrow_dict[enemy] = arrow
+			arrow.top_level = true
+			add_child(arrow)
+
+		arrow = arrow_dict[enemy]
+		arrow.global_position = enemy.global_position
+		arrow.rotation = get_throw_direction(enemy).angle()
+
 	var to_remove = []
-	for entry in line_dict:
+	for entry in arrow_dict:
 		if not held_enemies.has(entry):
 			to_remove.append(entry)
 	for enemy in to_remove:
-		line_dict[enemy].queue_free()
-		line_dict.erase(enemy)
+		arrow_dict[enemy].queue_free()
+		arrow_dict.erase(enemy)
 
 func update_debug_label():
 	$DebugLabel.text = "Nearby: "
