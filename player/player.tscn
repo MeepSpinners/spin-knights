@@ -889,6 +889,8 @@ font_color = Color(0, 0, 0, 1)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_h6qht"]
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_6wvnb"]
+
 [node name="Player" type="CharacterBody2D" unique_id=943675611]
 y_sort_enabled = true
 collision_mask = 8
@@ -949,6 +951,17 @@ stream = ExtResource("11_2ieo8")
 
 [node name="woosh_audio" type="AudioStreamPlayer" parent="." unique_id=377508397]
 stream = ExtResource("12_ebec5")
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1239630810]
+top_level = true
+zoom = Vector2(5, 5)
+
+[node name="room_hitbox" type="Area2D" parent="." unique_id=834982190]
+collision_layer = 0
+collision_mask = 16
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="room_hitbox" unique_id=579743308]
+shape = SubResource("CircleShape2D_6wvnb")
 
 [connection signal="body_entered" from="pickup_hitbox" to="." method="_on_pickup_hitbox_body_entered"]
 [connection signal="body_exited" from="pickup_hitbox" to="." method="_on_pickup_hitbox_body_exited"]

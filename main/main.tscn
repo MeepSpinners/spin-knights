@@ -42,7 +42,7 @@ metadata/_custom_type_script = "uid://3c8845e3gp7u"
 y_sort_enabled = true
 script = ExtResource("1_xwkvk")
 mob_types = Array[PackedScene]([ExtResource("2_3wy1v"), ExtResource("5_grrlh"), ExtResource("5_67ri8")])
-num_mobs = 5
+num_mobs = 0
 powerup_scene = ExtResource("5_3wy1v")
 spawn_radius = 400
 dialogue_chain = SubResource("Resource_67ri8")
@@ -60,11 +60,8 @@ position = Vector2(-71.25445, -65.06657)
 [node name="Marker2D2" type="Marker2D" parent="." unique_id=1909905902]
 position = Vector2(0, 57)
 
-[node name="player" parent="." unique_id=25541542 instance=ExtResource("3_3wy1v")]
+[node name="player" parent="." unique_id=25541542 groups=["Player"] instance=ExtResource("3_3wy1v")]
 position = Vector2(-71.600006, -58.399998)
-
-[node name="Camera2D" type="Camera2D" parent="." unique_id=2062727341]
-zoom = Vector2(5, 5)
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1916646723]
 

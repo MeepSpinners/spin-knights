@@ -165,9 +165,9 @@ func handle_ai(delta: float):
 		Behaviour.WANDER:
 			pass
 		Behaviour.CHASE:
-			nav_agent.target_position = get_parent().get_node("player").global_position
+			nav_agent.target_position = get_tree().get_first_node_in_group("Player").global_position
 		Behaviour.FLEE:
-			var dir = get_parent().get_node("player").global_position.direction_to(self.global_position)
+			var dir = get_tree().get_first_node_in_group("Player").global_position.direction_to(self.global_position)
 			nav_agent.target_position = self.global_position + dir * flee_dist
 	if nav_agent.is_navigation_finished():
 		velocity = Vector2.ZERO
@@ -201,7 +201,7 @@ func choose_behaviour():
 		var map = nav_agent.get_navigation_map()
 		nav_agent.target_position = NavigationServer2D.map_get_random_point(map, 1, false)
 	else:
-		behaviour =Behaviour.CHASE
+		behaviour = Behaviour.CHASE
 
 func get_recoil_flash_modifier(time: float):
 	return max(0.0, 1.0 - time * 2.0)

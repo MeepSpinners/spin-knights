@@ -76,6 +76,7 @@ continue={
 2d_physics/layer_2="enemy"
 2d_physics/layer_3="held_enemy"
 2d_physics/layer_4="static_objects"
+2d_physics/layer_5="room"
 
 [physics]
 
