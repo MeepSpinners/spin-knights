@@ -12,6 +12,7 @@
 [ext_resource type="Script" uid="uid://dfyxr77mabvy8" path="res://ui/dialogue/speaker_data.gd" id="7_fwcvl"]
 [ext_resource type="PackedScene" uid="uid://cc1mpco80q4np" path="res://ui/dialogue/dialogue.tscn" id="8_67ri8"]
 [ext_resource type="Texture2D" uid="uid://fcoujobdyd7j" path="res://speakers/protagonist_avatar.tres" id="8_na0o7"]
+[ext_resource type="PackedScene" uid="uid://cw6gr27godofs" path="res://ui/player_gui/PlayerGUI.tscn" id="13_na0o7"]
 
 [sub_resource type="Resource" id="Resource_0i4oc"]
 script = ExtResource("7_fwcvl")
@@ -74,3 +75,5 @@ offset_right = 0.0
 offset_bottom = 0.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="PlayerGUI" parent="CanvasLayer" unique_id=228519736 instance=ExtResource("13_na0o7")]

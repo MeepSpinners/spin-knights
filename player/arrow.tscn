@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://cl32haekmw2lm"]
+
+[ext_resource type="Texture2D" uid="uid://blpbfonarafh8" path="res://art/Status Icons-Sheet.png" id="1_buulu"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h6qht"]
+atlas = ExtResource("1_buulu")
+region = Rect2(48, 0, 16, 16)
+
+[node name="Arrow" type="Sprite2D" unique_id=425096169]
+texture = SubResource("AtlasTexture_h6qht")
+offset = Vector2(8, 0)

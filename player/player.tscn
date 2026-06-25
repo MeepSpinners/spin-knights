@@ -12,6 +12,8 @@
 [ext_resource type="AudioStream" uid="uid://dkq4imwgtdxrv" path="res://audio/whack.wav" id="10_8t03j"]
 [ext_resource type="AudioStream" uid="uid://bgod4xxjorrbv" path="res://audio/grab.wav" id="11_2ieo8"]
 [ext_resource type="AudioStream" uid="uid://coba5eqv2x6a3" path="res://audio/woosh.wav" id="12_ebec5"]
+[ext_resource type="Texture2D" uid="uid://cpn830wm67enf" path="res://art/E-Sheet.png" id="13_kb6p2"]
+[ext_resource type="Texture2D" uid="uid://cm6l10m3b81dp" path="res://art/Q-Sheet.png" id="14_wodsf"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_8t03j"]
 shader = ExtResource("2_hg6s5")
@@ -891,6 +893,50 @@ font_color = Color(0, 0, 0, 1)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_6wvnb"]
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_xcnuv"]
+atlas = ExtResource("13_kb6p2")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j55il"]
+atlas = ExtResource("13_kb6p2")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_h6qht"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xcnuv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_j55il")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 2.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_v0nfp"]
+atlas = ExtResource("14_wodsf")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1g4h8"]
+atlas = ExtResource("14_wodsf")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_yllr7"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_v0nfp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1g4h8")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 2.0
+}]
+
 [node name="Player" type="CharacterBody2D" unique_id=943675611]
 y_sort_enabled = true
 collision_mask = 8
@@ -962,6 +1008,22 @@ collision_mask = 16
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="room_hitbox" unique_id=579743308]
 shape = SubResource("CircleShape2D_6wvnb")
+
+[node name="e_display_button" type="AnimatedSprite2D" parent="." unique_id=307104476]
+visible = false
+z_index = 5
+position = Vector2(0, -46)
+scale = Vector2(0.5, 0.5)
+sprite_frames = SubResource("SpriteFrames_h6qht")
+autoplay = "default"
+
+[node name="q_display_button" type="AnimatedSprite2D" parent="." unique_id=342108127]
+visible = false
+z_index = 5
+position = Vector2(0, -46)
+scale = Vector2(0.5, 0.5)
+sprite_frames = SubResource("SpriteFrames_yllr7")
+autoplay = "default"
 
 [connection signal="body_entered" from="pickup_hitbox" to="." method="_on_pickup_hitbox_body_entered"]
 [connection signal="body_exited" from="pickup_hitbox" to="." method="_on_pickup_hitbox_body_exited"]

@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://dnt2v6u5cr814"]
+
+[ext_resource type="Texture2D" uid="uid://blpbfonarafh8" path="res://art/Status Icons-Sheet.png" id="1_yg3og"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h6qht"]
+atlas = ExtResource("1_yg3og")
+region = Rect2(0, 0, 16, 16)
+
+[node name="Heart" type="TextureRect" unique_id=19803888]
+texture = SubResource("AtlasTexture_h6qht")
+expand_mode = 3
