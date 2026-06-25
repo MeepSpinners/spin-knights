@@ -1,0 +1,7 @@
+[corridor-h, corridor-v, u, d]
+[l, r, ud, lr]
+[ul, ur, dl, dr]
+[dlr, ulr, udr, udl]
+[udlr]
+
+#where u,d,l,r represent exits
