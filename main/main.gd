@@ -16,16 +16,16 @@ var score
 func _ready() -> void:
 	$player.start($Marker2D.position)
 	dialogue_ui.visible = false
-	await get_tree().physics_frame
-	await get_tree().physics_frame
+	#await get_tree().physics_frame
+	#await get_tree().physics_frame
 	await NavigationServer2D.map_changed
 	
-	for i in 10:
-		if (get_random_point_in_map() == Vector2.ZERO):
-			await get_tree().physics_frame
-		else:
-			print(i)
-			break
+	#for i in 10:
+		#if (get_random_point_in_map() == Vector2.ZERO):
+			#await get_tree().physics_frame
+		#else:
+			#print(i)
+			#break
 			
 	for i in num_mobs:
 		var enemy = mob_types.pick_random().instantiate()
