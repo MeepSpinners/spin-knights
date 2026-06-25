@@ -20,7 +20,7 @@ func _ready() -> void:
 	await get_tree().physics_frame
 	await NavigationServer2D.map_changed
 	
-	for i in 1000000:
+	for i in 10:
 		if (get_random_point_in_map() == Vector2.ZERO):
 			await get_tree().physics_frame
 		else:
