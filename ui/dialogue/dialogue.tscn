@@ -12,6 +12,167 @@ default_font_size = 36
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_uo1k0"]
 
+[sub_resource type="Animation" id="Animation_m4qfh"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("speaker_sprite2:offset_right")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("speaker_sprite2:self_modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("speaker_sprite:offset_bottom")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [-300.0]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("speaker_sprite:self_modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("speaker_container:modulate")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("speaker_container2:modulate")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_jy5du"]
+length = 0.6666667
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("speaker_sprite:offset_left")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.6666667),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [-400.0, 0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("speaker_sprite:self_modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.6666667),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 1), Color(1, 1, 1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("speaker_container:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.6666667),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_r2qx3"]
+resource_name = "dialogue_enter"
+length = 0.6667
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("speaker_sprite2:offset_right")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.6666667),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [400.0, 0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("speaker_sprite2:self_modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.6666667),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 1), Color(1, 1, 1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("speaker_container2:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.6666667),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_jy5du"]
+_data = {
+&"RESET": SubResource("Animation_m4qfh"),
+&"dialogue_enter_one": SubResource("Animation_jy5du"),
+&"dialogue_enter_two": SubResource("Animation_r2qx3")
+}
+
 [node name="DialogueUI" type="Control" unique_id=1623013452]
 layout_mode = 3
 anchors_preset = 0
@@ -19,6 +180,35 @@ offset_right = 1600.0
 offset_bottom = 900.0
 script = ExtResource("1_xyniw")
 metadata/_edit_horizontal_guides_ = [144.0]
+
+[node name="speaker_sprite" type="TextureRect" parent="." unique_id=486371911]
+custom_minimum_size = Vector2(400, 400)
+propagate_maximum_size = true
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = -400.0
+offset_bottom = -300.0
+grow_vertical = 0
+mouse_filter = 0
+texture = ExtResource("3_m4qfh")
+
+[node name="speaker_sprite2" type="TextureRect" parent="." unique_id=384963336]
+custom_minimum_size = Vector2(400, 400)
+propagate_maximum_size = true
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = -300.0
+grow_horizontal = 0
+grow_vertical = 0
+mouse_filter = 0
+texture = ExtResource("3_m4qfh")
+flip_h = true
 
 [node name="bottom_container" type="PanelContainer" parent="." unique_id=1834685527]
 custom_minimum_size = Vector2(0, 300)
@@ -30,7 +220,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 0
 theme_override_styles/panel = SubResource("StyleBoxEmpty_xyniw")
-metadata/_edit_use_anchors_ = true
 
 [node name="ColorRect" type="ColorRect" parent="bottom_container" unique_id=1299898573]
 layout_mode = 2
@@ -52,19 +241,6 @@ bbcode_enabled = true
 scroll_active = false
 visible_characters = 238
 visible_characters_behavior = 1
-
-[node name="speaker_sprite" type="TextureRect" parent="." unique_id=486371911]
-custom_minimum_size = Vector2(400, 400)
-propagate_maximum_size = true
-layout_mode = 1
-anchors_preset = -1
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_right = 200.0
-offset_bottom = -300.0
-grow_vertical = 0
-mouse_filter = 0
-texture = ExtResource("3_m4qfh")
 
 [node name="speaker_container" type="PanelContainer" parent="." unique_id=1685104775]
 custom_minimum_size = Vector2(200, 100)
@@ -100,23 +276,6 @@ horizontal_alignment = 1
 visible_characters = 238
 visible_characters_behavior = 1
 visible_ratio = 47.6
-
-[node name="speaker_sprite2" type="TextureRect" parent="." unique_id=384963336]
-custom_minimum_size = Vector2(400, 400)
-propagate_maximum_size = true
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -200.0
-offset_bottom = -300.0
-grow_horizontal = 0
-grow_vertical = 0
-mouse_filter = 0
-texture = ExtResource("3_m4qfh")
-flip_h = true
 
 [node name="speaker_container2" type="PanelContainer" parent="." unique_id=791174569]
 custom_minimum_size = Vector2(200, 100)
@@ -154,3 +313,10 @@ horizontal_alignment = 1
 visible_characters = 238
 visible_characters_behavior = 1
 visible_ratio = 47.6
+
+[node name="speaker_1_ap" type="AnimationPlayer" parent="." unique_id=2010317963]
+reset_on_save = false
+libraries/ = SubResource("AnimationLibrary_jy5du")
+
+[node name="speaker_2_ap" type="AnimationPlayer" parent="." unique_id=875012462]
+libraries/ = SubResource("AnimationLibrary_jy5du")
