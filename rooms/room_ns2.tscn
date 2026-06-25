@@ -1,0 +1,105 @@
+[gd_scene format=3 uid="uid://dudocud4nlg0j"]
+
+[ext_resource type="Texture2D" uid="uid://f30cyvu56o03" path="res://art/WhiteRooms-Sheet.png" id="1_1dwdd"]
+[ext_resource type="PackedScene" uid="uid://gcjwryrp5gyp" path="res://enemy/rotobaga.tscn" id="2_mn7wc"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_k4tdl"]
+atlas = ExtResource("1_1dwdd")
+region = Rect2(512, 0, 256, 256)
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_2iv7m"]
+vertices = PackedVector2Array(117, -117, 117, 117, -117, 117, -117, -117)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2), PackedInt32Array(0, 2, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-124, -124, 124, -124, 124, 124, -124, 124)])
+sample_partition_type = 1
+agent_radius = 7.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_a83l4"]
+size = Vector2(300, 300)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_caxqv"]
+size = Vector2(20, 88)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wpun8"]
+size = Vector2(73, 371)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_t6kug"]
+size = Vector2(86, 58)
+
+[node name="RoomNs2" type="Area2D" unique_id=120838269]
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1947164589]
+texture = SubResource("AtlasTexture_k4tdl")
+
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="." unique_id=1866958390]
+navigation_polygon = SubResource("NavigationPolygon_2iv7m")
+
+[node name="Room" type="CollisionShape2D" parent="." unique_id=251182009]
+shape = SubResource("RectangleShape2D_a83l4")
+
+[node name="wall_e" type="StaticBody2D" parent="." unique_id=1595053430]
+collision_layer = 8
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="wall_e" unique_id=1984496051]
+position = Vector2(-138, 0)
+shape = SubResource("RectangleShape2D_caxqv")
+
+[node name="wall_w" type="StaticBody2D" parent="." unique_id=1390129646]
+collision_layer = 8
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="wall_w" unique_id=163006095]
+position = Vector2(138, 0)
+shape = SubResource("RectangleShape2D_caxqv")
+
+[node name="wall_s" type="StaticBody2D" parent="." unique_id=1514374826]
+position = Vector2(0, 138)
+rotation = 1.5707964
+collision_layer = 8
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="wall_s" unique_id=1891958789]
+shape = SubResource("RectangleShape2D_caxqv")
+
+[node name="wall_n" type="StaticBody2D" parent="." unique_id=254474133]
+position = Vector2(0, -138)
+rotation = 1.5707964
+collision_layer = 8
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="wall_n" unique_id=33205864]
+shape = SubResource("RectangleShape2D_caxqv")
+
+[node name="Enemies" type="Node2D" parent="." unique_id=1167911576]
+
+[node name="enemy" parent="Enemies" unique_id=1720581004 instance=ExtResource("2_mn7wc")]
+position = Vector2(-72, -5)
+
+[node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=425187098]
+collision_layer = 8
+collision_mask = 0
+
+[node name="Left Wall" type="CollisionShape2D" parent="StaticBody2D" unique_id=2002775149]
+position = Vector2(-165, -1)
+shape = SubResource("RectangleShape2D_wpun8")
+
+[node name="Right Wall" type="CollisionShape2D" parent="StaticBody2D" unique_id=251938360]
+position = Vector2(165, -1)
+shape = SubResource("RectangleShape2D_wpun8")
+
+[node name="Top Wall" type="CollisionShape2D" parent="StaticBody2D" unique_id=1203376294]
+position = Vector2(-86, -157)
+shape = SubResource("RectangleShape2D_t6kug")
+
+[node name="Bottom Wall" type="CollisionShape2D" parent="StaticBody2D" unique_id=2087775502]
+position = Vector2(87, 156)
+shape = SubResource("RectangleShape2D_t6kug")
+
+[node name="Bottom Wall2" type="CollisionShape2D" parent="StaticBody2D" unique_id=792870450]
+position = Vector2(-87, 157)
+shape = SubResource("RectangleShape2D_t6kug")
+
+[node name="Top Wall2" type="CollisionShape2D" parent="StaticBody2D" unique_id=1334712755]
+position = Vector2(87, -157)
+shape = SubResource("RectangleShape2D_t6kug")

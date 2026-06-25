@@ -12,8 +12,13 @@ var score
 
 @export var dialogue_chain: DialogueChainData
 
+@onready var level_generator: LevelGenerator = $LevelGenerator
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	level_generator.generate()
+	await level_generator.generation_done
+	
 	$player.start($Marker2D.position)
 	dialogue_ui.visible = false
 	#await get_tree().physics_frame
