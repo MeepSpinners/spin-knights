@@ -1,55 +1,64 @@
-name: CI
-
-env:
-  GODOT_VERSION: 3.3.3
+# .github/workflows/deploy.yml
+name: Export Godot to GitHub Pages
 
 on:
   push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
-  workflow_dispatch:
+    branches: [ main ]      # run on every push to main
+  workflow_dispatch:        # ...and let you trigger it manually
 
+# peaceiris/actions-gh-pages pushes a commit to gh-pages,
+# so the job needs write access to repo contents.
 permissions:
   contents: write
 
+env:
+  GODOT_VERSION: "4.3"      # <- match your project's Godot version
+  EXPORT_PRESET: "Web"      # <- must match the preset name in export_presets.cfg
+  BUILD_DIR: build/web
+
 jobs:
   export-web:
-    name: Web Export
+    name: Export web build
     runs-on: ubuntu-latest
-    container:
-      image: barichello/godot-ci:3.3.3
-
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          lfs: true
 
-      - name: Setup
+      - name: Download Godot + export templates
         run: |
-          mkdir -v -p ~/.local/share/godot/templates
-          mv /root/.local/share/godot/templates/${GODOT_VERSION}.stable ~/.local/share/godot/templates/${GODOT_VERSION}.stable
+          BASE="https://github.com/godotengine/godot/releases/download/${GODOT_VERSION}-stable"
+          wget -q "$BASE/Godot_v${GODOT_VERSION}-stable_linux.x86_64.zip"
+          wget -q "$BASE/Godot_v${GODOT_VERSION}-stable_export_templates.tpz"
+          unzip -q "Godot_v${GODOT_VERSION}-stable_linux.x86_64.zip"
+          unzip -q "Godot_v${GODOT_VERSION}-stable_export_templates.tpz"
+          # install the headless binary
+          sudo mv "Godot_v${GODOT_VERSION}-stable_linux.x86_64" /usr/local/bin/godot
+          # install export templates where Godot expects them
+          mkdir -p ~/.local/share/godot/export_templates
+          mv templates ~/.local/share/godot/export_templates/${GODOT_VERSION}.stable
 
-      - name: Web Build
+      - name: Export project
         run: |
-          mkdir -v -p build/web
-          godot -v --export "HTML5" ./build/web/index.html
+          mkdir -p "${BUILD_DIR}"
+          # import resources first so a clean checkout doesn't fail on missing .import files
+          godot --headless --import . || true
+          godot --headless --verbose --export-release "${EXPORT_PRESET}" "${BUILD_DIR}/index.html"
 
-      - name: Upload Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: web
-          path: build/web
-
-      # Note: rsync is generally pre-installed in newer base images, 
-      # but keeping this step handles it gracefully if it is missing.
-      - name: Install rsync 📚
+      - name: Enable cross-origin isolation (COOP/COEP)
         run: |
-          apt-get update && apt-get install -y rsync
+          # GitHub Pages can't send the COOP/COEP headers a Godot 4 web build needs
+          # for SharedArrayBuffer (threads). coi-serviceworker injects them client-side,
+          # otherwise the page loads to a blank/black screen.
+          curl -sL https://raw.githubusercontent.com/gzuidhof/coi-serviceworker/master/coi-serviceworker.min.js \
+            -o "${BUILD_DIR}/coi-serviceworker.js"
+          # load it as the first script in <head>
+          sed -i 's#<head>#<head><script src="coi-serviceworker.js"></script>#' "${BUILD_DIR}/index.html"
+          # stop Pages' Jekyll from dropping files/folders that start with "_"
+          touch "${BUILD_DIR}/.nojekyll"
 
-      - name: Deploy to GitHub Pages 🚀
-        uses: JamesIves/github-pages-deploy-action@v4
+      - name: Deploy to gh-pages
+        uses: peaceiris/actions-gh-pages@v4
         with:
-          branch: gh-pages      # Safely hosts code onto a dedicated static branch
-          folder: build/web      # The folder the action should deploy
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ${{ env.BUILD_DIR }}
+          publish_branch: gh-pages
