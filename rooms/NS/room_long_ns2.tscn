@@ -1,107 +1,55 @@
 [gd_scene format=3 uid="uid://dcmoeran8vima"]
 
-[ext_resource type="Texture2D" uid="uid://f30cyvu56o03" path="res://art/WhiteRooms-Sheet.png" id="1_k5um5"]
-[ext_resource type="PackedScene" uid="uid://gcjwryrp5gyp" path="res://enemy/rotobaga.tscn" id="2_6078t"]
 [ext_resource type="Script" uid="uid://db0bqvtd5v02g" path="res://levels/room.gd" id="3_6078t"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_sg4yx"]
-atlas = ExtResource("1_k5um5")
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_elqaa"]
+load_path = "res://.godot/imported/WhiteRooms-Sheet.png-3e960f99053e9e46f80b95575e1f900f.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_k5um5"]
+atlas = SubResource("CompressedTexture2D_elqaa")
 region = Rect2(256, 512, 256, 256)
 
-[sub_resource type="NavigationPolygon" id="NavigationPolygon_vdj0b"]
-vertices = PackedVector2Array(117, -117, 117, 117, -117, 117, -117, -117)
-polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2), PackedInt32Array(0, 2, 3)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(-59, -106, 57, -107, 58, 105, -57, 105)])
-sample_partition_type = 1
-agent_radius = 7.0
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6078t"]
+size = Vector2(120, 256)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vdj0b"]
+size = Vector2(4.5, 236)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3jwwk"]
-size = Vector2(120, 300)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_paqhl"]
-size = Vector2(20, 88)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_3xvoi"]
-size = Vector2(73, 371)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_fcw7e"]
-size = Vector2(86, 58)
 
 [node name="RoomLongNs2" type="Area2D" unique_id=1473770467]
 script = ExtResource("3_6078t")
 
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=917673307]
-texture = SubResource("AtlasTexture_sg4yx")
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=184991666]
+texture = SubResource("AtlasTexture_k5um5")
 
-[node name="NavigationRegion2D" type="NavigationRegion2D" parent="." unique_id=1469963979]
-navigation_polygon = SubResource("NavigationPolygon_vdj0b")
+[node name="Room" type="CollisionShape2D" parent="." unique_id=439909512]
+shape = SubResource("RectangleShape2D_6078t")
 
-[node name="Room" type="CollisionShape2D" parent="." unique_id=136597807]
+[node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=344009478]
+collision_layer = 8
+collision_mask = 0
+
+[node name="Left Wall" type="CollisionShape2D" parent="StaticBody2D" unique_id=1483778951]
+position = Vector2(-61.75, 10)
+shape = SubResource("RectangleShape2D_vdj0b")
+
+[node name="Right Wall" type="CollisionShape2D" parent="StaticBody2D" unique_id=1573361297]
+position = Vector2(62, -3)
+shape = SubResource("RectangleShape2D_vdj0b")
+
+[node name="Top Wall" type="CollisionShape2D" parent="StaticBody2D" unique_id=556997988]
+position = Vector2(-54, -118)
 shape = SubResource("RectangleShape2D_3jwwk")
 
-[node name="wall_e" type="StaticBody2D" parent="." unique_id=2106395433]
-collision_layer = 8
-collision_mask = 0
+[node name="Bottom Wall" type="CollisionShape2D" parent="StaticBody2D" unique_id=1881517564]
+position = Vector2(54, 118)
+shape = SubResource("RectangleShape2D_3jwwk")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="wall_e" unique_id=1058024182]
-position = Vector2(-138, 0)
-shape = SubResource("RectangleShape2D_paqhl")
+[node name="Bottom Wall2" type="CollisionShape2D" parent="StaticBody2D" unique_id=213790719]
+position = Vector2(-54, 118)
+shape = SubResource("RectangleShape2D_3jwwk")
 
-[node name="wall_w" type="StaticBody2D" parent="." unique_id=500955207]
-collision_layer = 8
-collision_mask = 0
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="wall_w" unique_id=331409627]
-position = Vector2(138, 0)
-shape = SubResource("RectangleShape2D_paqhl")
-
-[node name="wall_s" type="StaticBody2D" parent="." unique_id=1197787217]
-position = Vector2(0, 138)
-rotation = 1.5707964
-collision_layer = 8
-collision_mask = 0
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="wall_s" unique_id=1560279311]
-shape = SubResource("RectangleShape2D_paqhl")
-
-[node name="wall_n" type="StaticBody2D" parent="." unique_id=1516076765]
-position = Vector2(0, -138)
-rotation = 1.5707964
-collision_layer = 8
-collision_mask = 0
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="wall_n" unique_id=130960412]
-shape = SubResource("RectangleShape2D_paqhl")
-
-[node name="Enemies" type="Node2D" parent="." unique_id=877349433]
-
-[node name="enemy" parent="Enemies" unique_id=1720581004 instance=ExtResource("2_6078t")]
-position = Vector2(-1, -3)
-
-[node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=919539106]
-collision_layer = 8
-collision_mask = 0
-
-[node name="Left Wall" type="CollisionShape2D" parent="StaticBody2D" unique_id=1746566677]
-position = Vector2(-98, -4)
-shape = SubResource("RectangleShape2D_3xvoi")
-
-[node name="Right Wall" type="CollisionShape2D" parent="StaticBody2D" unique_id=1808792711]
-position = Vector2(98, -3)
-shape = SubResource("RectangleShape2D_3xvoi")
-
-[node name="Top Wall" type="CollisionShape2D" parent="StaticBody2D" unique_id=682901308]
-position = Vector2(-87, -137)
-shape = SubResource("RectangleShape2D_fcw7e")
-
-[node name="Bottom Wall" type="CollisionShape2D" parent="StaticBody2D" unique_id=1986989299]
-position = Vector2(87, 137)
-shape = SubResource("RectangleShape2D_fcw7e")
-
-[node name="Bottom Wall2" type="CollisionShape2D" parent="StaticBody2D" unique_id=1551327956]
-position = Vector2(-87, 138)
-shape = SubResource("RectangleShape2D_fcw7e")
-
-[node name="Top Wall2" type="CollisionShape2D" parent="StaticBody2D" unique_id=480404471]
-position = Vector2(88, -137)
-shape = SubResource("RectangleShape2D_fcw7e")
+[node name="Top Wall2" type="CollisionShape2D" parent="StaticBody2D" unique_id=1912367843]
+position = Vector2(54, -118)
+shape = SubResource("RectangleShape2D_3jwwk")

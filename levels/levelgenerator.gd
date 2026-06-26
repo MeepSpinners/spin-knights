@@ -3,8 +3,12 @@ extends Node
 
 signal generation_done
 
+@export var corr_length := 256
+@export var room_size := 256
 @export var num_rooms := 14
 @export var room_scenes: Array[PackedScene]
+@export var vert_corr_scenes: Array[PackedScene]
+@export var hori_corr_scenes: Array[PackedScene]
 
 var rng = RandomNumberGenerator.new()
 
@@ -73,6 +77,34 @@ func get_doors(pos):
 		Room.Direction.EAST: office.has(pos + Vector2i.RIGHT),
 		Room.Direction.WEST: office.has(pos + Vector2i.LEFT)
 	}
+	
+func create_corridor(from, to):
+	var scene
+	
+	if to.x > from.x:
+		#RIGHT
+		scene = hori_corr_scenes[rng.randi_range(0, hori_corr_scenes.size() - 1)].instantiate()
+		scene.position = Vector2(
+			from.x * (corr_length + room_size) + corr_length,
+			from.y * (corr_length + room_size)
+		)
+		
+	if to.y > from.y:
+		#UP
+		scene = vert_corr_scenes[rng.randi_range(0, hori_corr_scenes.size() - 1)].instantiate()
+		scene.position = Vector2(
+			from.x * (corr_length + room_size),
+			from.y * (corr_length + room_size) + corr_length
+		)
+
+	add_child(scene)
+
+func generate_corridors():
+	for pos in office.keys():
+		if office.has(pos + Vector2i.RIGHT):
+			create_corridor(pos, pos + Vector2i.RIGHT)
+		if office.has(pos + Vector2i.UP):
+			create_corridor(pos, pos + Vector2i.UP)
 
 
 func choose_room(door):
@@ -115,8 +147,8 @@ func choose_rooms():
 		var iroom: Room = room.instantiate()
 		
 		iroom.position = Vector2(
-			pos.x * iroom.room_size,
-			pos.y * iroom.room_size
+			pos.x * (iroom.room_size+corr_length),
+			pos.y * (iroom.room_size+corr_length)
 		)
 		
 		add_child(iroom)
@@ -138,5 +170,6 @@ func generate(seed: int = -99999):
 	
 	generate_layout()
 	choose_rooms()
+	generate_corridors()
 	
 	generation_done.emit()

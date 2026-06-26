@@ -100,5 +100,7 @@ process_mode = 3
 visible = false
 [node name="LevelGenerator" type="Node" parent="." unique_id=1048403147]
 script = ExtResource("14_73k8k")
-room_scenes = Array[PackedScene]([ExtResource("15_amlcg"), ExtResource("16_ue0mw"), ExtResource("17_vqjab"), ExtResource("18_h3axc"), ExtResource("19_d7rgo"), ExtResource("20_yjufm"), ExtResource("21_phifs"), ExtResource("22_cgvj2"), ExtResource("23_t1yuj"), ExtResource("24_4pcu1"), ExtResource("25_7eg6f"), ExtResource("26_rue0h"), ExtResource("27_c5cfd"), ExtResource("28_v40no"), ExtResource("29_omb8t"), ExtResource("30_k5bb4"), ExtResource("31_028el"), ExtResource("32_yyc07"), ExtResource("33_3le5t"), ExtResource("34_55spl"), ExtResource("35_kgxi8")])
+room_scenes = Array[PackedScene]([ExtResource("15_amlcg"), ExtResource("16_ue0mw"), ExtResource("17_vqjab"), ExtResource("18_h3axc"), ExtResource("19_d7rgo"), ExtResource("20_yjufm"), ExtResource("21_phifs"), ExtResource("22_cgvj2"), ExtResource("23_t1yuj"), ExtResource("24_4pcu1"), ExtResource("25_7eg6f"), ExtResource("26_rue0h"), ExtResource("27_c5cfd"), ExtResource("28_v40no"), ExtResource("29_omb8t"), ExtResource("30_k5bb4"), ExtResource("33_3le5t")])
+vert_corr_scenes = Array[PackedScene]([ExtResource("32_yyc07"), ExtResource("35_kgxi8")])
+hori_corr_scenes = Array[PackedScene]([ExtResource("31_028el"), ExtResource("34_55spl")])
 metadata/_custom_type_script = "uid://dxhfawqn6xba0"

@@ -53,8 +53,9 @@ func room_clear():
 
 func _ready():
 	# Gather the enemies
-	for enemy in $Enemies.get_children():
-		if (enemy is Enemy):
-			enemies.append(enemy)
-			enemy.register_death_listener(on_enemy_die)
+	if $Enemies != null:
+		for enemy in $Enemies.get_children():
+			if (enemy is Enemy):
+				enemies.append(enemy)
+				enemy.register_death_listener(on_enemy_die)
 	
