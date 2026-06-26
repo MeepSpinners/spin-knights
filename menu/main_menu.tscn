@@ -1,7 +1,9 @@
 [gd_scene format=3 uid="uid://b2vy2uudwbhcn"]
 
 [ext_resource type="Texture2D" uid="uid://btyq3khtewrbt" path="res://art/MenuImage.png" id="1_f5okj"]
+[ext_resource type="Script" uid="uid://2tvfr24l1q0s" path="res://menu/main_menu.gd" id="1_o5w3e"]
 [ext_resource type="FontFile" uid="uid://blt1hn3737qh7" path="res://fonts/Salmon Typewriter fonts/Salmon Typewriter 9 Bold.ttf" id="2_o5w3e"]
+[ext_resource type="PackedScene" uid="uid://iwht5urhc45s" path="res://menu/options_menu.tscn" id="4_1x3cv"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_0wfbh"]
 texture = ExtResource("1_f5okj")
@@ -13,6 +15,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_o5w3e")
 
 [node name="Panel" type="Panel" parent="." unique_id=752833843]
 layout_mode = 1
@@ -58,3 +61,7 @@ size_flags_vertical = 3
 theme_override_fonts/font = ExtResource("2_o5w3e")
 theme_override_font_sizes/font_size = 40
 text = "Quit"
+
+[node name="OptionsMenu" parent="." unique_id=1697546344 instance=ExtResource("4_1x3cv")]
+visible = false
+layout_mode = 1
