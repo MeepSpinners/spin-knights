@@ -5,7 +5,7 @@ signal generation_done
 
 @export var corr_length := 256
 @export var room_size := 256
-@export var num_rooms := 14
+@export var num_rooms := 28
 @export var room_scenes: Array[PackedScene]
 @export var vert_corr_scenes: Array[PackedScene]
 @export var hori_corr_scenes: Array[PackedScene]
@@ -21,6 +21,36 @@ var directions = [
 	Vector2i.LEFT,
 	Vector2i.RIGHT
 ]
+
+func get_distance() -> Dictionary:
+	var distances := {}
+	var queue: Array[Vector2i] = [Vector2i.ZERO]
+	distances[Vector2i.ZERO] = 0
+	
+	# BFS
+	while !queue.is_empty():
+		var curr = queue.pop_front()
+		for direction in directions:
+			var next = curr + direction
+			if !office.has(next):
+				continue
+				
+			if distances.has(next):
+				continue
+				
+			distances[next] = distances[curr] + 1
+			queue.push_back(next)
+	
+	return distances
+
+func choose_boss_room():
+	var distance = get_distance()
+	var candidates = []
+	for pos in distance.keys():
+		if distance[pos] >= 2:
+			candidates.append(pos)
+	
+	return candidates[rng.randi_range(0, candidates.size() - 1)]
 
 func rng_shuffle(arr: Array):
 	'''
@@ -91,7 +121,7 @@ func create_corridor(from, to):
 		
 	if to.y > from.y:
 		#UP
-		scene = vert_corr_scenes[rng.randi_range(0, hori_corr_scenes.size() - 1)].instantiate()
+		scene = vert_corr_scenes[rng.randi_range(0, vert_corr_scenes.size() - 1)].instantiate()
 		scene.position = Vector2(
 			from.x * (corr_length + room_size),
 			from.y * (corr_length + room_size) + corr_length
@@ -103,8 +133,8 @@ func generate_corridors():
 	for pos in office.keys():
 		if office.has(pos + Vector2i.RIGHT):
 			create_corridor(pos, pos + Vector2i.RIGHT)
-		if office.has(pos + Vector2i.UP):
-			create_corridor(pos, pos + Vector2i.UP)
+		if office.has(pos + Vector2i.DOWN):
+			create_corridor(pos, pos + Vector2i.DOWN)
 
 
 func choose_room(door):
@@ -171,5 +201,7 @@ func generate(seed: int = -99999):
 	generate_layout()
 	choose_rooms()
 	generate_corridors()
+	
+	print(":(")
 	
 	generation_done.emit()
