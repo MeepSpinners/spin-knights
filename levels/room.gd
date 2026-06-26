@@ -10,6 +10,7 @@ enum Direction {
 	WEST	
 }
 
+
 @onready var walls: Dictionary[Direction, StaticBody2D] = {
 	Direction.NORTH: $wall_n,
 	Direction.SOUTH: $wall_s,
@@ -23,7 +24,15 @@ enum Direction {
 	Direction.EAST: false,
 	Direction.WEST: false
 }
-	
+
+static func get_door_from_string(s: String) -> Dictionary[Direction, bool]:
+	return {
+		Direction.NORTH: s.contains("N"),
+		Direction.SOUTH: s.contains("S"),
+		Direction.EAST: s.contains("E"),
+		Direction.WEST: s.contains("W")
+	}
+
 func unlock_door(dir: Direction):
 	walls[dir].collision_layer = 0
 
@@ -44,8 +53,9 @@ func room_clear():
 
 func _ready():
 	# Gather the enemies
-	for enemy in $Enemies.get_children():
-		if (enemy is Enemy):
-			enemies.append(enemy)
-			enemy.register_death_listener(on_enemy_die)
+	if $Enemies != null:
+		for enemy in $Enemies.get_children():
+			if (enemy is Enemy):
+				enemies.append(enemy)
+				enemy.register_death_listener(on_enemy_die)
 	

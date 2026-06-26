@@ -1,0 +1,53 @@
+[gd_scene format=3 uid="uid://xaho2gcrkckl"]
+
+[ext_resource type="Texture2D" uid="uid://f30cyvu56o03" path="res://art/WhiteRooms-Sheet.png" id="1_2fgbl"]
+[ext_resource type="Script" uid="uid://db0bqvtd5v02g" path="res://levels/room.gd" id="1_na0i4"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lcqgf"]
+atlas = ExtResource("1_2fgbl")
+region = Rect2(0, 512, 256, 256)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_m3llq"]
+size = Vector2(120, 256)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vdj0u"]
+size = Vector2(4.5, 236)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qpnfv"]
+
+[node name="RoomLongNs" type="Area2D" unique_id=321027730]
+script = ExtResource("1_na0i4")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=121757452]
+texture = SubResource("AtlasTexture_lcqgf")
+
+[node name="Room" type="CollisionShape2D" parent="." unique_id=961983900]
+shape = SubResource("RectangleShape2D_m3llq")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=1529340513]
+collision_layer = 8
+collision_mask = 0
+
+[node name="Left Wall" type="CollisionShape2D" parent="StaticBody2D" unique_id=1596358853]
+position = Vector2(-61.75, 10)
+shape = SubResource("RectangleShape2D_vdj0u")
+
+[node name="Right Wall" type="CollisionShape2D" parent="StaticBody2D" unique_id=537945339]
+position = Vector2(62, -3)
+shape = SubResource("RectangleShape2D_vdj0u")
+
+[node name="Top Wall" type="CollisionShape2D" parent="StaticBody2D" unique_id=1604721475]
+position = Vector2(-54, -118)
+shape = SubResource("RectangleShape2D_qpnfv")
+
+[node name="Bottom Wall" type="CollisionShape2D" parent="StaticBody2D" unique_id=975416320]
+position = Vector2(54, 118)
+shape = SubResource("RectangleShape2D_qpnfv")
+
+[node name="Bottom Wall2" type="CollisionShape2D" parent="StaticBody2D" unique_id=1886545421]
+position = Vector2(-54, 118)
+shape = SubResource("RectangleShape2D_qpnfv")
+
+[node name="Top Wall2" type="CollisionShape2D" parent="StaticBody2D" unique_id=898743621]
+position = Vector2(54, -118)
+shape = SubResource("RectangleShape2D_qpnfv")

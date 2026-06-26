@@ -1,0 +1,107 @@
+[gd_scene format=3 uid="uid://grjfoj6r16cy"]
+
+[ext_resource type="Script" uid="uid://db0bqvtd5v02g" path="res://levels/room.gd" id="1_gdlal"]
+[ext_resource type="Texture2D" uid="uid://f30cyvu56o03" path="res://art/WhiteRooms-Sheet.png" id="2_c2xgc"]
+[ext_resource type="PackedScene" uid="uid://gcjwryrp5gyp" path="res://enemy/rotobaga.tscn" id="3_74pds"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6f3yr"]
+atlas = ExtResource("2_c2xgc")
+region = Rect2(256, 0, 256, 256)
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_3nv8l"]
+vertices = PackedVector2Array(117, -117, 117, 117, -117, 117, -117, -117)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2), PackedInt32Array(0, 2, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-124, -124, 124, -124, 124, 124, -124, 124)])
+sample_partition_type = 1
+agent_radius = 7.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_b8cek"]
+size = Vector2(73, 142)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2rpsx"]
+size = Vector2(256, 58)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jbds1"]
+size = Vector2(300, 300)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hpmh5"]
+size = Vector2(20, 88)
+
+[node name="RoomEw2" type="Area2D" unique_id=884433630]
+script = ExtResource("1_gdlal")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1200031435]
+texture = SubResource("AtlasTexture_6f3yr")
+
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="." unique_id=2089254507]
+navigation_polygon = SubResource("NavigationPolygon_3nv8l")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=1709785270]
+collision_layer = 8
+collision_mask = 0
+
+[node name="Left Wall" type="CollisionShape2D" parent="StaticBody2D" unique_id=1949344995]
+position = Vector2(-165, -115)
+shape = SubResource("RectangleShape2D_b8cek")
+
+[node name="Right Wall" type="CollisionShape2D" parent="StaticBody2D" unique_id=610360489]
+position = Vector2(165, -115)
+shape = SubResource("RectangleShape2D_b8cek")
+
+[node name="Top Wall" type="CollisionShape2D" parent="StaticBody2D" unique_id=611962730]
+position = Vector2(0, -157)
+shape = SubResource("RectangleShape2D_2rpsx")
+
+[node name="Bottom Wall" type="CollisionShape2D" parent="StaticBody2D" unique_id=1097125911]
+position = Vector2(0, 157)
+shape = SubResource("RectangleShape2D_2rpsx")
+
+[node name="Right Wall2" type="CollisionShape2D" parent="StaticBody2D" unique_id=1370478367]
+position = Vector2(165, 115)
+shape = SubResource("RectangleShape2D_b8cek")
+
+[node name="Right Wall3" type="CollisionShape2D" parent="StaticBody2D" unique_id=1183776380]
+position = Vector2(-165, 115)
+shape = SubResource("RectangleShape2D_b8cek")
+
+[node name="Room" type="CollisionShape2D" parent="." unique_id=2029434285]
+shape = SubResource("RectangleShape2D_jbds1")
+
+[node name="wall_e" type="StaticBody2D" parent="." unique_id=1768494223]
+collision_layer = 8
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="wall_e" unique_id=641058168]
+position = Vector2(-138, 0)
+shape = SubResource("RectangleShape2D_hpmh5")
+
+[node name="wall_w" type="StaticBody2D" parent="." unique_id=1794476575]
+collision_layer = 8
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="wall_w" unique_id=581566620]
+position = Vector2(138, 0)
+shape = SubResource("RectangleShape2D_hpmh5")
+
+[node name="wall_s" type="StaticBody2D" parent="." unique_id=1316279051]
+position = Vector2(0, 138)
+rotation = 1.5707964
+collision_layer = 8
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="wall_s" unique_id=1948872600]
+shape = SubResource("RectangleShape2D_hpmh5")
+
+[node name="wall_n" type="StaticBody2D" parent="." unique_id=2027275445]
+position = Vector2(0, -138)
+rotation = 1.5707964
+collision_layer = 8
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="wall_n" unique_id=1910875076]
+shape = SubResource("RectangleShape2D_hpmh5")
+
+[node name="Enemies" type="Node2D" parent="." unique_id=1726986309]
+
+[node name="enemy" parent="Enemies" unique_id=1720581004 instance=ExtResource("3_74pds")]
+position = Vector2(-72, -5)

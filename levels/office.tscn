@@ -32,12 +32,6 @@ collision_layer = 16
 collision_mask = 0
 script = ExtResource("1_lfxy1")
 room_size = 280
-has_door = Dictionary[int, bool]({
-0: false,
-1: false,
-2: true,
-3: true
-})
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1116219748]
 texture = SubResource("AtlasTexture_fwcvl")

@@ -1,0 +1,107 @@
+[gd_scene format=3 uid="uid://c5krs0cmegjjc"]
+
+[ext_resource type="Script" uid="uid://db0bqvtd5v02g" path="res://levels/room.gd" id="1_0ged7"]
+[ext_resource type="Texture2D" uid="uid://f30cyvu56o03" path="res://art/WhiteRooms-Sheet.png" id="2_bbr54"]
+[ext_resource type="PackedScene" uid="uid://gcjwryrp5gyp" path="res://enemy/rotobaga.tscn" id="3_qu6b1"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e238g"]
+atlas = ExtResource("2_bbr54")
+region = Rect2(0, 0, 256, 256)
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_x7oe7"]
+vertices = PackedVector2Array(117, -117, 117, 117, -117, 117, -117, -117)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2), PackedInt32Array(0, 2, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-124, -124, 124, -124, 124, 124, -124, 124)])
+sample_partition_type = 1
+agent_radius = 7.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_syvp8"]
+size = Vector2(73, 142)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jyylk"]
+size = Vector2(256, 58)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fwmdr"]
+size = Vector2(300, 300)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_b13n8"]
+size = Vector2(20, 88)
+
+[node name="RoomEw" type="Area2D" unique_id=1538449322]
+script = ExtResource("1_0ged7")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1818494781]
+texture = SubResource("AtlasTexture_e238g")
+
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="." unique_id=610518341]
+navigation_polygon = SubResource("NavigationPolygon_x7oe7")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=296805368]
+collision_layer = 8
+collision_mask = 0
+
+[node name="Left Wall" type="CollisionShape2D" parent="StaticBody2D" unique_id=1239620896]
+position = Vector2(-165, -115)
+shape = SubResource("RectangleShape2D_syvp8")
+
+[node name="Right Wall" type="CollisionShape2D" parent="StaticBody2D" unique_id=352385711]
+position = Vector2(165, -115)
+shape = SubResource("RectangleShape2D_syvp8")
+
+[node name="Top Wall" type="CollisionShape2D" parent="StaticBody2D" unique_id=1487932767]
+position = Vector2(0, -157)
+shape = SubResource("RectangleShape2D_jyylk")
+
+[node name="Bottom Wall" type="CollisionShape2D" parent="StaticBody2D" unique_id=52417078]
+position = Vector2(0, 157)
+shape = SubResource("RectangleShape2D_jyylk")
+
+[node name="Right Wall2" type="CollisionShape2D" parent="StaticBody2D" unique_id=149223024]
+position = Vector2(165, 115)
+shape = SubResource("RectangleShape2D_syvp8")
+
+[node name="Right Wall3" type="CollisionShape2D" parent="StaticBody2D" unique_id=1326669683]
+position = Vector2(-165, 115)
+shape = SubResource("RectangleShape2D_syvp8")
+
+[node name="Room" type="CollisionShape2D" parent="." unique_id=1538762004]
+shape = SubResource("RectangleShape2D_fwmdr")
+
+[node name="wall_e" type="StaticBody2D" parent="." unique_id=243603579]
+collision_layer = 8
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="wall_e" unique_id=1975604349]
+position = Vector2(-138, 0)
+shape = SubResource("RectangleShape2D_b13n8")
+
+[node name="wall_w" type="StaticBody2D" parent="." unique_id=1411164496]
+collision_layer = 8
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="wall_w" unique_id=175249554]
+position = Vector2(138, 0)
+shape = SubResource("RectangleShape2D_b13n8")
+
+[node name="wall_s" type="StaticBody2D" parent="." unique_id=1790807310]
+position = Vector2(0, 138)
+rotation = 1.5707964
+collision_layer = 8
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="wall_s" unique_id=854728626]
+shape = SubResource("RectangleShape2D_b13n8")
+
+[node name="wall_n" type="StaticBody2D" parent="." unique_id=578168626]
+position = Vector2(0, -138)
+rotation = 1.5707964
+collision_layer = 8
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="wall_n" unique_id=32898461]
+shape = SubResource("RectangleShape2D_b13n8")
+
+[node name="Enemies" type="Node2D" parent="." unique_id=1575818917]
+
+[node name="enemy" parent="Enemies" unique_id=1720581004 instance=ExtResource("3_qu6b1")]
+position = Vector2(-72, -5)
