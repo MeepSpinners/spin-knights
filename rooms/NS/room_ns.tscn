@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://bwij4wet22pov"]
 
-[ext_resource type="PackedScene" uid="uid://gcjwryrp5gyp" path="res://enemy/rotobaga.tscn" id="1_l0sdk"]
+[ext_resource type="Script" uid="uid://db0bqvtd5v02g" path="res://levels/room.gd" id="1_eqhxj"]
+[ext_resource type="PackedScene" uid="uid://gcjwryrp5gyp" path="res://enemy/rotobaga.tscn" id="2_ev488"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_5cgqe"]
 load_path = "res://.godot/imported/WhiteRooms-Sheet.png-3e960f99053e9e46f80b95575e1f900f.ctex"
@@ -29,6 +30,7 @@ size = Vector2(300, 300)
 size = Vector2(20, 88)
 
 [node name="RoomNs" type="Area2D" unique_id=544648049]
+script = ExtResource("1_eqhxj")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1378698662]
 texture = SubResource("AtlasTexture_fojsv")
@@ -104,5 +106,5 @@ shape = SubResource("RectangleShape2D_xn85i")
 
 [node name="Enemies" type="Node2D" parent="." unique_id=377210387]
 
-[node name="enemy" parent="Enemies" unique_id=1720581004 instance=ExtResource("1_l0sdk")]
+[node name="enemy" parent="Enemies" unique_id=1720581004 instance=ExtResource("2_ev488")]
 position = Vector2(-72, -5)

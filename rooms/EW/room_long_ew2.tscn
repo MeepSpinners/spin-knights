@@ -1,10 +1,11 @@
 [gd_scene format=3 uid="uid://cvcmcgjvo5k8u"]
 
-[ext_resource type="Texture2D" uid="uid://f30cyvu56o03" path="res://art/WhiteRooms-Sheet.png" id="1_iypge"]
-[ext_resource type="PackedScene" uid="uid://gcjwryrp5gyp" path="res://enemy/rotobaga.tscn" id="2_nv0w6"]
+[ext_resource type="Script" uid="uid://db0bqvtd5v02g" path="res://levels/room.gd" id="1_gf7dp"]
+[ext_resource type="Texture2D" uid="uid://f30cyvu56o03" path="res://art/WhiteRooms-Sheet.png" id="2_d71ms"]
+[ext_resource type="PackedScene" uid="uid://gcjwryrp5gyp" path="res://enemy/rotobaga.tscn" id="3_mw08x"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_n50m0"]
-atlas = ExtResource("1_iypge")
+atlas = ExtResource("2_d71ms")
 region = Rect2(512, 256, 256, 256)
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_dg1hr"]
@@ -27,6 +28,7 @@ size = Vector2(300, 171)
 size = Vector2(20, 88)
 
 [node name="RoomLongEw2" type="Area2D" unique_id=1406225453]
+script = ExtResource("1_gf7dp")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1596966208]
 texture = SubResource("AtlasTexture_n50m0")
@@ -102,5 +104,5 @@ shape = SubResource("RectangleShape2D_ax0wb")
 
 [node name="Enemies" type="Node2D" parent="." unique_id=2126302019]
 
-[node name="enemy" parent="Enemies" unique_id=1720581004 instance=ExtResource("2_nv0w6")]
+[node name="enemy" parent="Enemies" unique_id=1720581004 instance=ExtResource("3_mw08x")]
 position = Vector2(-72, -5)

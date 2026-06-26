@@ -3,7 +3,7 @@ extends Node
 
 signal generation_done
 
-@export var num_rooms := 6
+@export var num_rooms := 14
 @export var room_scenes: Array[PackedScene]
 
 var rng = RandomNumberGenerator.new()
@@ -83,10 +83,12 @@ func choose_room(door):
 	
 	# Get rooms that fit the specifications
 	for scene in room_scenes:
-		var room: Room = scene.instantiate()
+		var folder := scene.resource_path.get_base_dir().get_file()
+		var room_doors = Room.get_door_from_string(folder)
+
 		var fits := true
 		for dir in Room.Direction.values():
-			if room.has_door[dir] != door[dir]:
+			if room_doors[dir] != door[dir]:
 				fits = false
 				break
 		if fits:
@@ -108,19 +110,21 @@ func choose_rooms():
 		
 		if room == null:
 			print("No valid room found")
+			continue
 		
-		var iroom: Room = room.instantiate 
+		var iroom: Room = room.instantiate()
+		
 		iroom.position = Vector2(
-			pos.x * room.room_size,
-			pos.y * room.room_size
+			pos.x * iroom.room_size,
+			pos.y * iroom.room_size
 		)
 		
-		add_child(room)
+		add_child(iroom)
 		
-		rooms[pos] = room
+		rooms[pos] = iroom
 
 
-func generate_seed(seed: int = -99999):
+func generate(seed: int = -99999):
 	'''
 	Generates seed if none specified
 	'''
@@ -136,4 +140,3 @@ func generate_seed(seed: int = -99999):
 	choose_rooms()
 	
 	generation_done.emit()
-	

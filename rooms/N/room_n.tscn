@@ -1,0 +1,108 @@
+[gd_scene format=3 uid="uid://c27ofbvg3jpb7"]
+
+[ext_resource type="PackedScene" uid="uid://gcjwryrp5gyp" path="res://enemy/rotobaga.tscn" id="1_2oek5"]
+[ext_resource type="Script" uid="uid://db0bqvtd5v02g" path="res://levels/room.gd" id="1_vlbdb"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_rf5i2"]
+load_path = "res://.godot/imported/Rooms-Sheet.png-699a581295e043d1ffbd2b64ad0c038e.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vlbdb"]
+atlas = SubResource("CompressedTexture2D_rf5i2")
+region = Rect2(512, 0, 256, 256)
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_4laj7"]
+vertices = PackedVector2Array(117, -117, 117, 117, -117, 117, -117, -117)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2), PackedInt32Array(0, 2, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-124, -124, 124, -124, 124, 124, -124, 124)])
+sample_partition_type = 1
+agent_radius = 7.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_55o20"]
+size = Vector2(73, 357)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ojg05"]
+size = Vector2(168.75, 58)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vyond"]
+size = Vector2(254, 58)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_povro"]
+size = Vector2(300, 300)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tao81"]
+size = Vector2(20, 88)
+
+[node name="RoomN" type="Area2D" unique_id=1579464593]
+script = ExtResource("1_vlbdb")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1997433553]
+texture = SubResource("AtlasTexture_vlbdb")
+
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="." unique_id=1015525272]
+navigation_polygon = SubResource("NavigationPolygon_4laj7")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=1986898006]
+collision_layer = 8
+collision_mask = 0
+
+[node name="Left Wall" type="CollisionShape2D" parent="StaticBody2D" unique_id=1903393971]
+position = Vector2(-161, -7.5)
+shape = SubResource("RectangleShape2D_55o20")
+
+[node name="Right Wall" type="CollisionShape2D" parent="StaticBody2D" unique_id=501896334]
+position = Vector2(161, -1)
+shape = SubResource("RectangleShape2D_55o20")
+
+[node name="Top Wall" type="CollisionShape2D" parent="StaticBody2D" unique_id=1624183353]
+position = Vector2(129.375, -153)
+shape = SubResource("RectangleShape2D_ojg05")
+
+[node name="Bottom Wall" type="CollisionShape2D" parent="StaticBody2D" unique_id=1511871132]
+position = Vector2(1, 154)
+shape = SubResource("RectangleShape2D_vyond")
+
+[node name="Top Wall2" type="CollisionShape2D" parent="StaticBody2D" unique_id=1951982251]
+position = Vector2(-128, -154)
+shape = SubResource("RectangleShape2D_ojg05")
+
+[node name="Room" type="CollisionShape2D" parent="." unique_id=694402332]
+shape = SubResource("RectangleShape2D_povro")
+
+[node name="wall_e" type="StaticBody2D" parent="." unique_id=1191632383]
+collision_layer = 8
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="wall_e" unique_id=1878381949]
+position = Vector2(-138, 0)
+shape = SubResource("RectangleShape2D_tao81")
+
+[node name="wall_w" type="StaticBody2D" parent="." unique_id=968555913]
+collision_layer = 8
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="wall_w" unique_id=1136988277]
+position = Vector2(138, 0)
+shape = SubResource("RectangleShape2D_tao81")
+
+[node name="wall_s" type="StaticBody2D" parent="." unique_id=1680102224]
+position = Vector2(0, 138)
+rotation = 1.5707964
+collision_layer = 8
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="wall_s" unique_id=868876473]
+shape = SubResource("RectangleShape2D_tao81")
+
+[node name="wall_n" type="StaticBody2D" parent="." unique_id=345081111]
+position = Vector2(0, -138)
+rotation = 1.5707964
+collision_layer = 8
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="wall_n" unique_id=1483595006]
+shape = SubResource("RectangleShape2D_tao81")
+
+[node name="Enemies" type="Node2D" parent="." unique_id=1842794157]
+
+[node name="enemy" parent="Enemies" unique_id=1720581004 instance=ExtResource("1_2oek5")]
+position = Vector2(-72, -5)
