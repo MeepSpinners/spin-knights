@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="DialogueChainData" format=3 uid="uid://c4vu0q7pga2dm"]
+
+[ext_resource type="Script" uid="uid://dxc3ltvbb58ih" path="res://ui/dialogue/dialogue_data.gd" id="1_x8j3d"]
+[ext_resource type="Resource" uid="uid://dyoyqo2ufsu44" path="res://speakers/protagonist.tres" id="2_ijawt"]
+[ext_resource type="Resource" uid="uid://uojaym2i7m6x" path="res://speakers/printer.tres" id="3_uhewv"]
+[ext_resource type="Script" uid="uid://3c8845e3gp7u" path="res://ui/dialogue/dialogue_chain_data.gd" id="4_ubtqe"]
+
+[sub_resource type="Resource" id="Resource_x8j3d"]
+script = ExtResource("1_x8j3d")
+text = "[wave]I'm spinning and I can't stopppp[/wave]"
+speaker1 = ExtResource("2_ijawt")
+speaker2 = ExtResource("3_uhewv")
+metadata/_custom_type_script = "uid://dxc3ltvbb58ih"
+
+[sub_resource type="Resource" id="Resource_ijawt"]
+script = ExtResource("1_x8j3d")
+text = "Press Q to let go! He'll fly straight into the wall for a good slamming"
+speaker1 = ExtResource("2_ijawt")
+speaker2 = ExtResource("3_uhewv")
+speaker_turn = 2
+metadata/_custom_type_script = "uid://dxc3ltvbb58ih"
+
+[resource]
+script = ExtResource("4_ubtqe")
+dialogues = Array[ExtResource("1_x8j3d")]([SubResource("Resource_x8j3d"), SubResource("Resource_ijawt")])
+metadata/_custom_type_script = "uid://3c8845e3gp7u"

@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://my6ulrjisvk1"]
+
+[ext_resource type="PackedScene" uid="uid://c7rih0thbdd3d" path="res://decorations/decoration.tscn" id="1_x4xgc"]
+[ext_resource type="Texture2D" uid="uid://xadtgpsqsays" path="res://art/Office Set 1-Sheet.png" id="2_32dkv"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2b84g"]
+atlas = ExtResource("2_32dkv")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_7qguj"]
+
+[node name="Chair" unique_id=1857885368 instance=ExtResource("1_x4xgc")]
+offset = -10.94
+
+[node name="Sprite2D" parent="." index="0" unique_id=1667999739]
+texture = SubResource("AtlasTexture_2b84g")
+offset = Vector2(0, -10.94)
+
+[node name="CollisionShape2D" parent="." index="1" unique_id=1254977978]
+shape = SubResource("CircleShape2D_7qguj")

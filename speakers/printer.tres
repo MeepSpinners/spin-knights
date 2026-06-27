@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="SpeakerData" format=3 uid="uid://uojaym2i7m6x"]
+
+[ext_resource type="Script" uid="uid://dfyxr77mabvy8" path="res://ui/dialogue/speaker_data.gd" id="1_0lapo"]
+[ext_resource type="Texture2D" uid="uid://bb2ixr242nceh" path="res://speakers/printer_avatar_one.tres" id="2_ww5pj"]
+
+[resource]
+script = ExtResource("1_0lapo")
+display_name = "Printer"
+sprite = ExtResource("2_ww5pj")
+metadata/_custom_type_script = "uid://dfyxr77mabvy8"

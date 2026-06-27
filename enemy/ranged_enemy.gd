@@ -7,8 +7,8 @@ class_name RangedEnemy
 @export var kite_range = 65.0
 @export var kite_buffer = 8.0
 @export var fire_cd = 1.4
-@export var proj_speed = 5
-@export var proj_damage = 10.0
+@export var proj_speed = 2.5
+@export var proj_damage = 1.0
 @export var proj_recoil = 3.0
 @export var lead_shots = false
 @export var max_extra_range = 100.0
@@ -20,7 +20,7 @@ func _ready() -> void:
 
 func handle_ai(delta: float):
 	shot_timer -= delta
-	var player = get_parent().get_node("player")
+	var player = get_tree().get_first_node_in_group("Player")
 	var to_player: Vector2 = player.global_position - self.global_position
 	var dist = to_player.length()
 	var standing_range = kite_range + max_extra_range * float(max_health - health) / max_health

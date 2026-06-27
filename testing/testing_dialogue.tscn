@@ -1,0 +1,29 @@
+[gd_scene format=3 uid="uid://i5ti3e8bfdb7"]
+
+[ext_resource type="Script" uid="uid://by75ldlnikbkj" path="res://testing/testing_dialogue.gd" id="1_ayxyf"]
+[ext_resource type="PackedScene" uid="uid://cc1mpco80q4np" path="res://ui/dialogue/dialogue.tscn" id="2_j00by"]
+[ext_resource type="Resource" uid="uid://c31eufwemtvve" path="res://dialogue/world_explanation.tres" id="2_ygy68"]
+[ext_resource type="PackedScene" uid="uid://cw6gr27godofs" path="res://ui/player_gui/PlayerGUI.tscn" id="3_ygy68"]
+[ext_resource type="PackedScene" uid="uid://iwht5urhc45s" path="res://menu/options_menu.tscn" id="4_d4der"]
+
+[node name="TestingDialogue" type="Node2D" unique_id=1446636573]
+script = ExtResource("1_ayxyf")
+dc = ExtResource("2_ygy68")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=867108842]
+
+[node name="DialogueUI" parent="CanvasLayer" unique_id=1623013452 instance=ExtResource("2_j00by")]
+process_mode = 3
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 0.0
+offset_bottom = 0.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PlayerGUI" parent="CanvasLayer" unique_id=228519736 instance=ExtResource("3_ygy68")]
+
+[node name="OptionsMenu" parent="CanvasLayer" unique_id=1697546344 instance=ExtResource("4_d4der")]
+visible = false

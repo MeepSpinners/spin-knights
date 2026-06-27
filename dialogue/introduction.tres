@@ -1,0 +1,56 @@
+[gd_resource type="Resource" script_class="DialogueChainData" format=3 uid="uid://ctodfyu6o7pv"]
+
+[ext_resource type="Script" uid="uid://dxc3ltvbb58ih" path="res://ui/dialogue/dialogue_data.gd" id="1_25ah2"]
+[ext_resource type="Script" uid="uid://3c8845e3gp7u" path="res://ui/dialogue/dialogue_chain_data.gd" id="2_5yo4n"]
+[ext_resource type="Resource" uid="uid://dyoyqo2ufsu44" path="res://speakers/protagonist.tres" id="2_cynjg"]
+[ext_resource type="Resource" uid="uid://uojaym2i7m6x" path="res://speakers/printer.tres" id="3_d07se"]
+
+[sub_resource type="Resource" id="Resource_cynjg"]
+script = ExtResource("1_25ah2")
+text = "It's my first day! I've got to make a good first impression..."
+speaker1 = ExtResource("2_cynjg")
+speaker2 = ExtResource("3_d07se")
+metadata/_custom_type_script = "uid://dxc3ltvbb58ih"
+
+[sub_resource type="Resource" id="Resource_d07se"]
+script = ExtResource("1_25ah2")
+text = "Relax, I'm sure you'll do fine."
+speaker1 = ExtResource("2_cynjg")
+speaker2 = ExtResource("3_d07se")
+speaker_turn = 2
+metadata/_custom_type_script = "uid://dxc3ltvbb58ih"
+
+[sub_resource type="Resource" id="Resource_e8i4i"]
+script = ExtResource("1_25ah2")
+text = "[wave]Eep![/wave] Why are you talking?"
+speaker1 = ExtResource("2_cynjg")
+speaker2 = ExtResource("3_d07se")
+metadata/_custom_type_script = "uid://dxc3ltvbb58ih"
+
+[sub_resource type="Resource" id="Resource_ovf0q"]
+script = ExtResource("1_25ah2")
+text = "That's rude... I'm going to pretend that I didn't hear that."
+speaker1 = ExtResource("2_cynjg")
+speaker2 = ExtResource("3_d07se")
+speaker_turn = 2
+metadata/_custom_type_script = "uid://dxc3ltvbb58ih"
+
+[sub_resource type="Resource" id="Resource_wjmxj"]
+script = ExtResource("1_25ah2")
+text = "W... why...? How? Am I hallucinating from the stress?"
+speaker1 = ExtResource("2_cynjg")
+speaker2 = ExtResource("3_d07se")
+metadata/_custom_type_script = "uid://dxc3ltvbb58ih"
+
+[sub_resource type="Resource" id="Resource_2c6lp"]
+script = ExtResource("1_25ah2")
+text = "Hah! You wish. Anyway, I'm the least of your concerns right now. Go ahead and wander around. You'll see what I'm talking about."
+speaker1 = ExtResource("2_cynjg")
+speaker2 = ExtResource("3_d07se")
+speaker_turn = 2
+metadata/_custom_type_script = "uid://dxc3ltvbb58ih"
+
+[resource]
+script = ExtResource("2_5yo4n")
+dialogues = Array[ExtResource("1_25ah2")]([SubResource("Resource_cynjg"), SubResource("Resource_d07se"), SubResource("Resource_e8i4i"), SubResource("Resource_ovf0q"), SubResource("Resource_wjmxj"), SubResource("Resource_2c6lp")])
+metadata/_custom_type_script = "uid://3c8845e3gp7u"

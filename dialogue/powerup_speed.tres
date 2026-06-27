@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="DialogueChainData" format=3 uid="uid://cqc5pj1ry20o"]
+
+[ext_resource type="Script" uid="uid://dxc3ltvbb58ih" path="res://ui/dialogue/dialogue_data.gd" id="1_phfog"]
+[ext_resource type="Resource" uid="uid://dyoyqo2ufsu44" path="res://speakers/protagonist.tres" id="2_5d6rg"]
+[ext_resource type="Resource" uid="uid://uojaym2i7m6x" path="res://speakers/printer.tres" id="3_35h7k"]
+[ext_resource type="Script" uid="uid://3c8845e3gp7u" path="res://ui/dialogue/dialogue_chain_data.gd" id="4_e01k2"]
+
+[sub_resource type="Resource" id="Resource_phfog"]
+script = ExtResource("1_phfog")
+text = "That's a speed powerup! It increases your movement speed."
+speaker1 = ExtResource("2_5d6rg")
+speaker2 = ExtResource("3_35h7k")
+speaker_turn = 2
+metadata/_custom_type_script = "uid://dxc3ltvbb58ih"
+
+[resource]
+script = ExtResource("4_e01k2")
+dialogues = Array[ExtResource("1_phfog")]([SubResource("Resource_phfog")])
+metadata/_custom_type_script = "uid://3c8845e3gp7u"

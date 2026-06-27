@@ -18,6 +18,8 @@ config/icon="res://icon.svg"
 [autoload]
 
 Settings="*uid://bvm71ptvk348"
+Progress="*uid://du735661eni14"
+PowerupSpawner="*uid://bl56v0lcrv47b"
 
 [display]
 
@@ -34,6 +36,7 @@ version_control/autoload_on_startup=true
 [global_group]
 
 PlayerGUI=""
+Main=""
 
 [input]
 
@@ -101,4 +104,5 @@ textures/canvas_textures/default_texture_filter=0
 rendering_device/driver.windows="d3d12"
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
+limits/global_shader_variables/buffer_size=262144
 environment/defaults/default_clear_color=Color(0.49411765, 0.56078434, 0.49411765, 1)

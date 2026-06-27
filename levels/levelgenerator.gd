@@ -12,8 +12,8 @@ signal generation_done
 
 var rng = RandomNumberGenerator.new()
 
-var office: Dictionary = {}
-var rooms: Dictionary = {}
+var office: Dictionary[Vector2i, bool] = {}
+var room_by_coords: Dictionary[Vector2i, Room] = {}
 
 var directions = [
 	Vector2i.UP,
@@ -64,43 +64,40 @@ func rng_shuffle(arr: Array):
 
 
 func generate_layout():
-	'''
-	Generate the layout of the office
-	'''
 	office.clear()
-	rooms.clear()
 	
+	# The frontier now stores pairs: [Vector2i position, int doors_already_assigned]
+	# Start at (0,0) with 0 doors assigned
 	var frontier: Array[Vector2i] = [Vector2i.ZERO]
 	office[Vector2i.ZERO] = true
 	
+	# Track total unfulfilled doors across the entire layout
+	var active_branches := 0
+	
 	while office.size() < num_rooms:
-		# Choose random room from frontier to branch out from
-		var curr: Vector2i = frontier[rng.randi_range(0, frontier.size() - 1)]
-		
-		# randomize the directions
+		if frontier.is_empty():
+			break # Safety check if we get boxed in early
+			
+		var curr = frontier[rng.randi_range(0, frontier.size() - 1)]
 		rng_shuffle(directions)
 		
-		var placeable := false
+		var placed := false
 		
 		for dir in directions:
 			var next = curr + dir
 			
-			# if room in direction then continue to next direction
 			if office.has(next):
 				continue
-				
+			
 			office[next] = true
 			frontier.append(next)
-			
-			placeable = true
+			placed = true
 			break
-		
-		# if all directions blocked
-		if not placeable:
+			
+		if not placed:
 			frontier.erase(curr)
 
-
-func get_doors(pos):
+func get_doors(pos) -> Dictionary[Room.Direction, bool]:
 	return {
 		Room.Direction.NORTH: office.has(pos + Vector2i.UP),
 		Room.Direction.SOUTH: office.has(pos + Vector2i.DOWN),
@@ -110,21 +107,22 @@ func get_doors(pos):
 	
 func create_corridor(from, to):
 	var scene
+	var step_distance = room_size + corr_length
 	
 	if to.x > from.x:
 		#RIGHT
 		scene = hori_corr_scenes[rng.randi_range(0, hori_corr_scenes.size() - 1)].instantiate()
 		scene.position = Vector2(
-			from.x * (corr_length + room_size) + corr_length,
-			from.y * (corr_length + room_size)
+			from.x * step_distance + (room_size / 2.0) + (corr_length / 2.0),
+			from.y * step_distance
 		)
 		
 	if to.y > from.y:
 		#UP
 		scene = vert_corr_scenes[rng.randi_range(0, vert_corr_scenes.size() - 1)].instantiate()
 		scene.position = Vector2(
-			from.x * (corr_length + room_size),
-			from.y * (corr_length + room_size) + corr_length
+			from.x * step_distance,
+			from.y * step_distance + (room_size / 2.0) + (corr_length / 2.0)
 		)
 
 	add_child(scene)
@@ -176,15 +174,36 @@ func choose_rooms():
 		
 		var iroom: Room = room.instantiate()
 		
+		var step_distance = room_size + corr_length
+		
 		iroom.position = Vector2(
-			pos.x * (iroom.room_size+corr_length),
-			pos.y * (iroom.room_size+corr_length)
+			pos.x * step_distance,
+			pos.y * step_distance
 		)
 		
-		add_child(iroom)
+		room_by_coords[pos] = iroom
 		
-		rooms[pos] = iroom
+		add_child(iroom)
+	
+	for pos in room_by_coords.keys():
+		for dir in Room.Direction:
+			var vector_dir: Vector2i
+			match Room.Direction[dir]:
+				Room.Direction.NORTH:
+					vector_dir = Vector2i.UP
+				Room.Direction.SOUTH:
+					vector_dir = Vector2i.DOWN
+				Room.Direction.EAST:
+					vector_dir = Vector2i.RIGHT
+				Room.Direction.WEST:
+					vector_dir = Vector2i.LEFT
 
+			var doors: Dictionary[Room.Direction, bool] = get_doors(pos)
+			if (doors[Room.Direction[dir]]):
+				room_by_coords[pos] \
+					.neighbours[Room.Direction[dir]] \
+						= room_by_coords[pos + vector_dir]
+		room_by_coords[pos].setup()
 
 func generate(seed: int = -99999):
 	'''
@@ -201,7 +220,8 @@ func generate(seed: int = -99999):
 	generate_layout()
 	choose_rooms()
 	generate_corridors()
-	
+	room_by_coords[Vector2i.ZERO].activate(true)
+
 	print(":(")
 	
 	generation_done.emit()

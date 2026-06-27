@@ -1,0 +1,78 @@
+[gd_resource type="Resource" script_class="DialogueChainData" format=3 uid="uid://c31eufwemtvve"]
+
+[ext_resource type="Script" uid="uid://dxc3ltvbb58ih" path="res://ui/dialogue/dialogue_data.gd" id="1_wqh6k"]
+[ext_resource type="Resource" uid="uid://dyoyqo2ufsu44" path="res://speakers/protagonist.tres" id="2_ym3nr"]
+[ext_resource type="Resource" uid="uid://uojaym2i7m6x" path="res://speakers/printer.tres" id="3_8j70h"]
+[ext_resource type="Script" uid="uid://3c8845e3gp7u" path="res://ui/dialogue/dialogue_chain_data.gd" id="4_moayh"]
+
+[sub_resource type="Resource" id="Resource_h1ku0"]
+script = ExtResource("1_wqh6k")
+text = "[wave]Aaah![/wave] What's that??"
+speaker1 = ExtResource("2_ym3nr")
+speaker2 = ExtResource("3_8j70h")
+metadata/_custom_type_script = "uid://dxc3ltvbb58ih"
+
+[sub_resource type="Resource" id="Resource_nepns"]
+script = ExtResource("1_wqh6k")
+text = "Who knows... A week ago, these things came to life and took over the office."
+speaker1 = ExtResource("2_ym3nr")
+speaker2 = ExtResource("3_8j70h")
+speaker_turn = 2
+metadata/_custom_type_script = "uid://dxc3ltvbb58ih"
+
+[sub_resource type="Resource" id="Resource_cynjg"]
+script = ExtResource("1_wqh6k")
+text = "T... took over? What happened to the workers?"
+speaker1 = ExtResource("2_ym3nr")
+speaker2 = ExtResource("3_8j70h")
+metadata/_custom_type_script = "uid://dxc3ltvbb58ih"
+
+[sub_resource type="Resource" id="Resource_oair5"]
+script = ExtResource("1_wqh6k")
+text = "I haven't seen any of them around, except one..."
+speaker1 = ExtResource("2_ym3nr")
+speaker2 = ExtResource("3_8j70h")
+speaker_turn = 2
+metadata/_custom_type_script = "uid://dxc3ltvbb58ih"
+
+[sub_resource type="Resource" id="Resource_kfvs2"]
+script = ExtResource("1_wqh6k")
+text = "Who?"
+speaker1 = ExtResource("2_ym3nr")
+speaker2 = ExtResource("3_8j70h")
+metadata/_custom_type_script = "uid://dxc3ltvbb58ih"
+
+[sub_resource type="Resource" id="Resource_meg1t"]
+script = ExtResource("1_wqh6k")
+text = "The boss. I've seen him walking the halls undisturbed by those creatures. If we find him, we get answers."
+speaker1 = ExtResource("2_ym3nr")
+speaker2 = ExtResource("3_8j70h")
+speaker_turn = 2
+metadata/_custom_type_script = "uid://dxc3ltvbb58ih"
+
+[sub_resource type="Resource" id="Resource_jmlu3"]
+script = ExtResource("1_wqh6k")
+text = "Do I have to... I kinda just want to go home now..."
+speaker1 = ExtResource("2_ym3nr")
+speaker2 = ExtResource("3_8j70h")
+metadata/_custom_type_script = "uid://dxc3ltvbb58ih"
+
+[sub_resource type="Resource" id="Resource_87hf2"]
+script = ExtResource("1_wqh6k")
+text = "I've considered that possibility, so I made sure to seal the exit shut."
+speaker1 = ExtResource("2_ym3nr")
+speaker2 = ExtResource("3_8j70h")
+speaker_turn = 2
+metadata/_custom_type_script = "uid://dxc3ltvbb58ih"
+
+[sub_resource type="Resource" id="Resource_ca3xt"]
+script = ExtResource("1_wqh6k")
+text = "..."
+speaker1 = ExtResource("2_ym3nr")
+speaker2 = ExtResource("3_8j70h")
+metadata/_custom_type_script = "uid://dxc3ltvbb58ih"
+
+[resource]
+script = ExtResource("4_moayh")
+dialogues = Array[ExtResource("1_wqh6k")]([SubResource("Resource_h1ku0"), SubResource("Resource_nepns"), SubResource("Resource_cynjg"), SubResource("Resource_oair5"), SubResource("Resource_kfvs2"), SubResource("Resource_meg1t"), SubResource("Resource_jmlu3"), SubResource("Resource_87hf2"), SubResource("Resource_ca3xt")])
+metadata/_custom_type_script = "uid://3c8845e3gp7u"

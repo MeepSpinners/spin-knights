@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://brwgt5d0ilho6"]
+
+[ext_resource type="PackedScene" uid="uid://ci285kimn1m5o" path="res://decorations/book.tscn" id="1_url6e"]
+[ext_resource type="Texture2D" uid="uid://xadtgpsqsays" path="res://art/Office Set 1-Sheet.png" id="2_6sdpa"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6sdpa"]
+atlas = ExtResource("2_6sdpa")
+region = Rect2(32, 32, 7, 9)
+
+[node name="Book Green" unique_id=1857885368 instance=ExtResource("1_url6e")]
+
+[node name="Sprite2D" parent="." index="0" unique_id=1667999739]
+texture = SubResource("AtlasTexture_6sdpa")

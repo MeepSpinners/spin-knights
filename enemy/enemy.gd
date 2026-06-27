@@ -8,11 +8,14 @@ class_name Enemy
 @onready var nav_agent = $NavigationAgent2D
 @onready var status_sprite: Sprite2D = $status_sprite
 
-@export var health = 100
+@export var health = 4
 @export var friction = 60
-@export var contact_damage = 5
-@export var flying_damage = 50
-@export var explosion_damage = 50.0
+@export var contact_damage = 1
+@export var flying_damage = 2
+var base_explosion_damage = 2
+var base_explosion_range = 27.0
+var additional_explosion_damage = 0
+var additional_explosion_range = 0.0
 @export var recoil_speed = 40
 @export var ai_speed = 5
 @export var decision_speed = 1
@@ -21,6 +24,21 @@ class_name Enemy
 @export var flee_modifier = 0.9
 @export var explosion_knockback = 100.0
 var max_health = 100
+
+var activated = false
+
+func update_explosion_damage(damage: float):
+	additional_explosion_damage = damage
+
+func update_explosion_range(range: float):
+	additional_explosion_range = range
+	var explosion_scale = base_explosion_range + additional_explosion_range
+	explosion_hitbox.scale = Vector2(
+		explosion_scale, explosion_scale
+	)
+
+func activate():
+	activated = true
 
 var base_animation_speed = 1.0
 
@@ -199,7 +217,8 @@ func choose_behaviour():
 	elif action <= wander_chance:
 		behaviour = Behaviour.WANDER
 		var map = nav_agent.get_navigation_map()
-		nav_agent.target_position = NavigationServer2D.map_get_random_point(map, 1, false)
+		if map:
+			nav_agent.target_position = NavigationServer2D.map_get_random_point(map, 1, false)
 	else:
 		behaviour = Behaviour.CHASE
 
@@ -210,7 +229,9 @@ var time_since_entered_recoil = 10.0
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta: float) -> void:
-	update_debug_label()
+	
+	if not activated:
+		return
 	
 	set_flash_modifier(
 		get_recoil_flash_modifier(time_since_entered_recoil))
@@ -227,6 +248,10 @@ func _physics_process(delta: float) -> void:
 			handle_ai(delta)
 	
 func _process(delta: float) -> void:
+	
+	if not activated:
+		return
+
 	var to_be_destroyed: Array[String] = []
 	
 	var longest_status_duration: float = 0.0
@@ -411,52 +436,7 @@ func explode():
 	var enemies = $explosion_hitbox.get_overlapping_bodies()
 	for enemy in enemies:
 		if (enemy is Enemy):
-			enemy.take_damage(explosion_damage, self)
+			enemy.take_damage(base_explosion_damage + additional_explosion_damage, self)
 			apply_explosion_effect(enemy)
 			enemy.launch_in_direction(
 				global_position.direction_to(enemy.global_position), explosion_knockback)
-
-@onready var debug_label = $DebugLabel
-
-func update_debug_label():
-	var state_string
-	match state:
-		State.AI:
-			state_string = "AI"
-		State.ATTACKING:
-			state_string = "ATTACKING"
-		State.RECOILING:
-			state_string = "RECOILING"
-		State.FLYING:
-			state_string = "FLYING"
-		State.HELD:
-			state_string = "HELD"
-		State.DEAD:
-			state_string = "DEAD"
-	
-	var debug_text = "State: " + state_string
-	debug_text += "\nHP: " + str(health)
-	
-	var active_layers = []
-	var current_layer_bitmask = collision_layer
-	
-	if current_layer_bitmask & (1 << Layers.PLAYER): active_layers.append("Player")
-	if current_layer_bitmask & (1 << Layers.ENEMY): active_layers.append("Enemy")
-	if current_layer_bitmask & (1 << Layers.HELD_ENEMY): active_layers.append("Held Enemy")
-	
-	var active_masks = []
-	var current_mask_bitmask = $enemy_hitbox.collision_mask
-	
-	if current_mask_bitmask & (1 << Layers.PLAYER): active_masks.append("Player")
-	if current_mask_bitmask & (1 << Layers.ENEMY): active_masks.append("Enemy")
-	if current_mask_bitmask & (1 << Layers.HELD_ENEMY): active_masks.append("Held Enemy")
-	
-	debug_text += "\nLayers: " + (", ".join(active_layers) if active_layers.size() > 0 else "None")
-	debug_text += "\nTargets: " + (", ".join(active_masks) if active_masks.size() > 0 else "None")
-	
-	debug_label.text = debug_text
-	
-	debug_label.text += "\nVelocity: " + str(velocity)
-	debug_label.text += "\nFlash mod: " + str(animated_sprite.material.get_shader_parameter("flash_modifier"))
-	if state == State.AI:
-		debug_label.text += "\nBehaviour: " + str(Behaviour.keys()[behaviour])

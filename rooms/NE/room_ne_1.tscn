@@ -1,0 +1,144 @@
+[gd_scene format=3 uid="uid://qa5nfa7sodtg"]
+
+[ext_resource type="PackedScene" uid="uid://bbsl426ca0swf" path="res://levels/office.tscn" id="1_1y16t"]
+[ext_resource type="Texture2D" uid="uid://ci3n6cu07tahi" path="res://art/Rooms-Sheet.png" id="2_depsk"]
+[ext_resource type="PackedScene" uid="uid://gcjwryrp5gyp" path="res://enemy/rotobaga.tscn" id="3_4jre0"]
+[ext_resource type="PackedScene" uid="uid://fjuqtmvfiemb" path="res://enemy/trashcan.tscn" id="4_op2ik"]
+[ext_resource type="PackedScene" uid="uid://btrkydhm5y46y" path="res://decorations/table.tscn" id="5_pjt0a"]
+[ext_resource type="PackedScene" uid="uid://bwyhittwjgcip" path="res://decorations/front_chair.tscn" id="6_xgvg1"]
+[ext_resource type="PackedScene" uid="uid://ci285kimn1m5o" path="res://decorations/book.tscn" id="7_6xnxh"]
+[ext_resource type="PackedScene" uid="uid://byeq86k5om1e7" path="res://decorations/book_blue.tscn" id="8_r0123"]
+[ext_resource type="PackedScene" uid="uid://5mj1ui5w6hdl" path="res://decorations/computer_off.tscn" id="9_21rqq"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vtdgh"]
+atlas = ExtResource("2_depsk")
+region = Rect2(256, 512, 256, 256)
+
+[node name="Office" unique_id=188504069 instance=ExtResource("1_1y16t")]
+
+[node name="Top" parent="Permanent" parent_id_path=PackedInt32Array(450965139) index="4" unique_id=2026036624]
+visible = false
+disabled = true
+
+[node name="Right" parent="Permanent" parent_id_path=PackedInt32Array(450965139) index="5" unique_id=1927860910]
+visible = false
+disabled = true
+
+[node name="Sprite2D" parent="." index="1" unique_id=1116219748]
+texture = SubResource("AtlasTexture_vtdgh")
+
+[node name="enemy" parent="Enemies" parent_id_path=PackedInt32Array(1959046667) index="0" unique_id=1720581004 instance=ExtResource("3_4jre0")]
+position = Vector2(-85, -83)
+
+[node name="enemy2" parent="Enemies" parent_id_path=PackedInt32Array(1959046667) index="1" unique_id=1143924114 instance=ExtResource("3_4jre0")]
+position = Vector2(-46, -18)
+
+[node name="enemy3" parent="Enemies" parent_id_path=PackedInt32Array(1959046667) index="2" unique_id=1333865017 instance=ExtResource("3_4jre0")]
+position = Vector2(48, -73)
+
+[node name="enemy4" parent="Enemies" parent_id_path=PackedInt32Array(1959046667) index="3" unique_id=1662632703 instance=ExtResource("3_4jre0")]
+position = Vector2(-80, 77)
+
+[node name="enemy5" parent="Enemies" parent_id_path=PackedInt32Array(1959046667) index="4" unique_id=751084704 instance=ExtResource("3_4jre0")]
+position = Vector2(37, 90)
+
+[node name="enemy6" parent="Enemies" parent_id_path=PackedInt32Array(1959046667) index="5" unique_id=453035175 instance=ExtResource("4_op2ik")]
+position = Vector2(96, 2)
+
+[node name="enemy7" parent="Enemies" parent_id_path=PackedInt32Array(1959046667) index="6" unique_id=1074508599 instance=ExtResource("4_op2ik")]
+position = Vector2(-1, -105)
+
+[node name="Table" parent="Decorations" parent_id_path=PackedInt32Array(1897529373) index="0" unique_id=1857885368 instance=ExtResource("5_pjt0a")]
+position = Vector2(-89, 48)
+disabled = false
+
+[node name="Front Chair" parent="Decorations" parent_id_path=PackedInt32Array(1897529373) index="1" unique_id=484409967 instance=ExtResource("6_xgvg1")]
+position = Vector2(-89, 36)
+
+[node name="Book" parent="Decorations" parent_id_path=PackedInt32Array(1897529373) index="2" unique_id=1537800521 instance=ExtResource("7_6xnxh")]
+position = Vector2(-81, 51)
+offset = -17.175
+
+[node name="Book Blue" parent="Decorations" parent_id_path=PackedInt32Array(1897529373) index="3" unique_id=1710919089 instance=ExtResource("8_r0123")]
+position = Vector2(-83, 52)
+offset = -20.805
+
+[node name="Computer Off" parent="Decorations" parent_id_path=PackedInt32Array(1897529373) index="4" unique_id=811163481 instance=ExtResource("9_21rqq")]
+position = Vector2(-94, 50)
+offset = -20.82
+
+[node name="Table2" parent="Decorations" parent_id_path=PackedInt32Array(1897529373) index="5" unique_id=1568146971 instance=ExtResource("5_pjt0a")]
+position = Vector2(-34, 73)
+disabled = false
+
+[node name="Front Chair2" parent="Decorations" parent_id_path=PackedInt32Array(1897529373) index="6" unique_id=1973460588 instance=ExtResource("6_xgvg1")]
+position = Vector2(-34, 61)
+
+[node name="Book2" parent="Decorations" parent_id_path=PackedInt32Array(1897529373) index="7" unique_id=629094654 instance=ExtResource("7_6xnxh")]
+position = Vector2(-26, 76)
+offset = -17.175
+
+[node name="Book Blue2" parent="Decorations" parent_id_path=PackedInt32Array(1897529373) index="8" unique_id=126649513 instance=ExtResource("8_r0123")]
+position = Vector2(-28, 77)
+offset = -20.805
+
+[node name="Computer Off2" parent="Decorations" parent_id_path=PackedInt32Array(1897529373) index="9" unique_id=1664665864 instance=ExtResource("9_21rqq")]
+position = Vector2(-39, 75)
+offset = -20.82
+
+[node name="Table3" parent="Decorations" parent_id_path=PackedInt32Array(1897529373) index="10" unique_id=856955612 instance=ExtResource("5_pjt0a")]
+position = Vector2(97, -83)
+disabled = false
+
+[node name="Front Chair3" parent="Decorations" parent_id_path=PackedInt32Array(1897529373) index="11" unique_id=351857172 instance=ExtResource("6_xgvg1")]
+position = Vector2(97, -95)
+
+[node name="Book3" parent="Decorations" parent_id_path=PackedInt32Array(1897529373) index="12" unique_id=1471534767 instance=ExtResource("7_6xnxh")]
+position = Vector2(105, -80)
+offset = -17.175
+
+[node name="Book Blue3" parent="Decorations" parent_id_path=PackedInt32Array(1897529373) index="13" unique_id=403884944 instance=ExtResource("8_r0123")]
+position = Vector2(103, -79)
+offset = -20.805
+
+[node name="Computer Off3" parent="Decorations" parent_id_path=PackedInt32Array(1897529373) index="14" unique_id=421845891 instance=ExtResource("9_21rqq")]
+position = Vector2(92, -81)
+offset = -20.82
+
+[node name="Table4" parent="Decorations" parent_id_path=PackedInt32Array(1897529373) index="15" unique_id=1112840863 instance=ExtResource("5_pjt0a")]
+position = Vector2(-55, -60)
+disabled = false
+
+[node name="Front Chair4" parent="Decorations" parent_id_path=PackedInt32Array(1897529373) index="16" unique_id=464937966 instance=ExtResource("6_xgvg1")]
+position = Vector2(-55, -72)
+
+[node name="Book4" parent="Decorations" parent_id_path=PackedInt32Array(1897529373) index="17" unique_id=1472391952 instance=ExtResource("7_6xnxh")]
+position = Vector2(-47, -57)
+offset = -17.175
+
+[node name="Book Blue4" parent="Decorations" parent_id_path=PackedInt32Array(1897529373) index="18" unique_id=97474674 instance=ExtResource("8_r0123")]
+position = Vector2(-49, -56)
+offset = -20.805
+
+[node name="Computer Off4" parent="Decorations" parent_id_path=PackedInt32Array(1897529373) index="19" unique_id=1218278386 instance=ExtResource("9_21rqq")]
+position = Vector2(-60, -58)
+offset = -20.82
+
+[node name="Table5" parent="Decorations" parent_id_path=PackedInt32Array(1897529373) index="20" unique_id=1925642975 instance=ExtResource("5_pjt0a")]
+position = Vector2(83, 69)
+disabled = false
+
+[node name="Front Chair5" parent="Decorations" parent_id_path=PackedInt32Array(1897529373) index="21" unique_id=1769867479 instance=ExtResource("6_xgvg1")]
+position = Vector2(83, 57)
+
+[node name="Book5" parent="Decorations" parent_id_path=PackedInt32Array(1897529373) index="22" unique_id=1164970042 instance=ExtResource("7_6xnxh")]
+position = Vector2(91, 72)
+offset = -17.175
+
+[node name="Book Blue5" parent="Decorations" parent_id_path=PackedInt32Array(1897529373) index="23" unique_id=183859340 instance=ExtResource("8_r0123")]
+position = Vector2(89, 73)
+offset = -20.805
+
+[node name="Computer Off5" parent="Decorations" parent_id_path=PackedInt32Array(1897529373) index="24" unique_id=596046133 instance=ExtResource("9_21rqq")]
+position = Vector2(78, 71)
+offset = -20.82

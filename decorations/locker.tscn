@@ -1,0 +1,23 @@
+[gd_scene format=3 uid="uid://clx0fl8rcm8wr"]
+
+[ext_resource type="PackedScene" uid="uid://c7rih0thbdd3d" path="res://decorations/decoration.tscn" id="1_eyfgs"]
+[ext_resource type="Texture2D" uid="uid://xadtgpsqsays" path="res://art/Office Set 1-Sheet.png" id="2_i6ph3"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wyw66"]
+atlas = ExtResource("2_i6ph3")
+region = Rect2(64, 64, 13, 21)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vvlee"]
+size = Vector2(13, 8)
+
+[node name="Locker" unique_id=1857885368 instance=ExtResource("1_eyfgs")]
+offset = -10.125
+
+[node name="Sprite2D" parent="." index="0" unique_id=1667999739]
+texture = SubResource("AtlasTexture_wyw66")
+offset = Vector2(0, -10.125)
+
+[node name="CollisionShape2D" parent="." index="1" unique_id=1254977978]
+position = Vector2(0, -3.5)
+scale = Vector2(1, 1)
+shape = SubResource("RectangleShape2D_vvlee")

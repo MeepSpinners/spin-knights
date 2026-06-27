@@ -1,0 +1,24 @@
+[gd_scene format=3 uid="uid://btrkydhm5y46y"]
+
+[ext_resource type="PackedScene" uid="uid://c7rih0thbdd3d" path="res://decorations/decoration.tscn" id="1_lp6b7"]
+[ext_resource type="Texture2D" uid="uid://xadtgpsqsays" path="res://art/Office Set 1-Sheet.png" id="2_jrghj"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5kaes"]
+atlas = ExtResource("2_jrghj")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_c3vaj"]
+size = Vector2(21.505379, 29.67213)
+
+[node name="Table" unique_id=1857885368 instance=ExtResource("1_lp6b7")]
+offset = -10.085
+disabled = null
+
+[node name="Sprite2D" parent="." index="0" unique_id=1667999739]
+texture = SubResource("AtlasTexture_5kaes")
+offset = Vector2(0, -10.085)
+
+[node name="CollisionShape2D" parent="." index="1" unique_id=1254977978]
+position = Vector2(0, -8.95)
+scale = Vector2(1.395, 0.61)
+shape = SubResource("RectangleShape2D_c3vaj")

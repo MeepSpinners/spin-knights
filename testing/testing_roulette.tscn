@@ -1,0 +1,31 @@
+[gd_scene format=3 uid="uid://btvy4m6lrmn8f"]
+
+[ext_resource type="Script" uid="uid://yf1h8e8tek45" path="res://testing/testing_roulette.gd" id="1_mfgfw"]
+[ext_resource type="Script" uid="uid://brmk3bc18wdbr" path="res://main/gui.gd" id="2_53kh4"]
+[ext_resource type="PackedScene" uid="uid://cc1mpco80q4np" path="res://ui/dialogue/dialogue.tscn" id="3_sadxg"]
+[ext_resource type="PackedScene" uid="uid://cw6gr27godofs" path="res://ui/player_gui/PlayerGUI.tscn" id="4_27u77"]
+[ext_resource type="PackedScene" uid="uid://iwht5urhc45s" path="res://menu/options_menu.tscn" id="5_ktfpq"]
+[ext_resource type="PackedScene" uid="uid://cywhpj6aix5ru" path="res://roulette/roulette.tscn" id="6_ptlky"]
+
+[node name="TestingRoulette" type="Node2D" unique_id=1492190026]
+script = ExtResource("1_mfgfw")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1009213148]
+script = ExtResource("2_53kh4")
+
+[node name="DialogueUI" parent="CanvasLayer" unique_id=1623013452 instance=ExtResource("3_sadxg")]
+process_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 0.0
+offset_bottom = 0.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PlayerGUI" parent="CanvasLayer" unique_id=228519736 instance=ExtResource("4_27u77")]
+
+[node name="OptionsMenu" parent="CanvasLayer" unique_id=1697546344 instance=ExtResource("5_ktfpq")]
+visible = false
+
+[node name="Roulette" parent="CanvasLayer" unique_id=750206291 instance=ExtResource("6_ptlky")]

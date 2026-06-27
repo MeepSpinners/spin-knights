@@ -1,0 +1,136 @@
+[gd_scene format=3 uid="uid://bfbfqdkkx66ek"]
+
+[ext_resource type="PackedScene" uid="uid://bbsl426ca0swf" path="res://levels/office.tscn" id="1_mub4i"]
+[ext_resource type="Texture2D" uid="uid://ci3n6cu07tahi" path="res://art/Rooms-Sheet.png" id="2_xnl4h"]
+[ext_resource type="PackedScene" uid="uid://cghxbt0vx3lvh" path="res://enemy/ranged_enemy.tscn" id="3_fa31d"]
+[ext_resource type="PackedScene" uid="uid://cthlnl3utq18j" path="res://enemy/watah.tscn" id="4_gcfpk"]
+[ext_resource type="PackedScene" uid="uid://btrkydhm5y46y" path="res://decorations/table.tscn" id="5_50hmg"]
+[ext_resource type="PackedScene" uid="uid://bwyhittwjgcip" path="res://decorations/front_chair.tscn" id="6_7jp44"]
+[ext_resource type="PackedScene" uid="uid://my6ulrjisvk1" path="res://decorations/chair.tscn" id="7_uophr"]
+[ext_resource type="PackedScene" uid="uid://dtaadqsqklvjs" path="res://decorations/puddle.tscn" id="8_1cb4b"]
+[ext_resource type="PackedScene" uid="uid://clx0fl8rcm8wr" path="res://decorations/locker.tscn" id="9_jflkd"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j30lr"]
+atlas = ExtResource("2_xnl4h")
+region = Rect2(512, 768, 256, 256)
+
+[node name="Office" unique_id=188504069 instance=ExtResource("1_mub4i")]
+
+[node name="Top" parent="Permanent" parent_id_path=PackedInt32Array(450965139) index="4" unique_id=2026036624]
+visible = false
+disabled = true
+
+[node name="Right" parent="Permanent" parent_id_path=PackedInt32Array(450965139) index="5" unique_id=1927860910]
+visible = false
+disabled = true
+
+[node name="Bottom" parent="Permanent" parent_id_path=PackedInt32Array(450965139) index="6" unique_id=1973784578]
+visible = false
+disabled = true
+
+[node name="Sprite2D" parent="." index="1" unique_id=1116219748]
+texture = SubResource("AtlasTexture_j30lr")
+
+[node name="enemy" parent="Enemies" parent_id_path=PackedInt32Array(1959046667) index="0" unique_id=1720581004 instance=ExtResource("3_fa31d")]
+position = Vector2(0, 1)
+
+[node name="enemy4" parent="Enemies" parent_id_path=PackedInt32Array(1959046667) index="1" unique_id=1259029536 instance=ExtResource("4_gcfpk")]
+position = Vector2(-2, 114)
+
+[node name="enemy5" parent="Enemies" parent_id_path=PackedInt32Array(1959046667) index="2" unique_id=152453110 instance=ExtResource("4_gcfpk")]
+position = Vector2(102, 10)
+
+[node name="enemy6" parent="Enemies" parent_id_path=PackedInt32Array(1959046667) index="3" unique_id=105842318 instance=ExtResource("4_gcfpk")]
+position = Vector2(-28, -115)
+
+[node name="Table" parent="Decorations" parent_id_path=PackedInt32Array(1897529373) index="0" unique_id=1857885368 instance=ExtResource("5_50hmg")]
+position = Vector2(-91, 26)
+disabled = false
+
+[node name="Front Chair" parent="Decorations" parent_id_path=PackedInt32Array(1897529373) index="1" unique_id=988528779 instance=ExtResource("6_7jp44")]
+position = Vector2(-92, 15)
+
+[node name="Table2" parent="Decorations" parent_id_path=PackedInt32Array(1897529373) index="2" unique_id=1819204675 instance=ExtResource("5_50hmg")]
+position = Vector2(-90, 97)
+disabled = false
+
+[node name="Front Chair2" parent="Decorations" parent_id_path=PackedInt32Array(1897529373) index="3" unique_id=1233521187 instance=ExtResource("6_7jp44")]
+position = Vector2(-91, 86)
+
+[node name="Table3" parent="Decorations" parent_id_path=PackedInt32Array(1897529373) index="4" unique_id=58953937 instance=ExtResource("5_50hmg")]
+position = Vector2(60, -17)
+disabled = false
+
+[node name="Front Chair3" parent="Decorations" parent_id_path=PackedInt32Array(1897529373) index="5" unique_id=688596825 instance=ExtResource("6_7jp44")]
+position = Vector2(59, -28)
+
+[node name="Table4" parent="Decorations" parent_id_path=PackedInt32Array(1897529373) index="6" unique_id=96367551 instance=ExtResource("5_50hmg")]
+position = Vector2(45, 56)
+disabled = false
+
+[node name="Chair" parent="Decorations" parent_id_path=PackedInt32Array(1897529373) index="7" unique_id=245980382 instance=ExtResource("7_uophr")]
+position = Vector2(46, 62)
+
+[node name="Table5" parent="Decorations" parent_id_path=PackedInt32Array(1897529373) index="8" unique_id=24373539 instance=ExtResource("5_50hmg")]
+position = Vector2(-51, -24)
+disabled = false
+
+[node name="Chair2" parent="Decorations" parent_id_path=PackedInt32Array(1897529373) index="9" unique_id=1459230519 instance=ExtResource("7_uophr")]
+position = Vector2(-50, -18)
+
+[node name="Puddle" parent="Decorations" parent_id_path=PackedInt32Array(1897529373) index="10" unique_id=10343178 instance=ExtResource("8_1cb4b")]
+position = Vector2(98, -11)
+
+[node name="Puddle2" parent="Decorations" parent_id_path=PackedInt32Array(1897529373) index="11" unique_id=964576120 instance=ExtResource("8_1cb4b")]
+position = Vector2(-29, -131)
+
+[node name="Puddle3" parent="Decorations" parent_id_path=PackedInt32Array(1897529373) index="12" unique_id=373020926 instance=ExtResource("8_1cb4b")]
+position = Vector2(-73, -5)
+
+[node name="Locker" parent="Decorations" parent_id_path=PackedInt32Array(1897529373) index="13" unique_id=51822627 instance=ExtResource("9_jflkd")]
+position = Vector2(-109, 54)
+
+[node name="Locker2" parent="Decorations" parent_id_path=PackedInt32Array(1897529373) index="14" unique_id=1415607702 instance=ExtResource("9_jflkd")]
+position = Vector2(-97, 54)
+
+[node name="Locker3" parent="Decorations" parent_id_path=PackedInt32Array(1897529373) index="15" unique_id=539901688 instance=ExtResource("9_jflkd")]
+position = Vector2(-85, 54)
+
+[node name="Locker4" parent="Decorations" parent_id_path=PackedInt32Array(1897529373) index="16" unique_id=1902388296 instance=ExtResource("9_jflkd")]
+position = Vector2(-73, 54)
+
+[node name="Locker5" parent="Decorations" parent_id_path=PackedInt32Array(1897529373) index="17" unique_id=33719658 instance=ExtResource("9_jflkd")]
+position = Vector2(64, 97)
+
+[node name="Locker6" parent="Decorations" parent_id_path=PackedInt32Array(1897529373) index="18" unique_id=2060003162 instance=ExtResource("9_jflkd")]
+position = Vector2(76, 97)
+
+[node name="Locker7" parent="Decorations" parent_id_path=PackedInt32Array(1897529373) index="19" unique_id=1145443072 instance=ExtResource("9_jflkd")]
+position = Vector2(88, 97)
+
+[node name="Locker8" parent="Decorations" parent_id_path=PackedInt32Array(1897529373) index="20" unique_id=1952367521 instance=ExtResource("9_jflkd")]
+position = Vector2(100, 97)
+
+[node name="Locker9" parent="Decorations" parent_id_path=PackedInt32Array(1897529373) index="21" unique_id=1387279483 instance=ExtResource("9_jflkd")]
+position = Vector2(40, -60)
+
+[node name="Locker10" parent="Decorations" parent_id_path=PackedInt32Array(1897529373) index="22" unique_id=1594415230 instance=ExtResource("9_jflkd")]
+position = Vector2(52, -60)
+
+[node name="Locker11" parent="Decorations" parent_id_path=PackedInt32Array(1897529373) index="23" unique_id=1770243614 instance=ExtResource("9_jflkd")]
+position = Vector2(64, -60)
+
+[node name="Locker12" parent="Decorations" parent_id_path=PackedInt32Array(1897529373) index="24" unique_id=180981161 instance=ExtResource("9_jflkd")]
+position = Vector2(76, -60)
+
+[node name="Locker13" parent="Decorations" parent_id_path=PackedInt32Array(1897529373) index="25" unique_id=1483498047 instance=ExtResource("9_jflkd")]
+position = Vector2(-83, -46)
+
+[node name="Locker14" parent="Decorations" parent_id_path=PackedInt32Array(1897529373) index="26" unique_id=1234611060 instance=ExtResource("9_jflkd")]
+position = Vector2(-71, -46)
+
+[node name="Locker15" parent="Decorations" parent_id_path=PackedInt32Array(1897529373) index="27" unique_id=1535537738 instance=ExtResource("9_jflkd")]
+position = Vector2(-59, -46)
+
+[node name="Locker16" parent="Decorations" parent_id_path=PackedInt32Array(1897529373) index="28" unique_id=1473648766 instance=ExtResource("9_jflkd")]
+position = Vector2(-47, -46)
