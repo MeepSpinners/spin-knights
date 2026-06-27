@@ -3,7 +3,7 @@ extends CharacterBody2D
 class_name Player
 
 @export_group("Movement")
-@export var speed = 40
+@export var speed = 50
 @export var friction = 50
 
 @export_group("Entity")

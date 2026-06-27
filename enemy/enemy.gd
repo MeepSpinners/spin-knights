@@ -8,7 +8,7 @@ class_name Enemy
 @onready var nav_agent = $NavigationAgent2D
 @onready var status_sprite: Sprite2D = $status_sprite
 
-@export var health = 4
+@export var health = 8
 @export var friction = 60
 @export var contact_damage = 1
 @export var flying_damage = 2

@@ -181,5 +181,5 @@ animations = [{
 [node name="enemy" unique_id=1720581004 instance=ExtResource("1_ous5y")]
 script = ExtResource("2_5eo4p")
 
-[node name="Anime" parent="." index="6" unique_id=1889553250]
+[node name="Anime" parent="." index="5" unique_id=1889553250]
 sprite_frames = SubResource("SpriteFrames_5eo4p")
