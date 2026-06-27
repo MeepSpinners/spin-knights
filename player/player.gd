@@ -7,8 +7,7 @@ class_name Player
 @export var friction = 50
 
 @export_group("Entity")
-@export var health = 3
-@export var max_health = 3
+@export var health = 5
 
 @export_group("Combat")
 @export var max_held = 1
@@ -24,24 +23,13 @@ class_name Player
 @export var base_spinning_damage_to_other = 1.0
 @export var max_spin_additive_damage_to_other = 0.0
 
-var additional_explosion_damage = 0
-var additional_explosion_range = 0.0
-
-var thorns_damage = 0.0
-
-@export_group("Power-ups")
-@export var damage_per_powerup = 0.2
-@export var health_per_powerup = 1
-
 var held_enemies = []
 var nearby_enemies = []
-var unlocked_throwing = false
 
 var is_playing_animation = false
 var is_recoiling = false
 var last_dir = Vector2.DOWN
 var spinning_progress = 0.0
-var damage_multiplier = 1
 
 @onready var animated_sprite = $Anime
 @onready var thwack_audio = $whack_audio
@@ -123,12 +111,16 @@ func take_damage(damage: float, recoil_source: Node2D, recoil_amount: float = 1.
 	
 	self.health -= damage
 	change_health()
+	
+	if health <= 0.0:
+		Progress.on_death()
+		return
 
 	time_since_entered_recoil = 0.0
 	if (!recoil_source == null):
-		if thorns_damage > 0.0 and recoil_source is Enemy:
+		if PlayerStats.thorns_damage > 0.0 and recoil_source is Enemy:
 			var enemy: Enemy = recoil_source
-			enemy.take_damage(thorns_damage, self)
+			enemy.take_damage(PlayerStats.thorns_damage, self)
 	
 		is_recoiling = true
 		var recoil_dir = -global_position.direction_to(recoil_source.global_position)
@@ -166,7 +158,7 @@ class AnimationState:
 
 func _ready() -> void:
 	$HealthBar.hide_on_full = false
-	$HealthBar.set_health(health, max_health)
+	$HealthBar.set_health(health, PlayerStats.max_health)
 	change_health.call_deferred()
 	camera.offset = global_position
 
@@ -209,7 +201,7 @@ func handle_controlled_move(delta: float) -> void:
 	var final_movement_speed = speed
 	if (held_enemies.size() != 0):
 		final_movement_speed = get_spinning_movement_speed(spinning_progress)
-	final_movement_speed *= speed_multiplier
+	final_movement_speed *= PlayerStats.speed_multiplier
 
 	if (input_dir.length() >= 0):
 		velocity = input_dir.normalized() * final_movement_speed
@@ -282,7 +274,7 @@ func hide_q():
 
 # Resets the spinning progress
 func handle_throw():
-	if not unlocked_throwing:
+	if not PlayerStats.unlock_throwing:
 		return
 	if not Input.is_action_just_pressed("throw"):
 		return
@@ -327,7 +319,7 @@ func rotate_enemy_around_player(delta: float) -> void:
 	
 	spinning_progress = min(
 		1.0, 
-		spinning_progress + delta / (time_to_max_speed * spin_duration_shortening))
+		spinning_progress + delta / (time_to_max_speed * PlayerStats.spin_duration_shortening))
 	var average_dir = 0.0
 	var current_orbit_speed = get_current_orbit_speed(spinning_progress)
 	
@@ -364,33 +356,30 @@ func get_spinning_damage_to_other(_grabbed_enemy: Enemy):
 		max_spin_additive_damage_to_other 
 		* spinning_progress 
 		+ base_spinning_damage_to_other
-	) * damage_multiplier
+	) * PlayerStats.damage_multiplier
 
 func get_spinning_damage_to_tool(_grabbed_enemy: Enemy):
 	return base_spinning_damage_to_held
 
 func add_damage_powerup():
-	damage_multiplier += damage_per_powerup
+	PlayerStats.add_damage_powerup()
 
 func add_health_powerup():
-	max_health += health_per_powerup
-	health += health_per_powerup
+	PlayerStats.add_health_powerup()
+	health = PlayerStats.max_health
 	change_health()
 
 func add_explosion_damage_powerup():
-	additional_explosion_damage += 1.0
+	PlayerStats.add_explosion_damage_powerup()
 func add_explosion_range_powerup():
-	additional_explosion_range += 1.0
+	PlayerStats.add_explosion_range_powerup()
 func add_thorns_powerup():
-	thorns_damage += 1.0
+	PlayerStats.add_thorns_powerup()
 
-var speed_multiplier = 1.0
 func add_speed_powerup():
-	speed_multiplier += 0.1
-
-var spin_duration_shortening = 1.0
+	PlayerStats.add_speed_powerup
 func add_spin_speed_powerup():
-	spin_duration_shortening *= 0.9
+	PlayerStats.add_spin_speed_powerup()
 
 @onready var pickup_hitbox = $pickup_hitbox
 var pickup_radius = 1.0
@@ -399,8 +388,8 @@ func add_area_powerup():
 	pickup_hitbox.scale = Vector2(pickup_radius, pickup_radius)
 
 func change_health():
-	get_player_gui().update_health(health, max_health)
-	$HealthBar.set_health(health, max_health)
+	get_player_gui().update_health(health, PlayerStats.max_health)
+	$HealthBar.set_health(health, PlayerStats.max_health)
 
 func on_grabbed_enemy_contact_object(grabbed_enemy: Enemy, object: Object):
 	var time_spinning = spinning_progress * time_to_max_speed
@@ -424,8 +413,8 @@ func on_grabbed_enemy_die(grabbed_enemy: Enemy):
 	hide_q()
 
 func grab_enemy(enemy: Enemy):
-	enemy.update_explosion_damage(additional_explosion_damage)
-	enemy.update_explosion_range(additional_explosion_range)
+	enemy.update_explosion_damage(PlayerStats.additional_explosion_damage)
+	enemy.update_explosion_range(PlayerStats.additional_explosion_range)
 	held_enemies.append(enemy)
 	enemy.picked_up()
 	remove_nearby(enemy)
@@ -460,6 +449,10 @@ func _physics_process(delta: float) -> void:
 		is_playing_animation = false
 
 var arrow_dict = {}
+
+func teleport(pos: Vector2):
+	global_position = pos
+	camera.offset = pos
 
 @onready var arrow_scene = preload("res://player/arrow.tscn")
 func update_throw_arrow():

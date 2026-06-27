@@ -32,12 +32,15 @@ func lock_door(dir: Direction):
 
 var enemies: Array[Enemy]
 
+func room_clear_notify_progress():
+	Progress.clear_a_room(self)
+
 func on_enemy_die(enemy: Enemy):
 	enemies.erase(enemy)
 	enemy.deregister_death_listener(on_enemy_die)
 	if enemies.size() == 0:
 		room_clear()
-		Progress.clear_a_room(self)
+		room_clear_notify_progress()
 
 func get_opposite(dir: Direction):
 	match dir:
@@ -85,6 +88,8 @@ func activate(no_enemies: bool):
 	# Gather the enemies
 	var enemies_node = get_node_or_null("Enemies")
 	var target_parent = get_tree().get_first_node_in_group("Main")
+	if not target_parent:
+		return
 	if enemies_node != null:
 		for enemy in enemies_node.get_children():
 			if (enemy is Enemy):
@@ -97,7 +102,7 @@ func activate(no_enemies: bool):
 				enemies_node.remove_child(enemy)
 				target_parent.call_deferred("add_child", enemy)
 				enemy.set_deferred("global_position", pos)
-				enemy.activate()
+				enemy.call_deferred("activate")
 				enemy.register_death_listener(target_parent.on_enemy_die)
 	
 	var decorations_node = get_node_or_null("Decorations")

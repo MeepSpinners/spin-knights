@@ -6,7 +6,7 @@
 [ext_resource type="AudioStream" uid="uid://cs56j0mm3ck8r" path="res://audio/pop.wav" id="4_4r8lp"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_1ts2u"]
-radius = 27.0
+radius = 14.0
 
 [node name="PowerUp" type="Area2D" unique_id=18012747]
 collision_layer = 0

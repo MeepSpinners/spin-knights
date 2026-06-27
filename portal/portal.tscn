@@ -1,0 +1,52 @@
+[gd_scene format=3 uid="uid://b4wrde4y76vc0"]
+
+[ext_resource type="Script" uid="uid://dj6gfdavro0nd" path="res://portal/portal.gd" id="1_sfjos"]
+[ext_resource type="Texture2D" uid="uid://c7ec2yia22cg1" path="res://art/portal-Sheet.png" id="2_508n2"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x3c8y"]
+atlas = ExtResource("2_508n2")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mjjvg"]
+atlas = ExtResource("2_508n2")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vrfwa"]
+atlas = ExtResource("2_508n2")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_h6qht"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x3c8y")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mjjvg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vrfwa")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_508n2"]
+
+[node name="Portal" type="Area2D" unique_id=1621577185]
+script = ExtResource("1_sfjos")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1100834493]
+sprite_frames = SubResource("SpriteFrames_h6qht")
+autoplay = "default"
+frame_progress = 0.14712092
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=151405559]
+shape = SubResource("CircleShape2D_508n2")
+
+[node name="Area2D" type="Area2D" parent="." unique_id=1949819395]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1712868136]
+scale = Vector2(4, 4)
+shape = SubResource("CircleShape2D_508n2")

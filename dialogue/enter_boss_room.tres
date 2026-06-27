@@ -1,0 +1,92 @@
+[gd_resource type="Resource" script_class="DialogueChainData" format=3 uid="uid://cxstf2q5pwkhe"]
+
+[ext_resource type="Script" uid="uid://dxc3ltvbb58ih" path="res://ui/dialogue/dialogue_data.gd" id="1_ku56k"]
+[ext_resource type="Script" uid="uid://3c8845e3gp7u" path="res://ui/dialogue/dialogue_chain_data.gd" id="2_4da7v"]
+[ext_resource type="Resource" uid="uid://dyoyqo2ufsu44" path="res://speakers/protagonist.tres" id="2_cndc5"]
+[ext_resource type="Resource" uid="uid://rhrxvy6l8y6j" path="res://speakers/boss.tres" id="3_b73wo"]
+[ext_resource type="Resource" uid="uid://uojaym2i7m6x" path="res://speakers/printer.tres" id="4_d73fm"]
+
+[sub_resource type="Resource" id="Resource_e8pbb"]
+script = ExtResource("1_ku56k")
+text = "Who goes there!"
+speaker1 = ExtResource("2_cndc5")
+speaker2 = ExtResource("3_b73wo")
+speaker_turn = 2
+metadata/_custom_type_script = "uid://dxc3ltvbb58ih"
+
+[sub_resource type="Resource" id="Resource_c5twe"]
+script = ExtResource("1_ku56k")
+text = "Umm... Hi boss! It's supposed to be my first day here..."
+speaker1 = ExtResource("2_cndc5")
+speaker2 = ExtResource("3_b73wo")
+metadata/_custom_type_script = "uid://dxc3ltvbb58ih"
+
+[sub_resource type="Resource" id="Resource_cndc5"]
+script = ExtResource("1_ku56k")
+text = "[wave]WHO CARES![/wave] YOU! What did you do to the office? Where are all the workers?"
+speaker1 = ExtResource("4_d73fm")
+speaker2 = ExtResource("3_b73wo")
+metadata/_custom_type_script = "uid://dxc3ltvbb58ih"
+
+[sub_resource type="Resource" id="Resource_b73wo"]
+script = ExtResource("1_ku56k")
+text = "What are you talking about? You must have met them all on the way here. "
+speaker1 = ExtResource("4_d73fm")
+speaker2 = ExtResource("3_b73wo")
+speaker_turn = 2
+metadata/_custom_type_script = "uid://dxc3ltvbb58ih"
+
+[sub_resource type="Resource" id="Resource_kkk52"]
+script = ExtResource("1_ku56k")
+text = "Also, I don't recall approving any new hires... are you sure you aren't mistaken?"
+speaker1 = ExtResource("4_d73fm")
+speaker2 = ExtResource("3_b73wo")
+speaker_turn = 2
+metadata/_custom_type_script = "uid://dxc3ltvbb58ih"
+
+[sub_resource type="Resource" id="Resource_d73fm"]
+script = ExtResource("1_ku56k")
+text = "What? But... but I got the email..."
+speaker1 = ExtResource("2_cndc5")
+speaker2 = ExtResource("3_b73wo")
+metadata/_custom_type_script = "uid://dxc3ltvbb58ih"
+
+[sub_resource type="Resource" id="Resource_14kwe"]
+script = ExtResource("1_ku56k")
+text = "[wave]WHO CARES! TAKE HIM OUT! NOW![/wave]"
+speaker1 = ExtResource("4_d73fm")
+speaker2 = ExtResource("3_b73wo")
+metadata/_custom_type_script = "uid://dxc3ltvbb58ih"
+
+[sub_resource type="Resource" id="Resource_phmjh"]
+script = ExtResource("1_ku56k")
+text = "But he's my boss..."
+speaker1 = ExtResource("2_cndc5")
+speaker2 = ExtResource("3_b73wo")
+metadata/_custom_type_script = "uid://dxc3ltvbb58ih"
+
+[sub_resource type="Resource" id="Resource_pdubh"]
+script = ExtResource("1_ku56k")
+text = "[wave]HE JUST SAID THAT HE WASN'T YOUR BOSS![/wave]"
+speaker1 = ExtResource("4_d73fm")
+speaker2 = ExtResource("3_b73wo")
+metadata/_custom_type_script = "uid://dxc3ltvbb58ih"
+
+[sub_resource type="Resource" id="Resource_gmx52"]
+script = ExtResource("1_ku56k")
+text = "..."
+speaker1 = ExtResource("2_cndc5")
+speaker2 = ExtResource("3_b73wo")
+metadata/_custom_type_script = "uid://dxc3ltvbb58ih"
+
+[sub_resource type="Resource" id="Resource_kipyr"]
+script = ExtResource("1_ku56k")
+text = "Fair enough."
+speaker1 = ExtResource("2_cndc5")
+speaker2 = ExtResource("3_b73wo")
+metadata/_custom_type_script = "uid://dxc3ltvbb58ih"
+
+[resource]
+script = ExtResource("2_4da7v")
+dialogues = Array[ExtResource("1_ku56k")]([SubResource("Resource_e8pbb"), SubResource("Resource_c5twe"), SubResource("Resource_cndc5"), SubResource("Resource_b73wo"), SubResource("Resource_kkk52"), SubResource("Resource_d73fm"), SubResource("Resource_14kwe"), SubResource("Resource_phmjh"), SubResource("Resource_pdubh"), SubResource("Resource_gmx52"), SubResource("Resource_kipyr")])
+metadata/_custom_type_script = "uid://3c8845e3gp7u"

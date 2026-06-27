@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://bytdj30vwaohg"]
+
+[ext_resource type="PackedScene" uid="uid://bbsl426ca0swf" path="res://levels/office.tscn" id="1_wyjdu"]
+[ext_resource type="Texture2D" uid="uid://4ytlmwvbpq4v" path="res://art/boss room-Sheet.png" id="2_1aa1p"]
+[ext_resource type="Script" uid="uid://tnel20yr0qe7" path="res://boss_room/boss_room.gd" id="2_of5iw"]
+[ext_resource type="PackedScene" uid="uid://b2hdatjsj4hg3" path="res://boss_room/boss.tscn" id="4_gn8rg"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_of5iw"]
+atlas = ExtResource("2_1aa1p")
+region = Rect2(0, 0, 256, 256)
+
+[node name="Office" unique_id=188504069 instance=ExtResource("1_wyjdu")]
+script = ExtResource("2_of5iw")
+
+[node name="Sprite2D" parent="." index="1" unique_id=1116219748]
+texture = SubResource("AtlasTexture_of5iw")
+
+[node name="enemy" parent="Enemies" parent_id_path=PackedInt32Array(1959046667) index="0" unique_id=1720581004 instance=ExtResource("4_gn8rg")]
+position = Vector2(4, -75)

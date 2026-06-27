@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="DialogueChainData" format=3 uid="uid://bjrbnjlneoref"]
+
+[ext_resource type="Script" uid="uid://dxc3ltvbb58ih" path="res://ui/dialogue/dialogue_data.gd" id="1_x3v4k"]
+[ext_resource type="Resource" uid="uid://dyoyqo2ufsu44" path="res://speakers/protagonist.tres" id="2_gwu0l"]
+[ext_resource type="Resource" uid="uid://uojaym2i7m6x" path="res://speakers/printer.tres" id="3_8g1m5"]
+[ext_resource type="Script" uid="uid://3c8845e3gp7u" path="res://ui/dialogue/dialogue_chain_data.gd" id="4_es08y"]
+
+[sub_resource type="Resource" id="Resource_ca3xt"]
+script = ExtResource("1_x3v4k")
+text = "This is it, this portal will lead you straight to the boss room. There's no turning back. I'm ready when you're ready."
+speaker1 = ExtResource("2_gwu0l")
+speaker2 = ExtResource("3_8g1m5")
+speaker_turn = 2
+metadata/_custom_type_script = "uid://dxc3ltvbb58ih"
+
+[resource]
+script = ExtResource("4_es08y")
+dialogues = Array[ExtResource("1_x3v4k")]([SubResource("Resource_ca3xt")])
+metadata/_custom_type_script = "uid://3c8845e3gp7u"
