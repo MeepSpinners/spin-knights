@@ -886,9 +886,6 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_rkbax"]
 size = Vector2(10.5, 10)
 
-[sub_resource type="LabelSettings" id="LabelSettings_g6k8r"]
-font_color = Color(0, 0, 0, 1)
-
 [sub_resource type="CircleShape2D" id="CircleShape2D_h6qht"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_6wvnb"]
@@ -938,10 +935,12 @@ animations = [{
 }]
 
 [node name="Player" type="CharacterBody2D" unique_id=943675611]
+top_level = true
 y_sort_enabled = true
 collision_mask = 8
 motion_mode = 1
 script = ExtResource("1_oul6g")
+speed = 1000
 metadata/_edit_group_ = true
 
 [node name="Anime" type="AnimatedSprite2D" parent="." unique_id=607451979]
@@ -960,28 +959,12 @@ width = 2.0
 default_color = Color(1, 0, 0, 1)
 joint_mode = 2
 
-[node name="DebugLabel" type="Label" parent="." unique_id=1561304113]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -9.999999
-offset_right = 186.0
-offset_bottom = 49.0
-grow_horizontal = 2
-grow_vertical = 2
-scale = Vector2(0.1, 0.1)
-label_settings = SubResource("LabelSettings_g6k8r")
-horizontal_alignment = 1
-autowrap_mode = 1
-
 [node name="pickup_hitbox" type="Area2D" parent="." unique_id=1316342961]
 collision_layer = 0
 collision_mask = 2
 
 [node name="pickup_hitbox" type="CollisionShape2D" parent="pickup_hitbox" unique_id=1127120629]
-scale = Vector2(2.13, 1.9979982)
+scale = Vector2(2, 2)
 shape = SubResource("CircleShape2D_h6qht")
 
 [node name="HealthBar" parent="." unique_id=686804142 instance=ExtResource("7_boad6")]

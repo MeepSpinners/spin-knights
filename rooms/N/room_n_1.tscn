@@ -1,0 +1,111 @@
+[gd_scene format=3 uid="uid://evs5snixkxyk"]
+
+[ext_resource type="PackedScene" uid="uid://bbsl426ca0swf" path="res://levels/office.tscn" id="1_r1mmx"]
+[ext_resource type="Texture2D" uid="uid://ci3n6cu07tahi" path="res://art/Rooms-Sheet.png" id="2_3el0a"]
+[ext_resource type="PackedScene" uid="uid://my6ulrjisvk1" path="res://decorations/chair.tscn" id="4_qqafa"]
+[ext_resource type="PackedScene" uid="uid://btrkydhm5y46y" path="res://decorations/table.tscn" id="5_iwhwc"]
+[ext_resource type="PackedScene" uid="uid://clx0fl8rcm8wr" path="res://decorations/locker.tscn" id="6_8ku5a"]
+[ext_resource type="PackedScene" uid="uid://bhuduythhob3f" path="res://decorations/computer.tscn" id="7_3jws6"]
+[ext_resource type="PackedScene" uid="uid://gcjwryrp5gyp" path="res://enemy/rotobaga.tscn" id="7_iwhwc"]
+[ext_resource type="PackedScene" uid="uid://cthlnl3utq18j" path="res://enemy/watah.tscn" id="8_8ku5a"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uy80b"]
+atlas = ExtResource("2_3el0a")
+region = Rect2(512, 0, 256, 256)
+
+[node name="Office" unique_id=188504069 instance=ExtResource("1_r1mmx")]
+
+[node name="Top" parent="Permanent" parent_id_path=PackedInt32Array(450965139) index="4" unique_id=2026036624]
+visible = false
+disabled = true
+
+[node name="Sprite2D" parent="." index="1" unique_id=1116219748]
+texture = SubResource("AtlasTexture_uy80b")
+
+[node name="enemy" parent="Enemies" parent_id_path=PackedInt32Array(1959046667) index="0" unique_id=1720581004 instance=ExtResource("7_iwhwc")]
+position = Vector2(2, -66)
+
+[node name="enemy2" parent="Enemies" parent_id_path=PackedInt32Array(1959046667) index="1" unique_id=43310901 instance=ExtResource("7_iwhwc")]
+position = Vector2(-52, 20)
+
+[node name="enemy3" parent="Enemies" parent_id_path=PackedInt32Array(1959046667) index="2" unique_id=803019393 instance=ExtResource("7_iwhwc")]
+position = Vector2(44, 18)
+
+[node name="enemy4" parent="Enemies" parent_id_path=PackedInt32Array(1959046667) index="3" unique_id=861864269 instance=ExtResource("7_iwhwc")]
+position = Vector2(-1, 53)
+
+[node name="enemy5" parent="Enemies" parent_id_path=PackedInt32Array(1959046667) index="4" unique_id=127607283 instance=ExtResource("8_8ku5a")]
+position = Vector2(-101, 104)
+
+[node name="enemy6" parent="Enemies" parent_id_path=PackedInt32Array(1959046667) index="5" unique_id=2031297991 instance=ExtResource("8_8ku5a")]
+position = Vector2(98, 105)
+
+[node name="Chair2" parent="Decorations" parent_id_path=PackedInt32Array(1897529373) index="0" unique_id=1857885368 instance=ExtResource("4_qqafa")]
+position = Vector2(-94, -9)
+
+[node name="Table2" parent="Decorations" parent_id_path=PackedInt32Array(1897529373) index="1" unique_id=81300650 instance=ExtResource("5_iwhwc")]
+position = Vector2(-94, -21)
+disabled = false
+
+[node name="Chair3" parent="Decorations" parent_id_path=PackedInt32Array(1897529373) index="2" unique_id=816423645 instance=ExtResource("4_qqafa")]
+position = Vector2(-94, -39)
+
+[node name="Table3" parent="Decorations" parent_id_path=PackedInt32Array(1897529373) index="3" unique_id=111787881 instance=ExtResource("5_iwhwc")]
+position = Vector2(-94, -51)
+disabled = false
+
+[node name="Chair4" parent="Decorations" parent_id_path=PackedInt32Array(1897529373) index="4" unique_id=1713612166 instance=ExtResource("4_qqafa")]
+position = Vector2(93, 23)
+
+[node name="Table4" parent="Decorations" parent_id_path=PackedInt32Array(1897529373) index="5" unique_id=234534366 instance=ExtResource("5_iwhwc")]
+position = Vector2(93, 11)
+disabled = false
+
+[node name="Chair5" parent="Decorations" parent_id_path=PackedInt32Array(1897529373) index="6" unique_id=1989543194 instance=ExtResource("4_qqafa")]
+position = Vector2(93, -7)
+
+[node name="Table5" parent="Decorations" parent_id_path=PackedInt32Array(1897529373) index="7" unique_id=1919870722 instance=ExtResource("5_iwhwc")]
+position = Vector2(93, -19)
+disabled = false
+
+[node name="Chair6" parent="Decorations" parent_id_path=PackedInt32Array(1897529373) index="8" unique_id=1925124040 instance=ExtResource("4_qqafa")]
+position = Vector2(94, -39)
+
+[node name="Table6" parent="Decorations" parent_id_path=PackedInt32Array(1897529373) index="9" unique_id=1367993312 instance=ExtResource("5_iwhwc")]
+position = Vector2(94, -51)
+disabled = false
+
+[node name="Chair7" parent="Decorations" parent_id_path=PackedInt32Array(1897529373) index="10" unique_id=1984871851 instance=ExtResource("4_qqafa")]
+position = Vector2(-52, 76)
+
+[node name="Table7" parent="Decorations" parent_id_path=PackedInt32Array(1897529373) index="11" unique_id=1033115369 instance=ExtResource("5_iwhwc")]
+position = Vector2(-52, 64)
+disabled = false
+
+[node name="Chair8" parent="Decorations" parent_id_path=PackedInt32Array(1897529373) index="12" unique_id=1592209366 instance=ExtResource("4_qqafa")]
+position = Vector2(0, 97)
+
+[node name="Table8" parent="Decorations" parent_id_path=PackedInt32Array(1897529373) index="13" unique_id=168668660 instance=ExtResource("5_iwhwc")]
+position = Vector2(0, 85)
+disabled = false
+
+[node name="Chair9" parent="Decorations" parent_id_path=PackedInt32Array(1897529373) index="14" unique_id=483432533 instance=ExtResource("4_qqafa")]
+position = Vector2(46, 76)
+
+[node name="Table9" parent="Decorations" parent_id_path=PackedInt32Array(1897529373) index="15" unique_id=315728362 instance=ExtResource("5_iwhwc")]
+position = Vector2(46, 64)
+disabled = false
+
+[node name="Chair" parent="Decorations" parent_id_path=PackedInt32Array(1897529373) index="16" unique_id=950098768 instance=ExtResource("4_qqafa")]
+position = Vector2(-93, 32)
+
+[node name="Table" parent="Decorations" parent_id_path=PackedInt32Array(1897529373) index="17" unique_id=1706382405 instance=ExtResource("5_iwhwc")]
+position = Vector2(-93, 20)
+disabled = false
+
+[node name="Locker" parent="Decorations" parent_id_path=PackedInt32Array(1897529373) index="18" unique_id=1515332451 instance=ExtResource("6_8ku5a")]
+position = Vector2(-102, 6)
+
+[node name="Computer" parent="Decorations" parent_id_path=PackedInt32Array(1897529373) index="19" unique_id=1414256722 instance=ExtResource("7_3jws6")]
+position = Vector2(-85, 23)
+offset = -22.805

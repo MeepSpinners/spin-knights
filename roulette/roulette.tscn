@@ -1,0 +1,58 @@
+[gd_scene format=3 uid="uid://cywhpj6aix5ru"]
+
+[ext_resource type="Script" uid="uid://jrx2tq8w6jjk" path="res://roulette/roulette.gd" id="1_r7ky3"]
+[ext_resource type="Texture2D" uid="uid://dqlnqqam4ywu7" path="res://art/roulette_with_icons.png" id="2_6yt2h"]
+[ext_resource type="FontFile" uid="uid://blt1hn3737qh7" path="res://fonts/Salmon Typewriter fonts/Salmon Typewriter 9 Bold.ttf" id="3_r7ky3"]
+[ext_resource type="AudioStream" uid="uid://dcwqf6hb6w2pf" path="res://audio/click.wav" id="4_a4c22"]
+
+[node name="Roulette" type="Control" unique_id=750206291]
+process_mode = 3
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_r7ky3")
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=1541664841]
+layout_mode = 1
+anchors_preset = 13
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -450.0
+offset_right = 450.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1e-05, 1e-05)
+pivot_offset_ratio = Vector2(0.5, 0.5)
+texture = ExtResource("2_6yt2h")
+expand_mode = 2
+stretch_mode = 4
+
+[node name="Label" type="Label" parent="." unique_id=851140207]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -20.0
+offset_top = -23.0
+offset_right = 20.0
+offset_bottom = -100.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/outline_size = 29
+theme_override_fonts/font = ExtResource("3_r7ky3")
+theme_override_font_sizes/font_size = 63
+text = "Click to spin!"
+
+[node name="Timer" type="Timer" parent="." unique_id=810620144]
+process_mode = 3
+wait_time = 0.5
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=1501355690]
+stream = ExtResource("4_a4c22")

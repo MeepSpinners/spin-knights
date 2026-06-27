@@ -1,0 +1,36 @@
+[gd_scene format=3 uid="uid://biqv1ae8gef1u"]
+
+[ext_resource type="Script" uid="uid://dbxrk6u8tlpvt" path="res://powerup/power_up.gd" id="1_1ts2u"]
+[ext_resource type="Texture2D" uid="uid://cr83gsble8hbo" path="res://art/powerups alone-upscaled.png" id="2_1ts2u"]
+[ext_resource type="Texture2D" uid="uid://dif7sr5tqgndh" path="res://art/shadow.png" id="3_c4be1"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_576ah"]
+atlas = ExtResource("2_1ts2u")
+region = Rect2(0, 0, 27, 27)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_1ts2u"]
+radius = 27.0
+
+[node name="PowerUp" type="Area2D" unique_id=18012747]
+collision_layer = 0
+script = ExtResource("1_1ts2u")
+type = null
+metadata/_edit_group_ = true
+
+[node name="Icon" type="Sprite2D" parent="." unique_id=1275464139]
+texture = SubResource("AtlasTexture_576ah")
+offset = Vector2(0, -13.5)
+
+[node name="Shadow" type="Sprite2D" parent="." unique_id=1309613849]
+texture = ExtResource("3_c4be1")
+offset = Vector2(0, -13.5)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=992746383]
+position = Vector2(0, -13)
+shape = SubResource("CircleShape2D_1ts2u")
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=2014967736]
+position = Vector2(0, -1)
+zoom = Vector2(10, 10)
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

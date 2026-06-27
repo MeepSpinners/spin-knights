@@ -75,6 +75,8 @@ func display_dialogue_chain(dialogue_chain: DialogueChainData):
 		play_animation(false, false)
 	await wait_for_animations()
 	on_dialogue_chain_end.emit(true)
+	displaying_left = null
+	displaying_right = null
 
 func unfocus(sb: SpeakerBox):
 	sb.text.visible = true
@@ -125,6 +127,7 @@ func display_dialogue(dialogue: DialogueData):
 	if (dialogue.speaker2):
 		update_speaker(speaker_box_2, dialogue.speaker2)
 
+	text_box.visible_characters = 0
 	await wait_for_animations()
 	
 	
@@ -136,7 +139,6 @@ func display_dialogue(dialogue: DialogueData):
 	# Just to make sure we don't hang everything
 	await get_tree().process_frame
 	text_box.text = dialogue.text
-	text_box.visible_characters = 0
 	
 	if dialogue.speaker_turn == 1:
 		focus(speaker_box_1)

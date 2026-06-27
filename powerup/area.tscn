@@ -1,0 +1,15 @@
+[gd_scene format=3 uid="uid://dkuok2ovff3pb"]
+
+[ext_resource type="PackedScene" uid="uid://biqv1ae8gef1u" path="res://powerup/power-up.tscn" id="1_bml81"]
+[ext_resource type="Script" uid="uid://47gfgd4vukbf" path="res://powerup/area.gd" id="2_itdje"]
+[ext_resource type="Texture2D" uid="uid://cr83gsble8hbo" path="res://art/powerups alone-upscaled.png" id="2_uqk55"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_itdje"]
+atlas = ExtResource("2_uqk55")
+region = Rect2(162, 0, 27, 27)
+
+[node name="PowerUp" unique_id=18012747 instance=ExtResource("1_bml81")]
+script = ExtResource("2_itdje")
+
+[node name="Icon" parent="." index="0" unique_id=1275464139]
+texture = SubResource("AtlasTexture_itdje")

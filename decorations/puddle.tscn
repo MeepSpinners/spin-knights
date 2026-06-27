@@ -1,0 +1,15 @@
+[gd_scene format=3 uid="uid://dtaadqsqklvjs"]
+
+[ext_resource type="PackedScene" uid="uid://c7rih0thbdd3d" path="res://decorations/decoration.tscn" id="1_awypd"]
+[ext_resource type="Texture2D" uid="uid://17uxn6cs81cs" path="res://art/Water Puddle-sheet.png" id="2_rrob7"]
+
+[node name="Puddle" unique_id=1857885368 instance=ExtResource("1_awypd")]
+offset = 18.39
+disabled = true
+
+[node name="Sprite2D" parent="." index="0" unique_id=1667999739]
+texture = ExtResource("2_rrob7")
+offset = Vector2(0, 18.39)
+
+[node name="CollisionShape2D" parent="." index="1" unique_id=1254977978]
+disabled = true

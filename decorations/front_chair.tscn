@@ -1,0 +1,15 @@
+[gd_scene format=3 uid="uid://bwyhittwjgcip"]
+
+[ext_resource type="PackedScene" uid="uid://c7rih0thbdd3d" path="res://decorations/decoration.tscn" id="1_58jnm"]
+[ext_resource type="Texture2D" uid="uid://xadtgpsqsays" path="res://art/Office Set 1-Sheet.png" id="2_miuin"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kmygi"]
+atlas = ExtResource("2_miuin")
+region = Rect2(32, 0, 32, 32)
+
+[node name="Front Chair" unique_id=1857885368 instance=ExtResource("1_58jnm")]
+offset = -11.575
+
+[node name="Sprite2D" parent="." index="0" unique_id=1667999739]
+texture = SubResource("AtlasTexture_kmygi")
+offset = Vector2(0, -11.575)

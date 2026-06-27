@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://byeq86k5om1e7"]
+
+[ext_resource type="PackedScene" uid="uid://ci285kimn1m5o" path="res://decorations/book.tscn" id="1_lnhew"]
+[ext_resource type="Texture2D" uid="uid://xadtgpsqsays" path="res://art/Office Set 1-Sheet.png" id="2_4210w"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ptxm3"]
+atlas = ExtResource("2_4210w")
+region = Rect2(64, 32, 7, 9)
+
+[node name="Book Blue" unique_id=1857885368 instance=ExtResource("1_lnhew")]
+
+[node name="Sprite2D" parent="." index="0" unique_id=1667999739]
+texture = SubResource("AtlasTexture_ptxm3")
+offset = Vector2(0, 0)
+
+[node name="CollisionShape2D" parent="." index="1" unique_id=1254977978]
+disabled = false

@@ -69,6 +69,7 @@ animations = [{
 
 [node name="explosion" type="AnimatedSprite2D" unique_id=2123725111]
 visible = false
+top_level = true
 z_index = 1
 sprite_frames = SubResource("SpriteFrames_h6qht")
 script = ExtResource("2_pim3w")

@@ -16,10 +16,6 @@ shader_parameter/flash_color = Color(1, 0, 0, 1)
 [sub_resource type="CircleShape2D" id="CircleShape2D_ppra6"]
 radius = 7.0
 
-[sub_resource type="LabelSettings" id="LabelSettings_ofsxj"]
-font_size = 32
-font_color = Color(0, 0, 0, 1)
-
 [sub_resource type="CircleShape2D" id="CircleShape2D_ofsxj"]
 radius = 1.0
 
@@ -255,15 +251,6 @@ metadata/_edit_group_ = true
 position = Vector2(0, -1)
 scale = Vector2(1, 0.605)
 shape = SubResource("CircleShape2D_ppra6")
-
-[node name="DebugLabel" type="Label" parent="." unique_id=582433003]
-offset_left = -200.0
-offset_top = 51.999996
-offset_right = 199.99997
-offset_bottom = 97.0
-scale = Vector2(0.1, 0.1)
-label_settings = SubResource("LabelSettings_ofsxj")
-horizontal_alignment = 1
 
 [node name="explosion_hitbox" type="Area2D" parent="." unique_id=1230192514]
 position = Vector2(0, -1)

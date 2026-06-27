@@ -1,0 +1,7 @@
+[gd_resource type="AtlasTexture" format=3 uid="uid://cksx0hdiop5i6"]
+
+[ext_resource type="Texture2D" uid="uid://b27nyx5pmchpy" path="res://art/printer idle-Sheet.png" id="1_julbp"]
+
+[resource]
+atlas = ExtResource("1_julbp")
+region = Rect2(1, 0, 30, 23)
