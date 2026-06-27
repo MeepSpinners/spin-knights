@@ -45,8 +45,11 @@ var base_animation_speed = 1.0
 var active_tags = []
 
 var can_be_picked_up = true
+@export var is_boss = false
 
 func get_can_be_picked_up():
+	if is_boss:
+		return false
 	return can_be_picked_up
 
 signal contact_object(grabbed_enemy: Enemy, object: Object)

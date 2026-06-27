@@ -3,7 +3,6 @@
 [ext_resource type="Script" uid="uid://cpxmwid88ngqo" path="res://main/main.gd" id="1_xwkvk"]
 [ext_resource type="PackedScene" uid="uid://gcjwryrp5gyp" path="res://enemy/rotobaga.tscn" id="2_3wy1v"]
 [ext_resource type="PackedScene" uid="uid://c0idya5thtbji" path="res://player/player.tscn" id="3_3wy1v"]
-[ext_resource type="PackedScene" uid="uid://biqv1ae8gef1u" path="res://powerup/power-up.tscn" id="5_3wy1v"]
 [ext_resource type="PackedScene" uid="uid://cthlnl3utq18j" path="res://enemy/watah.tscn" id="5_67ri8"]
 [ext_resource type="PackedScene" uid="uid://cghxbt0vx3lvh" path="res://enemy/ranged_enemy.tscn" id="5_grrlh"]
 [ext_resource type="Resource" uid="uid://ctodfyu6o7pv" path="res://dialogue/introduction.tres" id="6_wpkmi"]
@@ -31,6 +30,7 @@
 [ext_resource type="PackedScene" uid="uid://bbvwkyxobx7px" path="res://rooms/W/room_w_1.tscn" id="30_c5cfd"]
 [ext_resource type="PackedScene" uid="uid://bfio5qj8qnfx8" path="res://rooms/corridor/horizontal_1.tscn" id="31_028el"]
 [ext_resource type="PackedScene" uid="uid://xaho2gcrkckl" path="res://rooms/corridor/vertical_2.tscn" id="32_yyc07"]
+[ext_resource type="PackedScene" uid="uid://bytdj30vwaohg" path="res://boss_room/boss_room.tscn" id="33_576ah"]
 [ext_resource type="PackedScene" uid="uid://cvcmcgjvo5k8u" path="res://rooms/corridor/horizontal_2.tscn" id="34_55spl"]
 [ext_resource type="PackedScene" uid="uid://dcmoeran8vima" path="res://rooms/corridor/vertical_1.tscn" id="35_kgxi8"]
 
@@ -39,7 +39,6 @@ y_sort_enabled = true
 script = ExtResource("1_xwkvk")
 mob_types = Array[PackedScene]([ExtResource("2_3wy1v"), ExtResource("5_grrlh"), ExtResource("5_67ri8")])
 num_mobs = 0
-powerup_scene = ExtResource("5_3wy1v")
 spawn_radius = 400
 dialogue_chain = ExtResource("6_wpkmi")
 metadata/_edit_horizontal_guides_ = [-81.0]
@@ -69,10 +68,10 @@ grow_vertical = 2
 
 [node name="PlayerGUI" parent="CanvasLayer" unique_id=228519736 instance=ExtResource("13_na0o7")]
 
+[node name="Roulette" parent="CanvasLayer" unique_id=750206291 instance=ExtResource("12_576ah")]
+
 [node name="OptionsMenu" parent="CanvasLayer" unique_id=1697546344 instance=ExtResource("15_73k8k")]
 visible = false
-
-[node name="Roulette" parent="CanvasLayer" unique_id=750206291 instance=ExtResource("12_576ah")]
 
 [node name="LevelGenerator" type="Node" parent="." unique_id=1048403147]
 script = ExtResource("14_73k8k")
@@ -81,3 +80,9 @@ room_scenes = Array[PackedScene]([ExtResource("15_amlcg"), ExtResource("16_wpvt5
 vert_corr_scenes = Array[PackedScene]([ExtResource("32_yyc07"), ExtResource("35_kgxi8")])
 hori_corr_scenes = Array[PackedScene]([ExtResource("31_028el"), ExtResource("34_55spl")])
 metadata/_custom_type_script = "uid://dxhfawqn6xba0"
+
+[node name="Office" parent="." unique_id=188504069 instance=ExtResource("33_576ah")]
+position = Vector2(10000, 10000)
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=2135709423]
+zoom = Vector2(0.001, 0.001)

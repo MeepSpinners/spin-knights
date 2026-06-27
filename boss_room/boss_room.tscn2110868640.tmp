@@ -1,0 +1,48 @@
+[gd_scene format=3 uid="uid://bytdj30vwaohg"]
+
+[ext_resource type="PackedScene" uid="uid://bbsl426ca0swf" path="res://levels/office.tscn" id="1_wyjdu"]
+[ext_resource type="Texture2D" uid="uid://4ytlmwvbpq4v" path="res://art/boss room-Sheet.png" id="2_1aa1p"]
+[ext_resource type="Script" uid="uid://tnel20yr0qe7" path="res://boss_room/boss_room.gd" id="2_of5iw"]
+[ext_resource type="PackedScene" uid="uid://b2hdatjsj4hg3" path="res://boss_room/boss.tscn" id="4_gn8rg"]
+[ext_resource type="PackedScene" uid="uid://c0idya5thtbji" path="res://player/player.tscn" id="5_fw46v"]
+[ext_resource type="Script" uid="uid://brmk3bc18wdbr" path="res://main/gui.gd" id="6_1xbn6"]
+[ext_resource type="PackedScene" uid="uid://cc1mpco80q4np" path="res://ui/dialogue/dialogue.tscn" id="7_83238"]
+[ext_resource type="PackedScene" uid="uid://cw6gr27godofs" path="res://ui/player_gui/PlayerGUI.tscn" id="8_7u4t2"]
+[ext_resource type="PackedScene" uid="uid://cywhpj6aix5ru" path="res://roulette/roulette.tscn" id="9_ykj16"]
+[ext_resource type="PackedScene" uid="uid://iwht5urhc45s" path="res://menu/options_menu.tscn" id="10_70c43"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_of5iw"]
+atlas = ExtResource("2_1aa1p")
+region = Rect2(0, 0, 256, 256)
+
+[node name="Office" unique_id=188504069 instance=ExtResource("1_wyjdu")]
+script = ExtResource("2_of5iw")
+
+[node name="Sprite2D" parent="." index="1" unique_id=1116219748]
+texture = SubResource("AtlasTexture_of5iw")
+
+[node name="enemy" parent="Enemies" parent_id_path=PackedInt32Array(1959046667) index="0" unique_id=1720581004 instance=ExtResource("4_gn8rg")]
+position = Vector2(4, -75)
+
+[node name="Player" parent="." index="10" unique_id=943675611 instance=ExtResource("5_fw46v")]
+unlocked_throwing = true
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." index="11" unique_id=1455147390]
+script = ExtResource("6_1xbn6")
+
+[node name="DialogueUI" parent="CanvasLayer" index="0" unique_id=1623013452 instance=ExtResource("7_83238")]
+process_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 0.0
+offset_bottom = 0.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PlayerGUI" parent="CanvasLayer" index="1" unique_id=228519736 instance=ExtResource("8_7u4t2")]
+
+[node name="Roulette" parent="CanvasLayer" index="2" unique_id=750206291 instance=ExtResource("9_ykj16")]
+
+[node name="OptionsMenu" parent="CanvasLayer" index="3" unique_id=1697546344 instance=ExtResource("10_70c43")]
+visible = false

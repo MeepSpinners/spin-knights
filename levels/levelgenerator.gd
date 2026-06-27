@@ -9,6 +9,7 @@ signal generation_done
 @export var room_scenes: Array[PackedScene]
 @export var vert_corr_scenes: Array[PackedScene]
 @export var hori_corr_scenes: Array[PackedScene]
+@export var is_disabled: bool = false
 
 var rng = RandomNumberGenerator.new()
 
@@ -216,7 +217,8 @@ func generate(seed: int = -99999):
 		rng.seed = seed
 		
 	print("Using seed: ", seed)
-	
+	if is_disabled:
+		return
 	generate_layout()
 	choose_rooms()
 	generate_corridors()

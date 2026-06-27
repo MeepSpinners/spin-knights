@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="DialogueChainData" format=3 uid="uid://bfpw4m8bu22sm"]
+
+[ext_resource type="Script" uid="uid://dxc3ltvbb58ih" path="res://ui/dialogue/dialogue_data.gd" id="1_3fkof"]
+[ext_resource type="Resource" uid="uid://dyoyqo2ufsu44" path="res://speakers/protagonist.tres" id="2_7bbu4"]
+[ext_resource type="Resource" uid="uid://uojaym2i7m6x" path="res://speakers/printer.tres" id="4_m4iix"]
+[ext_resource type="Script" uid="uid://3c8845e3gp7u" path="res://ui/dialogue/dialogue_chain_data.gd" id="5_4gc8j"]
+
+[sub_resource type="Resource" id="Resource_e8pbb"]
+script = ExtResource("1_3fkof")
+text = "Urgh... my head feels funny"
+speaker1 = ExtResource("2_7bbu4")
+speaker2 = ExtResource("4_m4iix")
+metadata/_custom_type_script = "uid://dxc3ltvbb58ih"
+
+[sub_resource type="Resource" id="Resource_ggiy4"]
+script = ExtResource("1_3fkof")
+text = "No... don't pass out on me!"
+speaker1 = ExtResource("2_7bbu4")
+speaker2 = ExtResource("4_m4iix")
+speaker_turn = 2
+metadata/_custom_type_script = "uid://dxc3ltvbb58ih"
+
+[resource]
+script = ExtResource("5_4gc8j")
+dialogues = Array[ExtResource("1_3fkof")]([SubResource("Resource_e8pbb"), SubResource("Resource_ggiy4")])
+metadata/_custom_type_script = "uid://3c8845e3gp7u"

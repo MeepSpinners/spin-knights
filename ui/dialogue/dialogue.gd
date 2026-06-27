@@ -58,6 +58,8 @@ func play_animation(is_left: bool, is_entering: bool):
 func wait_for_animations():
 	while waiting_on_animation[0] || waiting_on_animation[1]:
 		await get_tree().process_frame
+		if not is_inside_tree():
+			return
 
 func on_finish_animation(is_left: bool):
 	waiting_on_animation[0 if is_left else 1] = false
@@ -109,15 +111,16 @@ func update_speaker(sb: SpeakerBox, s: SpeakerData):
 
 var displaying_left: SpeakerData = null
 var displaying_right: SpeakerData = null
+var is_transitioning = false
 func display_dialogue(dialogue: DialogueData):
-	
-	if (dialogue.speaker1 == null or dialogue.speaker1 != displaying_left):
+	is_transitioning = true
+	if displaying_left != null and (dialogue.speaker1 == null or dialogue.speaker1 != displaying_left):
 		play_animation(true, false)
-	if (dialogue.speaker2 == null or dialogue.speaker2 != displaying_right):
-		play_animation(false, false)
-	if (dialogue.speaker1 != null and dialogue.speaker1 != displaying_left):
+	if dialogue.speaker1 != null and dialogue.speaker1 != displaying_left:
 		play_animation(true, true)
-	if (dialogue.speaker1 != null and dialogue.speaker1 != displaying_left):
+	if displaying_right != null and (dialogue.speaker2 == null or dialogue.speaker2 != displaying_right):
+		play_animation(false, false)
+	if dialogue.speaker2 != null and dialogue.speaker2 != displaying_right:
 		play_animation(false, true)
 	displaying_left = dialogue.speaker1
 	displaying_right = dialogue.speaker2
@@ -129,7 +132,7 @@ func display_dialogue(dialogue: DialogueData):
 
 	text_box.visible_characters = 0
 	await wait_for_animations()
-	
+	is_transitioning = false
 	
 	# cancelling mechanism
 	allowed_to_continue = false
@@ -137,6 +140,8 @@ func display_dialogue(dialogue: DialogueData):
 	should_skip_finish = false
 	
 	# Just to make sure we don't hang everything
+	if not is_inside_tree():
+		return
 	await get_tree().process_frame
 	text_box.text = dialogue.text
 	
@@ -157,7 +162,7 @@ func display_dialogue(dialogue: DialogueData):
 		update_speaker(speaker_box_2, dialogue.speaker2)
 	
 	for i in dialogue.text.length():
-		await get_tree().create_timer(time_between_letters, true, false, true).timeout
+		await get_tree().create_timer(time_between_letters, true, false, false).timeout
 		if should_skip_finish:
 			text_box.visible_characters = text_box.text.length()
 			break
@@ -165,12 +170,14 @@ func display_dialogue(dialogue: DialogueData):
 		if (text_box.visible_characters >= dialogue.required_characters):
 			allowed_to_skip_finish = true
 	
-	await get_tree().create_timer(0.5, true, false, true).timeout
+	await get_tree().create_timer(0.5, true, false, false).timeout
 	allowed_to_continue = true
 	allowed_to_skip_finish = false
 	return
 
 func _unhandled_input(event: InputEvent):
+	if is_transitioning:
+		return
 	if event.is_action_pressed("continue"):
 		if allowed_to_skip_finish:
 			should_skip_finish = true

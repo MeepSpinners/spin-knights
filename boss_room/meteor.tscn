@@ -1,0 +1,38 @@
+[gd_scene format=3 uid="uid://c4asfv075qryf"]
+
+[ext_resource type="Texture2D" uid="uid://cr83gsble8hbo" path="res://art/powerups alone-upscaled.png" id="1_2koc7"]
+[ext_resource type="Script" uid="uid://bxyemenk2ajao" path="res://boss_room/meteor.gd" id="1_7vcyn"]
+[ext_resource type="PackedScene" uid="uid://fjuqtmvfiemb" path="res://enemy/trashcan.tscn" id="2_gs2gf"]
+[ext_resource type="Texture2D" uid="uid://dif7sr5tqgndh" path="res://art/shadow.png" id="2_tptwm"]
+[ext_resource type="AudioStream" uid="uid://dd1favxyoxy0h" path="res://audio/explode.wav" id="5_vrco0"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h6qht"]
+atlas = ExtResource("1_2koc7")
+region = Rect2(54, 0, 27, 0)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_h6qht"]
+radius = 25.0
+
+[node name="Meteor" type="Area2D" unique_id=967795613]
+script = ExtResource("1_7vcyn")
+enemy_scene = ExtResource("2_gs2gf")
+
+[node name="Shadow" type="Sprite2D" parent="." unique_id=1289063150]
+scale = Vector2(5, 5)
+texture = ExtResource("2_tptwm")
+offset = Vector2(0, -11.055)
+
+[node name="Explosion" type="Sprite2D" parent="." unique_id=1170312251]
+texture = SubResource("AtlasTexture_h6qht")
+offset = Vector2(0, -128)
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=322212717]
+offset = Vector2(0, -71.245)
+zoom = Vector2(4.055, 4.055)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1218230969]
+position = Vector2(0, -13.5)
+shape = SubResource("CircleShape2D_h6qht")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=1539084571]
+stream = ExtResource("5_vrco0")

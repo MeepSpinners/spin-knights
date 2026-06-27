@@ -35,8 +35,10 @@ func activate():
 
 func finish():
 	time_spun = 0.0
+	var total_degrees = fposmod(wheel.rotation_degrees, 360.0)
+	var current_slice = int((total_degrees) / 45.0) % 8
 	spin_complete.emit(
-		(8 - int(wheel.rotation_degrees / 45.0)) % 8
+		(8 - current_slice) % 8
 	)
 	spinned = false
 	

@@ -20,6 +20,7 @@ config/icon="res://icon.svg"
 Settings="*uid://bvm71ptvk348"
 Progress="*uid://du735661eni14"
 PowerupSpawner="*uid://bl56v0lcrv47b"
+PlayerStats="*uid://bnq3273og8i3m"
 
 [display]
 
