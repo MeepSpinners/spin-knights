@@ -940,7 +940,6 @@ y_sort_enabled = true
 collision_mask = 8
 motion_mode = 1
 script = ExtResource("1_oul6g")
-speed = 1000
 metadata/_edit_group_ = true
 
 [node name="Anime" type="AnimatedSprite2D" parent="." unique_id=607451979]

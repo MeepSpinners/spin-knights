@@ -2,9 +2,6 @@ extends RangedEnemy
 
 @onready var timer = $Timer
 
-func _init():
-	var health = 20
-
 func activate():
 	super.activate()
 	timer.timeout.connect(on_timer_timeout)

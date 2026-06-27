@@ -3,7 +3,7 @@ extends CharacterBody2D
 class_name Player
 
 @export_group("Movement")
-@export var speed = 50
+@export var player_speed = 75
 @export var friction = 50
 
 @export_group("Entity")
@@ -13,7 +13,7 @@ class_name Player
 @export var max_held = 1
 @export var time_to_max_speed = 3
 @export var spinning_damage_delay = 1
-@export var max_spinning_speed = 10
+@export var max_spinning_speed = 25
 @export var throw_speed_scale = 2
 @export var orbit_radius = 25
 @export var enter_orbit_speed = 100.0
@@ -192,6 +192,7 @@ func get_spinning_movement_speed(progress: float):
 	return progress * max_spinning_speed
 
 func handle_controlled_move(delta: float) -> void:
+	
 	# Derive the input direction and the animation state for walking
 	var input_dir = get_input_direction()
 	var is_moving = input_dir != Vector2.ZERO
@@ -199,10 +200,12 @@ func handle_controlled_move(delta: float) -> void:
 		last_dir = input_dir
 	var input_state = get_animation_state(last_dir)
 	
-	var final_movement_speed = speed
+	var final_movement_speed = player_speed
+	
 	if (held_enemies.size() != 0):
 		final_movement_speed = get_spinning_movement_speed(spinning_progress)
 	final_movement_speed *= PlayerStats.speed_multiplier
+	
 
 	if (input_dir.length() >= 0):
 		velocity = input_dir.normalized() * final_movement_speed
