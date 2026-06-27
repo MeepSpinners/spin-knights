@@ -33,10 +33,10 @@ anchor_left = 1.0
 anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
-offset_left = -598.0
-offset_top = -191.0
-offset_right = -100.0
-offset_bottom = 184.0
+offset_left = -663.0
+offset_top = -133.0
+offset_right = -165.0
+offset_bottom = 242.0
 grow_horizontal = 0
 grow_vertical = 2
 theme_override_constants/separation = 36
@@ -65,3 +65,22 @@ text = "Quit"
 [node name="OptionsMenu" parent="." unique_id=1697546344 instance=ExtResource("4_1x3cv")]
 visible = false
 layout_mode = 1
+
+[node name="Label" type="Label" parent="." unique_id=1181299804]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -813.0
+offset_top = 77.0
+offset_right = -2.0
+offset_bottom = 297.0
+grow_horizontal = 0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 10
+theme_override_fonts/font = ExtResource("2_o5w3e")
+theme_override_font_sizes/font_size = 64
+text = "I am 
+NOT your boss"
+horizontal_alignment = 1
