@@ -1,0 +1,52 @@
+[gd_scene format=3 uid="uid://har7j08tqx5i"]
+
+[ext_resource type="FontFile" uid="uid://megis34sauj7" path="res://fonts/Salmon Typewriter fonts/Salmon Typewriter 9 Regular.ttf" id="1_nidem"]
+[ext_resource type="FontFile" uid="uid://blt1hn3737qh7" path="res://fonts/Salmon Typewriter fonts/Salmon Typewriter 9 Bold.ttf" id="2_x2hwc"]
+
+[node name="Credits" type="Control" unique_id=504080124]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="." unique_id=1592643758]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="RichTextLabel" type="RichTextLabel" parent="ScrollContainer" unique_id=1735618112]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_fonts/normal_font = ExtResource("1_nidem")
+theme_override_fonts/bold_font = ExtResource("2_x2hwc")
+theme_override_font_sizes/normal_font_size = 48
+theme_override_font_sizes/bold_font_size = 60
+bbcode_enabled = true
+text = "1
+2
+3
+4
+5
+6
+7
+8
+9
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+"
+scroll_following = true
+horizontal_alignment = 1
