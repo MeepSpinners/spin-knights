@@ -17,11 +17,11 @@ var base_explosion_range = 27.0
 var additional_explosion_damage = 0
 var additional_explosion_range = 0.0
 @export var recoil_speed = 40
-@export var ai_speed = 5
+@export var ai_speed = 15
 @export var decision_speed = 1
 @export var flee_dist = 8
 @export var wander_proportion = 0.2
-@export var flee_modifier = 0.9
+@export var flee_modifier = 0.2
 @export var explosion_knockback = 100.0
 var max_health = 100
 
@@ -211,7 +211,7 @@ func handle_ai(delta: float):
 		hit_object(collider)
 
 func choose_behaviour():
-	var flee_chance = float(self.max_health - self.health) / self.max_health * flee_modifier
+	var flee_chance = (float(self.max_health - self.health) / self.max_health) * flee_modifier
 	var remaining = 1 - flee_chance
 	var wander_chance = flee_chance + remaining * wander_proportion
 	var action = randf()

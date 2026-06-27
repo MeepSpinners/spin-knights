@@ -16,6 +16,8 @@ class_name RangedEnemy
 var shot_timer = 0.0
 
 func _ready() -> void:
+	max_health = health
+	$HealthBar.set_health(health, max_health)
 	lead_shots = randf() >= 0.5
 
 func handle_ai(delta: float):
