@@ -10,9 +10,13 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
+	var scrollbar = get_v_scroll_bar()
 	if wait_time > 0:
 		wait_time -= delta
 	else:	
-		var scrollbar = get_v_scroll_bar()
+		
 		scrollbar.value += scroll_speed * delta
-	pass
+	
+	if scrollbar.value + scrollbar.page >= scrollbar.max_value:
+		await get_tree().create_timer(2.0).timeout
+		get_tree().change_scene_to_file("res://menu/main_menu.tscn")

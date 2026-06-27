@@ -1,5 +1,6 @@
 [gd_scene format=3 uid="uid://har7j08tqx5i"]
 
+[ext_resource type="Script" uid="uid://1k630r1qvjn5" path="res://menu/credits.gd" id="1_dkmad"]
 [ext_resource type="FontFile" uid="uid://megis34sauj7" path="res://fonts/Salmon Typewriter fonts/Salmon Typewriter 9 Regular.ttf" id="1_nidem"]
 [ext_resource type="FontFile" uid="uid://blt1hn3737qh7" path="res://fonts/Salmon Typewriter fonts/Salmon Typewriter 9 Bold.ttf" id="2_x2hwc"]
 [ext_resource type="Script" uid="uid://djlxcib53pvgn" path="res://menu/credits_label.gd" id="4_dkmad"]
@@ -11,6 +12,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_dkmad")
 
 [node name="ScrollContainer" type="ScrollContainer" parent="." unique_id=1592643758]
 layout_mode = 1
