@@ -131,6 +131,7 @@ func take_damage(damage: float, recoil_source: Node2D, recoil_amount: float = 1.
 
 func start(pos):
 	position = pos
+	camera.offset = pos
 	show()
 
 # PRIVATE METHODS
