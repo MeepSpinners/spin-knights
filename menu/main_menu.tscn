@@ -82,5 +82,5 @@ theme_override_constants/outline_size = 10
 theme_override_fonts/font = ExtResource("2_o5w3e")
 theme_override_font_sizes/font_size = 64
 text = "I am 
-NOT your boss"
+NOT Your Boss"
 horizontal_alignment = 1

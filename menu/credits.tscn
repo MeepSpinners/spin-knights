@@ -2,6 +2,7 @@
 
 [ext_resource type="FontFile" uid="uid://megis34sauj7" path="res://fonts/Salmon Typewriter fonts/Salmon Typewriter 9 Regular.ttf" id="1_nidem"]
 [ext_resource type="FontFile" uid="uid://blt1hn3737qh7" path="res://fonts/Salmon Typewriter fonts/Salmon Typewriter 9 Bold.ttf" id="2_x2hwc"]
+[ext_resource type="Script" uid="uid://djlxcib53pvgn" path="res://menu/credits_label.gd" id="4_dkmad"]
 
 [node name="Credits" type="Control" unique_id=504080124]
 layout_mode = 3
@@ -25,28 +26,73 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_fonts/normal_font = ExtResource("1_nidem")
 theme_override_fonts/bold_font = ExtResource("2_x2hwc")
-theme_override_font_sizes/normal_font_size = 48
-theme_override_font_sizes/bold_font_size = 60
+theme_override_font_sizes/normal_font_size = 32
+theme_override_font_sizes/bold_font_size = 48
 bbcode_enabled = true
-text = "1
-2
-3
-4
-5
-6
-7
-8
-9
-1
-2
-3
-4
-5
-6
-7
-8
-9
-10
+text = "
+
+
+
+
+
+
+
+[b] I am NOT Your Boss [/b]
+
+by Team Meeparino
+
+
+
+
+
+
+
+
+
+
+
+
+[b] Programmers [/b]
+pokegamerz (Izn432)
+hipnois (T1mothy-L)
+lunardrake (lunardrak)
+yottajoules
+
+
+
+
+[b] Artists [/b]
+yottajoules
+ridfidle
+centennia
+
+
+
+
+[b] Sounds [/b]
+pokegamerz (Izn432)
+
+
+
+
+[b] Online Assets Used [/b]
+
+Character Templates Pack by ErisEsra()
+
+Salmon Typewriter by Phildjii
+
+sonniss sound library
+
+
+
+
+
+[b] Thank you for playing! [/b]
+
+
+
+
 "
-scroll_following = true
+scroll_active = false
 horizontal_alignment = 1
+script = ExtResource("4_dkmad")
